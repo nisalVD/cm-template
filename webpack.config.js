@@ -1,7 +1,8 @@
 const path = require( 'path' );
 const webpack = require( 'webpack' );
 const BrowserSyncPlugin = require( 'browser-sync-webpack-plugin' );
-
+const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
+const CleanWebpackPlugin = require( 'clean-webpack-plugin' );
 const config = require( './config.json' );
 
 const webpackConfig = {
@@ -11,7 +12,7 @@ const webpackConfig = {
 	output: {
 		filename: 'bundle.js',
 		path: path.resolve( __dirname, 'dist' ),
-		publicPath : '/'
+		publicPath: '/'
 	},
 	module: {
 		rules: [
@@ -40,9 +41,8 @@ const webpackConfig = {
 			}
 		]
 	},
-	devtool: "eval-source-map",
+	// devtool: "eval-source-map",
 	plugins: [
-		new webpack.optimize.UglifyJsPlugin(),
 		new BrowserSyncPlugin( {
 				proxy: config.proxyURL,
 				files: [
@@ -51,7 +51,44 @@ const webpackConfig = {
 				reloadDelay: 0
 			}
 		),
+		new webpack.EnvironmentPlugin( {
+			NODE_ENV: 'development'
+		} )
 	]
 };
+
+if ( process.env.NODE_ENV === 'production' ) {
+	const buildFolder = path.resolve( __dirname, 'wp-react-boilerplate-built' );
+	webpackConfig.plugins.push( new webpack.optimize.UglifyJsPlugin( {
+		"mangle": {
+			"screw_ie8": true
+		},
+		"compress": {
+			"screw_ie8": true,
+			"warnings": false
+		},
+		"sourceMap": false
+	} ) );
+
+	webpackConfig.plugins.push(
+		new CleanWebpackPlugin( [ buildFolder ] )
+	);
+
+	webpackConfig.plugins.push(
+		new CopyWebpackPlugin( [
+			// Copy directory contents to {output}/to/directory/
+			{ from: path.resolve( __dirname, 'server' ) + '/**', to: buildFolder },
+			{ from: path.resolve( __dirname, 'wp-react-boilerplate.php' ), to: buildFolder },
+		], {
+
+			// By default, we only copy modified files during
+			// a watch or webpack-dev-server build. Setting this
+			// to `true` copies all files.
+			copyUnmodified: true
+		} )
+	);
+
+	webpackConfig.output.path = buildFolder + '/dist';
+}
 
 module.exports = webpackConfig;

@@ -7,5 +7,6 @@ Companion blog post:
 ### Getting started
 
 1. Clone repo to your `wp-content/plugins` folder
+1. Activate the plugin in wp-admin
 1. CD into your checked out folder and run `yarn`
 1. Run `yarn start` to get Webpack and BrowserSync running
