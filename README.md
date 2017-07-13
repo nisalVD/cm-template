@@ -10,3 +10,9 @@ Companion blog post:
 1. Activate the plugin in wp-admin
 1. CD into your checked out folder and run `yarn`
 1. Run `yarn start` to get Webpack and BrowserSync running
+
+To build for production run:
+
+`yarn build`
+
+A production-ready WordPress plugin will be built in the `wp-react-boilerplate-built` folder.
