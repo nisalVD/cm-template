@@ -16,7 +16,7 @@ class WP_React_Boilerplate {
 	public $views_dir;
 	public $version;
 
-	function __construct() {
+	public function __construct() {
 		$this->plugin_domain = 'wp-react-boilerplate';
 		$this->views_dir     = trailingslashit( dirname( __FILE__ ) ) . 'server/views';
 		$this->version       = '1.0';
@@ -31,7 +31,7 @@ class WP_React_Boilerplate {
 			'load_admin_view',
 		) );
 
-		$this->after_admin_menu( $hook_suffix );
+		add_action( 'load-' . $hook_suffix, array( $this, 'load_bundle' ) );
 	}
 
 	public function load_view( $view ) {
@@ -43,12 +43,7 @@ class WP_React_Boilerplate {
 	}
 
 	public function load_admin_view() {
-
 		$this->load_view( 'admin.php' );
-	}
-
-	function after_admin_menu( $hook_suffix ) {
-		add_action( 'load-' . $hook_suffix, array( $this, 'load_bundle' ) );
 	}
 
 	public function load_bundle() {

@@ -7,6 +7,8 @@ Companion blog post:
 ### Getting started
 
 1. Clone repo to your `wp-content/plugins` folder
+1. In `config.json` change the proxyURL to point to your WordPress admin page or plugin page.
+1. Modify any WordPress config in `wp-react-boilerplate.php`. Rename files/methods/strings as required.
 1. Activate the plugin in wp-admin
 1. CD into your checked out folder and run `yarn`
 1. Run `yarn start` to get Webpack and BrowserSync running

@@ -50,10 +50,7 @@ const webpackConfig = {
 				],
 				reloadDelay: 0
 			}
-		),
-		new webpack.EnvironmentPlugin( {
-			NODE_ENV: 'development'
-		} )
+		)
 	]
 };
 
@@ -76,7 +73,6 @@ if ( process.env.NODE_ENV === 'production' ) {
 
 	webpackConfig.plugins.push(
 		new CopyWebpackPlugin( [
-			// Copy directory contents to {output}/to/directory/
 			{ from: path.resolve( __dirname, 'server' ) + '/**', to: buildFolder },
 			{ from: path.resolve( __dirname, 'wp-react-boilerplate.php' ), to: buildFolder },
 		], {
