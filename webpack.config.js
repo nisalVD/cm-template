@@ -3,10 +3,13 @@ const webpack = require( 'webpack' );
 const BrowserSyncPlugin = require( 'browser-sync-webpack-plugin' );
 const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
 const CleanWebpackPlugin = require( 'clean-webpack-plugin' );
+const webpackDevMiddleware = require( 'webpack-dev-middleware' );
+const webpackHotMiddleware = require( 'webpack-hot-middleware' );
 const config = require( './config.json' );
 
 const webpackConfig = {
 	entry: [
+		'webpack-hot-middleware/client',
 		'./src/index.js'
 	],
 	output: {
@@ -43,12 +46,14 @@ const webpackConfig = {
 	},
 	// devtool: "eval-source-map",
 	plugins: [
+		new webpack.HotModuleReplacementPlugin(),
+		new webpack.NoErrorsPlugin(),
 		new BrowserSyncPlugin( {
 				proxy: config.proxyURL,
 				files: [
 					'**/*.php'
 				],
-				reloadDelay: 0
+				reloadDelay: 0,
 			}
 		)
 	]
@@ -74,7 +79,7 @@ if ( process.env.NODE_ENV === 'production' ) {
 	webpackConfig.plugins.push(
 		new CopyWebpackPlugin( [
 			{ from: path.resolve( __dirname, 'server' ) + '/**', to: buildFolder },
-			{ from: path.resolve( __dirname, 'wp-react-boilerplate.php' ), to: buildFolder },
+			{ from: path.resolve( __dirname, '*.php' ), to: buildFolder },
 		], {
 
 			// By default, we only copy modified files during
