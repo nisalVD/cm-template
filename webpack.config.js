@@ -3,10 +3,9 @@ const webpack = require( 'webpack' );
 const BrowserSyncPlugin = require( 'browser-sync-webpack-plugin' );
 const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
 const CleanWebpackPlugin = require( 'clean-webpack-plugin' );
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
 
 const config = require( './config.json' );
-
 
 const webpackConfig = {
 	entry: [
@@ -26,9 +25,9 @@ const webpackConfig = {
 			},
 			{
 				test: /\.css$/,
-				loader: ExtractTextPlugin.extract({
-					use: 'css-loader',
-				}),
+				loader: ExtractTextPlugin.extract( {
+					use: 'css-loader'
+				} )
 			},
 			{
 				test: /\.(png|svg|jpg|gif)$/,
@@ -45,24 +44,24 @@ const webpackConfig = {
 				files: [
 					'**/*.php'
 				],
-				reloadDelay: 0,
+				reloadDelay: 0
 			}
 		),
-		new ExtractTextPlugin('style.bundle.css')
+		new ExtractTextPlugin( 'style.bundle.css' )
 	]
 };
 
 if ( process.env.NODE_ENV === 'production' ) {
 	const buildFolder = path.resolve( __dirname, 'wp-react-boilerplate-built' );
 	webpackConfig.plugins.push( new webpack.optimize.UglifyJsPlugin( {
-		"mangle": {
-			"screw_ie8": true
+		'mangle': {
+			'screw_ie8': true
 		},
-		"compress": {
-			"screw_ie8": true,
-			"warnings": false
+		'compress': {
+			'screw_ie8': true,
+			'warnings': false
 		},
-		"sourceMap": false
+		'sourceMap': false
 	} ) );
 
 	webpackConfig.plugins.push(
@@ -72,7 +71,7 @@ if ( process.env.NODE_ENV === 'production' ) {
 	webpackConfig.plugins.push(
 		new CopyWebpackPlugin( [
 			{ from: path.resolve( __dirname, 'server' ) + '/**', to: buildFolder },
-			{ from: path.resolve( __dirname, '*.php' ), to: buildFolder },
+			{ from: path.resolve( __dirname, '*.php' ), to: buildFolder }
 		], {
 
 			// By default, we only copy modified files during
