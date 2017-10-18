@@ -3,13 +3,13 @@ const webpack = require( 'webpack' );
 const BrowserSyncPlugin = require( 'browser-sync-webpack-plugin' );
 const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
 const CleanWebpackPlugin = require( 'clean-webpack-plugin' );
-const webpackDevMiddleware = require( 'webpack-dev-middleware' );
-const webpackHotMiddleware = require( 'webpack-hot-middleware' );
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 const config = require( './config.json' );
+
 
 const webpackConfig = {
 	entry: [
-		'webpack-hot-middleware/client',
 		'./src/index.js'
 	],
 	output: {
@@ -20,21 +20,15 @@ const webpackConfig = {
 	module: {
 		rules: [
 			{
-				test: /\.js$/,
+				test: /\.(js|jsx)$/,
 				exclude: /node_modules/,
 				loaders: [ 'babel-loader' ]
 			},
 			{
 				test: /\.css$/,
-				use: [
-					{ loader: 'style-loader' },
-					{
-						loader: 'css-loader',
-						options: {
-							modules: true
-						}
-					}
-				]
+				loader: ExtractTextPlugin.extract({
+					use: 'css-loader',
+				}),
 			},
 			{
 				test: /\.(png|svg|jpg|gif)$/,
@@ -46,8 +40,6 @@ const webpackConfig = {
 	},
 	// devtool: "eval-source-map",
 	plugins: [
-		new webpack.HotModuleReplacementPlugin(),
-		// new webpack.NoErrorsPlugin(),
 		new BrowserSyncPlugin( {
 				proxy: config.proxyURL,
 				files: [
@@ -55,7 +47,8 @@ const webpackConfig = {
 				],
 				reloadDelay: 0,
 			}
-		)
+		),
+		new ExtractTextPlugin('style.bundle.css')
 	]
 };
 
