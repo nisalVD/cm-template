@@ -7,6 +7,10 @@ const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
 
 const config = require( './config.json' );
 
+const extractSass = new ExtractTextPlugin( {
+	filename: 'style.bundle.css'
+} );
+
 const webpackConfig = {
 	entry: [
 		'./src/index.js'
@@ -30,6 +34,25 @@ const webpackConfig = {
 				} )
 			},
 			{
+				test: /\.(sass|scss)$/,
+				use: extractSass.extract( {
+					use: [
+						{
+							loader: 'style-loader'  // creates style nodes from JS strings
+						},
+						{
+							loader: 'css-loader', options: { // translates CSS into CommonJS
+							sourceMap: true
+						}
+						}, {
+							loader: 'sass-loader', options: { // compiles Sass to CSS
+								sourceMap: true
+							}
+						}
+					]
+				} )
+			},
+			{
 				test: /\.(png|svg|jpg|gif)$/,
 				use: [
 					'file-loader'
@@ -37,7 +60,7 @@ const webpackConfig = {
 			}
 		]
 	},
-	// devtool: "eval-source-map",
+	devtool: 'source-map',
 	plugins: [
 		new BrowserSyncPlugin( {
 				proxy: config.proxyURL,
