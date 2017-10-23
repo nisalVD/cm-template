@@ -3,16 +3,17 @@ import './App.scss';
 import EditForm from './EditForm';
 
 export default class App extends React.Component {
-
 	constructor() {
 		super();
-		// initial state
 
 		this.saveItem = this.saveItem.bind( this );
+		this.editItem = this.editItem.bind( this );
+		this.hideItem = this.hideItem.bind( this );
 		this.getOptions = this.getOptions.bind( this );
 		this.handleChange = this.handleChange.bind( this );
 		this.getOptions = this.getOptions.bind( this );
 
+		// initial state
 		this.state = {
 			options: {},
 			visible: {},
@@ -37,11 +38,20 @@ export default class App extends React.Component {
 		this.getOptions();
 	}
 
-	editItem(e, key ) {
+	editItem( e, key ) {
 
 		e.preventDefault();
 		const visible = this.state.visible;
 		visible[ key ] = true;
+
+		this.setState( visible );
+	}
+
+	hideItem( e, key ) {
+
+		e.preventDefault();
+		const visible = this.state.visible;
+		visible[ key ] = false;
 
 		this.setState( visible );
 	}
@@ -64,6 +74,7 @@ export default class App extends React.Component {
 			method: 'post',
 			body: JSON.stringify( post_data ),
 		} ).then( function( response ) {
+			// Do something with response
 			return response.json();
 		} ).catch( function( error ) {
 			console.log( error );
@@ -86,8 +97,14 @@ export default class App extends React.Component {
 								<td>
 									{this.state.options[ key ]}
 									&nbsp;
-									<a href="#" onClick={(e) => this.editItem(e, key )}>Edit ✏️</a>
-									<EditForm handleSubmit={this.saveItem} handleChange={this.handleChange} key={key} id={key} value={this.state.options[ key ]} visible={this.state.visible[key]} />
+									<a href="#" onClick={( e ) => this.editItem( e, key )}>Edit ✏️</a>
+									<EditForm
+										handleSubmit={this.saveItem}
+										handleChange={this.handleChange}
+										key={key} id={key}
+										value={this.state.options[ key ]}
+										visible={this.state.visible[ key ]}
+										hideItem={this.hideItem} />
 								</td>
 							</tr>
 						)

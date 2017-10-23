@@ -32,7 +32,9 @@ class EditForm extends React.Component {
 				</label>
 
 				<input type="submit" value="Submit" />
+				<a href="#" onClick={( e ) => this.props.hideItem( e, this.props.id )}>[x]</a>
 			</form>
+
 		)
 	}
 }
