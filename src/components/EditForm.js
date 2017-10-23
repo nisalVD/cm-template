@@ -11,9 +11,9 @@ class EditForm extends React.Component {
 	}
 
 	handleChange( event ) {
-		console.log("Change");
+		console.log( "Change" );
 
-		this.props.handleChange(this.props.id, event.target.value);
+		this.props.handleChange( this.props.id, event.target.value );
 	}
 
 	handleSubmit( event ) {
@@ -24,7 +24,7 @@ class EditForm extends React.Component {
 
 	render() {
 		return (
-			<form onSubmit={( e ) => this.handleSubmit( e )}>
+			<form onSubmit={( e ) => this.handleSubmit( e )} className={this.props.visible ? 'visible' : 'hidden'}>
 
 				<label>
 					Name:

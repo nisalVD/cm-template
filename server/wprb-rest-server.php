@@ -95,7 +95,9 @@ class WPRB_Rest_Server extends WP_Rest_Controller {
 		if ( $decoded_body ) {
 			if ( isset( $decoded_body->key ) && isset( $decoded_body->value ) ) {
 
-				return update_option( $decoded_body->key, $decoded_body->value );
+				if( update_option( $decoded_body->key, $decoded_body->value )){
+					return "success";
+				}
 			}
 		}
 

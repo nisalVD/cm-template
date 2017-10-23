@@ -1,5 +1,8 @@
 @import '../css/another-file';
 
-body{
-	background: yellow !important;
+.wp-react-boilerplate{
+	.hidden{
+		display:none;
+	}
 }
+

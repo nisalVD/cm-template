@@ -15,6 +15,7 @@ export default class App extends React.Component {
 
 		this.state = {
 			options: {},
+			visible: {},
 			ajaxBase: 'http://plugins.dev/wp-json/wprb/v1'
 		};
 	}
@@ -36,8 +37,13 @@ export default class App extends React.Component {
 		this.getOptions();
 	}
 
-	editItem( key ) {
+	editItem(e, key ) {
 
+		e.preventDefault();
+		const visible = this.state.visible;
+		visible[ key ] = true;
+
+		this.setState( visible );
 	}
 
 	handleChange( key, value ) {
@@ -48,34 +54,25 @@ export default class App extends React.Component {
 	}
 
 	saveItem( key ) {
-
 		const val = this.state.options[ key ];
-
-		console.log( val );
-
 		const post_data = {
 			key: key,
 			value: val
 		};
 
-		console.log( post_data );
-
 		fetch( this.state.ajaxBase + `/option/${key}`, {
 			method: 'post',
 			body: JSON.stringify( post_data ),
-			mode: 'no-cors'
 		} ).then( function( response ) {
-			console.log( response );
-
 			return response.json();
-		} ).then( function( data ) {
-			//Update state
+		} ).catch( function( error ) {
+			console.log( error );
 		} );
 	}
 
 	render() {
 		return (
-			<div>
+			<div className="wp-react-boilerplate">
 				<h1>WP React Boilerplate</h1>
 
 				<p>Options Editor</p>
@@ -88,8 +85,9 @@ export default class App extends React.Component {
 								<td>{key}</td>
 								<td>
 									{this.state.options[ key ]}
-									&nbsp;<a href="#" onClick={this.editItem( key )}>Edit ✏️</a>
-									<EditForm handleSubmit={this.saveItem} handleChange={this.handleChange} key={key} id={key} value={this.state.options[ key ]} />
+									&nbsp;
+									<a href="#" onClick={(e) => this.editItem(e, key )}>Edit ✏️</a>
+									<EditForm handleSubmit={this.saveItem} handleChange={this.handleChange} key={key} id={key} value={this.state.options[ key ]} visible={this.state.visible[key]} />
 								</td>
 							</tr>
 						)
