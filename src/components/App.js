@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.scss'; // So Webpack knows about it
+import './App.scss';
 import EditForm from './EditForm';
 
 export default class App extends React.Component {
@@ -76,7 +76,9 @@ export default class App extends React.Component {
 	render() {
 		return (
 			<div>
-				<h1>Hello World</h1>
+				<h1>WP React Boilerplate</h1>
+
+				<p>Options Editor</p>
 
 				<table>
 					<tbody>
