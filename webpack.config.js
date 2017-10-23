@@ -7,10 +7,6 @@ const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
 
 const config = require( './config.json' );
 
-const extractSass = new ExtractTextPlugin( {
-	filename: 'style.bundle.css'
-} );
-
 const webpackConfig = {
 	entry: [
 		'./src/index.js'
@@ -28,28 +24,17 @@ const webpackConfig = {
 				loaders: [ 'babel-loader' ]
 			},
 			{
-				test: /\.css$/,
-				loader: ExtractTextPlugin.extract( {
+				test: /\.css$/i,
+				use: ExtractTextPlugin.extract( {
+					fallback: 'style-loader',
 					use: 'css-loader'
-				} )
+				} ),
 			},
 			{
-				test: /\.(sass|scss)$/,
-				use: extractSass.extract( {
-					use: [
-						{
-							loader: 'style-loader'  // creates style nodes from JS strings
-						},
-						{
-							loader: 'css-loader', options: { // translates CSS into CommonJS
-							sourceMap: true
-						}
-						}, {
-							loader: 'sass-loader', options: { // compiles Sass to CSS
-								sourceMap: true
-							}
-						}
-					]
+				test: /\.scss$/i,
+				exclude: /node_modules/,
+				use: ExtractTextPlugin.extract( {
+					use: [ 'css-loader', 'sass-loader' ]
 				} )
 			},
 			{
@@ -73,7 +58,11 @@ const webpackConfig = {
 				reloadDelay: 0
 			}
 		),
-		new ExtractTextPlugin( 'style.bundle.css' )
+		new ExtractTextPlugin( {
+			disable: false,
+			filename: 'style.bundle.css',
+			allChunks: true
+		} ),
 	]
 };
 
