@@ -7,8 +7,7 @@ export default class App extends React.Component {
 		super();
 
 		this.saveItem = this.saveItem.bind( this );
-		this.editItem = this.editItem.bind( this );
-		this.hideItem = this.hideItem.bind( this );
+		this.toggleVisible = this.toggleVisible.bind( this );
 		this.getOptions = this.getOptions.bind( this );
 		this.handleChange = this.handleChange.bind( this );
 		this.getOptions = this.getOptions.bind( this );
@@ -38,20 +37,11 @@ export default class App extends React.Component {
 		this.getOptions();
 	}
 
-	editItem( e, key ) {
-
+	toggleVisible( e, key ) {
 		e.preventDefault();
 		const visible = this.state.visible;
-		visible[ key ] = true;
 
-		this.setState( visible );
-	}
-
-	hideItem( e, key ) {
-
-		e.preventDefault();
-		const visible = this.state.visible;
-		visible[ key ] = false;
+		visible[ key ] = true !== visible[ key ];
 
 		this.setState( visible );
 	}
@@ -96,15 +86,14 @@ export default class App extends React.Component {
 								<td>{key}</td>
 								<td>
 									{this.state.options[ key ]}
-									&nbsp;
-									<a href="#" onClick={( e ) => this.editItem( e, key )}>Edit ✏️</a>
+									<a href="#" onClick={( e ) => this.toggleVisible( e, key )}>Edit ✏️</a>
 									<EditForm
 										handleSubmit={this.saveItem}
 										handleChange={this.handleChange}
 										key={key} id={key}
 										value={this.state.options[ key ]}
 										visible={this.state.visible[ key ]}
-										hideItem={this.hideItem} />
+										hideItem={this.toggleVisible} />
 								</td>
 							</tr>
 						)

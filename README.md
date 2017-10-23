@@ -2,7 +2,7 @@
 
 Sample WordPress plugin for setting up a project with Yarn, Webpack, BrowserSync and React. Tailored to creating a wp-admin page, but completely flexible and can be used for themes as well.
 
-Companion blog post: 
+Companion blog post: https://deliciousbrains.com/develop-wordpress-plugin-webpack-3-react/
 
 ### Getting started
 
