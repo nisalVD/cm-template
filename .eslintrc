@@ -38,7 +38,7 @@
     "vars-on-top":        2,
     "no-undef":           2,
     "no-undefined":       2,
-    "comma-dangle":       [ 2, "never" ],
+    "comma-dangle":       [ 0, "never" ],
     "quotes":             [ 2, "single" ],
     "semi":               [ 2, "always" ],
     "guard-for-in":       2,

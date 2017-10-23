@@ -83,10 +83,20 @@ class WPRB_Rest_Server extends WP_Rest_Controller {
 		}
 
 		$converted_slug = $this->_convert_slug( $params['slug'] );
-		$new_value      = $request->get_param( 'newvalue' );
 
-		if ( ! empty( $new_value ) ) {
-			return update_option( $converted_slug, $new_value );
+		$body = $request->get_body();
+
+		if ( empty( $body ) ) {
+			return new WP_Error( 'no-body', __( 'Request body empty' ) );
+		}
+
+		$decoded_body = json_decode( $body );
+
+		if ( $decoded_body ) {
+			if ( isset( $decoded_body->key ) && isset( $decoded_body->value ) ) {
+
+				return update_option( $decoded_body->key, $decoded_body->value );
+			}
 		}
 
 		return false;

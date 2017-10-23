@@ -63,10 +63,13 @@ const webpackConfig = {
 	devtool: 'source-map',
 	plugins: [
 		new BrowserSyncPlugin( {
-				proxy: config.proxyURL,
+				proxy: {
+					target: config.proxyURL
+				},
 				files: [
 					'**/*.php'
 				],
+				cors: true,
 				reloadDelay: 0
 			}
 		),
