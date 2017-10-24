@@ -85,7 +85,7 @@ export default class App extends React.Component {
 
 		const json = await response.json();
 
-		if ( "success" === json ) {
+		if ( true === json ) {
 			const saved = this.state.saved;
 			saved[ key ] = true;
 			this.setState( { saved } );

@@ -21,22 +21,22 @@ class WPRB_Rest_Server extends WP_Rest_Controller {
 
 		register_rest_route( $namespace, '/records', array(
 			array(
-				'methods'             => WP_REST_Server::READABLE,
-				'callback'            => array( $this, 'get_options' ),
-//				'permission_callback' => array( $this, 'get_options_permission' )
+				'methods'  => WP_REST_Server::READABLE,
+				'callback' => array( $this, 'get_options' ),
+				//				'permission_callback' => array( $this, 'get_options_permission' )
 			),
 		) );
 
 		register_rest_route( $namespace, '/record/(?P<slug>(.*)+)', array(
 			array(
-				'methods'             => WP_REST_Server::READABLE,
-				'callback'            => array( $this, 'get_option' ),
-//				'permission_callback' => array( $this, 'get_options_permission' )
+				'methods'  => WP_REST_Server::READABLE,
+				'callback' => array( $this, 'get_option' ),
+				//				'permission_callback' => array( $this, 'get_options_permission' )
 			),
 			array(
-				'methods'             => WP_REST_Server::EDITABLE,
-				'callback'            => array( $this, 'edit_option' ),
-//				'permission_callback' => array( $this, 'get_options_permission' )
+				'methods'  => WP_REST_Server::EDITABLE,
+				'callback' => array( $this, 'edit_option' ),
+				//				'permission_callback' => array( $this, 'get_options_permission' )
 			),
 		) );
 	}
@@ -80,10 +80,6 @@ class WPRB_Rest_Server extends WP_Rest_Controller {
 			return new WP_Error( 'no-param', __( 'No slug param' ) );
 		}
 
-
-
-		$converted_slug = $this->_convert_slug( $params['slug'] );
-
 		$body = $request->get_body();
 
 		if ( empty( $body ) ) {
@@ -93,11 +89,14 @@ class WPRB_Rest_Server extends WP_Rest_Controller {
 		$decoded_body = json_decode( $body );
 
 		if ( $decoded_body ) {
-
 			if ( isset( $decoded_body->key, $decoded_body->value ) ) {
 
+				if ( ! get_site_option( $decoded_body->key ) ) {
+					return false;
+				}
+
 				if ( update_option( $decoded_body->key, $decoded_body->value ) ) {
-					return "success";
+					return true;
 				}
 			}
 		}
