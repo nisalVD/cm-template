@@ -26,6 +26,24 @@ class WP_React_Boilerplate {
 		$wprb_rest_server->init();
 
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+		/**
+		 * Use * for origin
+		 */
+		add_action( 'rest_api_init', function () {
+
+			remove_filter( 'rest_pre_serve_request', 'rest_send_cors_headers' );
+
+			add_filter( 'rest_pre_serve_request', function ( $value ) {
+				header( 'Access-Control-Allow-Origin: *' );
+				header( 'Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE' );
+				header( 'Access-Control-Allow-Credentials: true' );
+				header( 'Access-Control-Allow-Headers: X-WP-Nonce' );
+
+				return $value;
+
+			} );
+		}, 15 );
+
 	}
 
 	public function admin_menu() {
