@@ -52,7 +52,16 @@ class WP_React_Boilerplate {
 	}
 
 	public function load_bundle() {
-		wp_enqueue_script( $this->plugin_domain . '-bundle', plugin_dir_url( __FILE__ ) . 'dist/bundle.js', array(), $this->version, 'all' );
+
+		wp_register_script( $this->plugin_domain . '-bundle', plugin_dir_url( __FILE__ ) . 'dist/bundle.js', array(), $this->version, 'all' );
+
+		wp_localize_script( 'wp-api', 'wpApiSettings', array(
+			'nonce' => wp_create_nonce( 'wp_rest' ),
+		) );
+
+		wp_enqueue_script( $this->plugin_domain . '-bundle' );
+
+
 		wp_enqueue_style( $this->plugin_domain . '-bundle-styles', plugin_dir_url( __FILE__ ) . 'dist/style.bundle.css', array(), $this->version, 'all' );
 	}
 }

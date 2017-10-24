@@ -24,12 +24,10 @@ class EditForm extends React.Component {
 		return (
 			<form onSubmit={( e ) => this.handleSubmit( e )} className={this.props.visible ? 'visible' : 'hidden'}>
 				<label>
-					Name:
 					<input type="text" value={this.props.value} onChange={this.handleChange} />
 				</label>
-
-				<input type="submit" value="Submit" />
-				<a href="#" onClick={( e ) => this.props.hideItem( e, this.props.id )}>[x]</a>
+				<br />
+				<input type="submit" value="Save" />
 			</form>
 		);
 	}

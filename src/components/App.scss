@@ -4,27 +4,26 @@
 	.hidden{
 		display:none;
 	}
-	//http://basscss.com/v7/docs/base-tables/
-	table {
-		border-collapse: separate;
-		border-spacing: 0;
-		max-width: 100%;
-		width: 100%;
-	}
 
-	th {
-		text-align: left;
-		font-weight: var(--table-header-font-weight);
+	table{
+		max-width: 800px !important;
+		width: 800px !important;
 	}
 
 	th,
 	td {
-		padding: var(--table-cell-padding-y) var(--table-cell-padding-x);
+		padding: 0 10px ;
 		line-height: inherit;
+		border: 1px solid darkgrey;
 	}
 
-	th { vertical-align: bottom }
-	td { vertical-align: top }
-
+	.check{
+		opacity: 0;
+		transition: opacity 2s ease-in-out;
+		&.saved{
+			opacity: 1;
+			transition: opacity 2s ease-in-out;
+		}
+	}
 }
 
