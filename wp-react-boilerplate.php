@@ -26,24 +26,6 @@ class WP_React_Boilerplate {
 		$wprb_rest_server->init();
 
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
-		/**
-		 * Use * for origin
-		 */
-		// https://joshpress.net/access-control-headers-for-the-wordpress-rest-api/
-		add_action( 'rest_api_init', function () {
-
-			remove_filter( 'rest_pre_serve_request', 'rest_send_cors_headers' );
-
-			add_filter( 'rest_pre_serve_request', function ( $value ) {
-				header( 'Access-Control-Allow-Origin: *' );
-				header( 'Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE' );
-				header( 'Access-Control-Allow-Credentials: true' );
-				header( 'Access-Control-Allow-Headers: X-WP-Nonce, X-Requested-With, Content-Type, Origin, Authorization, Accept, Client-Security-Token, Accept-Encoding' );
-
-				return $value;
-
-			} );
-		}, 15 );
 	}
 
 	public function admin_menu() {
@@ -74,10 +56,12 @@ class WP_React_Boilerplate {
 
 		wp_localize_script( $this->plugin_domain . '-bundle', 'wpApiSettings', array(
 			'nonce' => wp_create_nonce( 'wp_rest' ),
+			'wprb_ajax_base' => defined('WPRB_AJAX_BASE') ? WPRB_AJAX_BASE : ''
 		) );
 
 		wp_enqueue_script( $this->plugin_domain . '-bundle' );
-		wp_add_inline_script( $this->plugin_domain . '-bundle', 'const wp_rest_api_nonce = `' . wp_create_nonce( 'wp_rest' ) . '`', 'before' );
+		wp_add_inline_script( $this->plugin_domain . '-bundle', '', 'before' );
+
 		wp_enqueue_style( $this->plugin_domain . '-bundle-styles', plugin_dir_url( __FILE__ ) . 'dist/style.bundle.css', array(), $this->version, 'all' );
 	}
 }

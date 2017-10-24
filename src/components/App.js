@@ -18,7 +18,7 @@ export default class App extends React.Component {
 			options: {},
 			visible: {},
 			saved: {},
-			ajaxBase: 'http://plugins.dev/wp-json/wprb/v1'
+			ajaxBase: window.wpApiSettings.wprb_ajax_base
 		};
 	}
 
@@ -69,14 +69,16 @@ export default class App extends React.Component {
 			key: key,
 			value: val
 		};
-
-		const myHeaders = new Headers({
-			'Authorization': 'Basic ' + base64.encode('admin:1111')
-		});
+		/**
+		 * @todo implement authentication
+		 const myHeaders = new Headers( {
+			'Authorization': 'Basic ' + base64.encode( config.basicAuth )
+		} );
+		 */
 
 		const response = await fetch( this.state.ajaxBase + `/record/${key}`, {
 			method: 'post',
-			headers: myHeaders,
+			// headers: myHeaders,
 
 			body: JSON.stringify( post_data ),
 		} );
@@ -120,7 +122,7 @@ export default class App extends React.Component {
 
 		return (
 			<div className="wp-react-boilerplate">
-				<h1>WP React Boilerplate</h1>s
+				<h1>WP React Boilerplate</h1>
 				<h4>Options Editor</h4>
 				<table>
 					<tbody>

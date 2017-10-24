@@ -5,6 +5,7 @@
   ],
   "plugins": [
     "react-hot-loader/babel",
-    "transform-async-to-generator"
-  ]
+    "transform-async-to-generator",
+    "transform-runtime"
+    ]
 }
