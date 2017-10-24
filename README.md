@@ -9,6 +9,7 @@ Companion blog post: https://deliciousbrains.com/develop-wordpress-plugin-webpac
 1. Clone repo to your `wp-content/plugins` folder
 1. In `config.json` change the `proxyURL` to point to your WordPress admin page or plugin page.
 1. In your host WordPress `wp-config.php` file add `define( 'WPRB_AJAX_BASE', 'http://sweetsite.dev/wp-json/wprb/v1' );` and update it to point to your REST API base 
+1. In your host WordPress `wp-config.php` file add `define( 'WPRB_AJAX_BASIC_AUTH', 'admin:password' );` and update it to match your admin login credentials - ** NOT PRODUCTION READY ** 
 1. Modify any WordPress config in `wp-react-boilerplate.php`. Rename files/methods/strings as necessary.
 1. Activate the plugin in wp-admin
 1. `cd` into your checked out folder and run `yarn`

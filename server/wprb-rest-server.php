@@ -23,7 +23,7 @@ class WPRB_Rest_Server extends WP_Rest_Controller {
 			array(
 				'methods'  => WP_REST_Server::READABLE,
 				'callback' => array( $this, 'get_options' ),
-				//				'permission_callback' => array( $this, 'get_options_permission' )
+				'permission_callback' => array( $this, 'get_options_permission' )
 			),
 		) );
 
@@ -31,12 +31,12 @@ class WPRB_Rest_Server extends WP_Rest_Controller {
 			array(
 				'methods'  => WP_REST_Server::READABLE,
 				'callback' => array( $this, 'get_option' ),
-				//				'permission_callback' => array( $this, 'get_options_permission' )
+				'permission_callback' => array( $this, 'get_options_permission' )
 			),
 			array(
 				'methods'  => WP_REST_Server::EDITABLE,
 				'callback' => array( $this, 'edit_option' ),
-				//				'permission_callback' => array( $this, 'get_options_permission' )
+				'permission_callback' => array( $this, 'get_options_permission' )
 			),
 		) );
 	}
@@ -103,9 +103,4 @@ class WPRB_Rest_Server extends WP_Rest_Controller {
 
 		return false;
 	}
-
-	protected function _convert_slug( $value ) {
-		return str_replace( "-", "_", urldecode( $value ) );
-	}
-
 }

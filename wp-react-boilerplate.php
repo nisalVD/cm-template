@@ -56,7 +56,8 @@ class WP_React_Boilerplate {
 
 		wp_localize_script( $this->plugin_domain . '-bundle', 'wpApiSettings', array(
 			'nonce' => wp_create_nonce( 'wp_rest' ),
-			'wprb_ajax_base' => defined('WPRB_AJAX_BASE') ? WPRB_AJAX_BASE : ''
+			'wprb_ajax_base' => defined('WPRB_AJAX_BASE') ? WPRB_AJAX_BASE : '',
+			'wprb_basic_auth' => defined('WPRB_AJAX_BASIC_AUTH') ? WPRB_AJAX_BASIC_AUTH : ''
 		) );
 
 		wp_enqueue_script( $this->plugin_domain . '-bundle' );

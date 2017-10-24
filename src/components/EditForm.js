@@ -16,7 +16,6 @@ class EditForm extends React.Component {
 
 	handleSubmit( event ) {
 		event.preventDefault();
-
 		this.props.handleSubmit( this.props.id );
 	}
 

@@ -3,6 +3,8 @@ import './App.scss';
 import EditForm from './EditForm';
 import base64 from 'base-64';
 
+const AJAX_BASE  = window.wpApiSettings.wprb_ajax_base;
+
 export default class App extends React.Component {
 	constructor() {
 		super();
@@ -17,17 +19,18 @@ export default class App extends React.Component {
 		this.state = {
 			options: {},
 			visible: {},
-			saved: {},
-			ajaxBase: window.wpApiSettings.wprb_ajax_base
+			saved: {}
 		};
 	}
 
 	getOptions() {
-		const myHeaders = new Headers({
-			'Authorization': 'Basic ' + base64.encode('admin:1111')
-		});
-
-		fetch( this.state.ajaxBase + '/records',{
+		
+		// @todo implement authentication
+		 const myHeaders = new Headers( {
+			'Authorization': 'Basic ' + base64.encode( window.wpApiSettings.wprb_basic_auth )
+		} );
+		
+		fetch( AJAX_BASE + '/records',{
 			headers: myHeaders,
 
 		} ).then( function( response ) {
@@ -69,37 +72,39 @@ export default class App extends React.Component {
 			key: key,
 			value: val
 		};
-		/**
-		 * @todo implement authentication
+		
+		 //@todo implement authentication
 		 const myHeaders = new Headers( {
-			'Authorization': 'Basic ' + base64.encode( config.basicAuth )
-		} );
-		 */
-
-		const response = await fetch( this.state.ajaxBase + `/record/${key}`, {
-			method: 'post',
-			// headers: myHeaders,
-
-			body: JSON.stringify( post_data ),
+			'Authorization': 'Basic ' + base64.encode( window.wpApiSettings.wprb_basic_auth )
 		} );
 
-		const json = await response.json();
-
-		if ( true === json ) {
-			const saved = this.state.saved;
-			saved[ key ] = true;
-			this.setState( { saved } );
-
-			//HACK to hide 'saved' checkmark
-			setTimeout( () => {
-				saved[ key ] = false;
+		try{
+			const response = await fetch( AJAX_BASE + `/record/${key}`, {
+				method: 'post',
+				headers: myHeaders,
+				
+				body: JSON.stringify( post_data ),
+			} );
+	
+			const json = await response.json();
+	
+			if ( true === json ) {
+				const saved = this.state.saved;
+				saved[ key ] = true;
 				this.setState( { saved } );
-			}, 1200 );
+	
+				//HACK to hide 'saved' checkmark
+				setTimeout( () => {
+					saved[ key ] = false;
+					this.setState( { saved } );
+				}, 1200 );
+			}
+		}catch (error) {
+			console.error( error );
 		}
 	}
 
 	render() {
-
 		const items = Object.keys( this.state.options ).map( key =>
 			<tr key={key}>
 				<td>{key}</td>
