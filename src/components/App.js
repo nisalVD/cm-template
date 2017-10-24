@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.scss';
 import EditForm from './EditForm';
+import base64 from 'base-64';
 
 export default class App extends React.Component {
 	constructor() {
@@ -22,7 +23,14 @@ export default class App extends React.Component {
 	}
 
 	getOptions() {
-		fetch( this.state.ajaxBase + '/options' ).then( function( response ) {
+		const myHeaders = new Headers({
+			'Authorization': 'Basic ' + base64.encode('admin:1111')
+		});
+
+		fetch( this.state.ajaxBase + '/records',{
+			headers: myHeaders,
+
+		} ).then( function( response ) {
 			if ( response.ok ) {
 				return response.json();
 			}
@@ -55,7 +63,6 @@ export default class App extends React.Component {
 	}
 
 	async saveItem( key ) {
-		const wpApiSettings = wpApiSettings || {};
 
 		const val = this.state.options[ key ];
 		const post_data = {
@@ -64,13 +71,13 @@ export default class App extends React.Component {
 		};
 
 		const myHeaders = new Headers({
-			"X-WP-Nonce": wpApiSettings.nonce,
-
+			'Authorization': 'Basic ' + base64.encode('admin:1111')
 		});
 
-		const response = await fetch( this.state.ajaxBase + `/option/${key}`, {
+		const response = await fetch( this.state.ajaxBase + `/record/${key}`, {
 			method: 'post',
 			headers: myHeaders,
+
 			body: JSON.stringify( post_data ),
 		} );
 
