@@ -24,25 +24,18 @@ export default class App extends React.Component {
 	}
 
 	getOptions() {
-		
-		// @todo implement authentication
-		 const myHeaders = new Headers( {
-			'Authorization': 'Basic ' + base64.encode( window.wpApiSettings.wprb_basic_auth )
-		} );
-		
-		fetch( AJAX_BASE + '/records',{
-			headers: myHeaders,
-
-		} ).then( function( response ) {
-			if ( response.ok ) {
-				return response.json();
-			}
-			throw new Error( 'Network response was not ok.' );
-		} ).then( json => {
-			this.setState( { options: json } );
-		} ).catch( function( error ) {
-			console.log( 'There has been a problem with your fetch operation: ' + error.message );
-		} );
+		jQuery.ajax({
+			url: AJAX_BASE + '/records',
+			dataType: 'json',
+			method: 'GET',
+			beforeSend: function ( xhr ) {
+				xhr.setRequestHeader( 'X-WP-Nonce', window.wpApiSettings.nonce );
+			},
+			success: function(data) {
+				this.setState( { options: data } );
+			}.bind(this)
+			
+		  });
 	}
 
 	componentDidMount() {
@@ -65,43 +58,36 @@ export default class App extends React.Component {
 		this.setState( { opts } );
 	}
 
-	async saveItem( key ) {
-
+	saveItem( key ) {
 		const val = this.state.options[ key ];
 		const post_data = {
 			key: key,
 			value: val
 		};
-		
-		 //@todo implement authentication
-		 const myHeaders = new Headers( {
-			'Authorization': 'Basic ' + base64.encode( window.wpApiSettings.wprb_basic_auth )
-		} );
 
-		try{
-			const response = await fetch( AJAX_BASE + `/record/${key}`, {
-				method: 'post',
-				headers: myHeaders,
-				
-				body: JSON.stringify( post_data ),
-			} );
-	
-			const json = await response.json();
-	
-			if ( true === json ) {
-				const saved = this.state.saved;
-				saved[ key ] = true;
-				this.setState( { saved } );
-	
-				//HACK to hide 'saved' checkmark
-				setTimeout( () => {
-					saved[ key ] = false;
+		jQuery.ajax({
+			url: AJAX_BASE + `/record/${key}`,
+			dataType: 'json',
+			method: 'POST',
+			data: JSON.stringify( post_data ),
+			beforeSend: function ( xhr ) {
+				xhr.setRequestHeader( 'X-WP-Nonce', window.wpApiSettings.nonce );
+			},
+			success: function(data) {
+				if ( true === data ) {
+					const saved = this.state.saved;
+					saved[ key ] = true;
 					this.setState( { saved } );
-				}, 1200 );
-			}
-		}catch (error) {
-			console.error( error );
-		}
+		
+					//HACK to hide 'saved' checkmark
+					setTimeout( () => {
+						saved[ key ] = false;
+						this.setState( { saved } );
+					}, 1200 );
+				};
+			}.bind(this)
+			
+		  });
 	}
 
 	render() {
