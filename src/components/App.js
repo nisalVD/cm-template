@@ -24,7 +24,7 @@ export default class App extends React.Component {
 	}
 
 	getOptions() {
-		jQuery.ajax({
+		window.jQuery.ajax({
 			url: AJAX_BASE + '/records',
 			dataType: 'json',
 			method: 'GET',
@@ -34,7 +34,6 @@ export default class App extends React.Component {
 			success: function(data) {
 				this.setState( { options: data } );
 			}.bind(this)
-			
 		  });
 	}
 
@@ -65,7 +64,7 @@ export default class App extends React.Component {
 			value: val
 		};
 
-		jQuery.ajax({
+		window.jQuery.ajax({
 			url: AJAX_BASE + `/record/${key}`,
 			dataType: 'json',
 			method: 'POST',

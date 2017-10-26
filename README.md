@@ -14,12 +14,6 @@ Companion blog post: https://deliciousbrains.com/develop-wordpress-plugin-webpac
 1. `cd` into your checked out folder and run `yarn`
 1. Run `yarn start` to get Webpack and BrowserSync running
 
-### If using HTTP Basic authentication (default)
-
-1. In your host WordPress `wp-config.php` file add `define( 'WPRB_AJAX_BASIC_AUTH', 'admin:password' );` and update it to match your admin login credentials - ** NOT PRODUCTION READY ** 
-1. Install the Basic Auth plugin https://github.com/WP-API/Basic-Auth
-1. To disable endpoint permissions check, remove the `permission_callback` items in https://github.com/deliciousbrains/wp-react-boilerplate/blob/0e9c6256965866a2f0c6ed2b298739954a067270/server/wprb-rest-server.php#L22
-
 ### To build for production run:
 
 `yarn build`
