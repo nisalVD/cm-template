@@ -4,6 +4,7 @@ const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const DashboardPlugin = require('webpack-dashboard/plugin')
 
 const config = require('./config.json')
 
@@ -43,6 +44,7 @@ const webpackConfig = {
   },
   devtool: 'source-map',
   plugins: [
+    new DashboardPlugin(),
     new BrowserSyncPlugin({
       proxy: {
         target: config.proxyURL
