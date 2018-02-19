@@ -1,11 +1,4 @@
 {
-  "presets": [
-    "es2015",
-    "react"
-  ],
-  "plugins": [
-    "react-hot-loader/babel",
-    "transform-async-to-generator",
-    "transform-runtime"
-    ]
+  "presets": ["es2015", "react"],
+  "plugins": ["transform-async-to-generator", "transform-runtime"]
 }
