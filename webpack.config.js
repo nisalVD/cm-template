@@ -60,7 +60,7 @@ const webpackConfig = {
 }
 
 if (process.env.NODE_ENV === 'production') {
-  const buildFolder = path.resolve(__dirname, 'wp-react-boilerplate-built')
+  const buildFolder = path.resolve(__dirname, 'cm-template')
   webpackConfig.plugins.push(
     new webpack.optimize.UglifyJsPlugin({
       mangle: {
