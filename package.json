@@ -20,6 +20,7 @@
     "browser-sync": "^2.18.12",
     "browser-sync-webpack-plugin": "^1.2.0",
     "clean-webpack-plugin": "^0.1.16",
+    "copy-webpack-plugin": "^4.4.1",
     "css-loader": "^0.28.7",
     "eslint": "^4.9.0",
     "eslint-plugin-react": "^7.4.0",
@@ -28,7 +29,6 @@
     "file-loader": "^0.11.2",
     "install": "^0.10.1",
     "node-sass": "^4.5.3",
-    "npm": "^5.2.0",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
     "webpack": "^3.2.0",
@@ -38,7 +38,6 @@
     "webpack-hot-middleware": "^2.18.2"
   },
   "dependencies": {
-    "copy-webpack-plugin": "^4.0.1",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-hot-loader": "^3.0.0-beta.7",
