@@ -2,7 +2,11 @@
   text-align: center;
 }
 
-/* Remove list bullet points */
+/* Remove list bullet points and padding */
+ul {
+  margin: 0;
+  padding: 0;
+}
 li {
   list-style: none;
 }
@@ -16,40 +20,46 @@ li {
 .battery-display {
   margin-right: 50px;
   background-color: rgb(146, 172, 146);
-  width: 50px;
+  width: 100px;
+  height: 50px;
   border: solid;
   border-width: 1px;
   border-radius: 5px;
   border-color: rgb(211, 211, 211);
+  display: flex;
+  justify-content: flex-start;
 }
 .battery-tracker {
   position: relative;
   right: 5px;
-  z-index: 1;
 }
 .battery-flex-segment-25 {
   background-color: rgb(78, 161, 78);
-  width: 3px;
-  height: 5px;
-  display: relative;
+  border-color: rgb(211, 211, 211);
+  border-radius: 5px;
+  flex-grow: 1;
+  height: auto;
 }
 .battery-flex-segment-50 {
   background-color: rgb(78, 161, 78);
-  width: 3px;
-  height: 5px;
-  display: relative;
+  border-color: rgb(211, 211, 211);
+  border-radius: 5px;
+  flex-grow: 1;
+  height: auto;
 }
 .battery-flex-segment-75 {
   background-color: rgb(78, 161, 78);
-  width: 3px;
-  height: 5px;
-  display: relative;
+  border-color: rgb(211, 211, 211);
+  border-radius: 5px;
+  flex-grow: 1;
+  height: auto;
 }
 .battery-flex-segment-100 {
   background-color: rgb(78, 161, 78);
-  width: 3px;
-  height: 5px;
-  display: relative;
+  border-color: rgb(211, 211, 211);
+  border-radius: 5px;
+  flex-grow: 1;
+  height: auto;
 }
 
 /* Container with Rechart charts and data */

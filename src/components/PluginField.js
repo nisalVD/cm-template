@@ -31,6 +31,7 @@ function PluginField({
           <li className="battery-flex-segment-100" />
         </ul>
       </div>
+
       <div>
         <ul className="plugin-container wrap">
           <li className="plugin-flex ">
