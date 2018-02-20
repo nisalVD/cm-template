@@ -2,14 +2,9 @@ import React, { Component } from "react" // eslint-disable-line no-unused-vars
 import "./App.scss"
 import AreaChart from "../components/AreaChart"
 class App extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      x: 1,
-      y: 2
-    }
+  state = {
+    x: "hello"
   }
-
   render() {
     const data = [
       { x: "1", y: 2 },
