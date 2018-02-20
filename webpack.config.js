@@ -4,7 +4,6 @@ const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const DashboardPlugin = require('webpack-dashboard/plugin')
 
 const config = require('./config.json')
 
@@ -44,7 +43,6 @@ const webpackConfig = {
   },
   devtool: 'source-map',
   plugins: [
-    new DashboardPlugin(),
     new BrowserSyncPlugin({
       proxy: {
         target: config.proxyURL
@@ -62,7 +60,7 @@ const webpackConfig = {
 }
 
 if (process.env.NODE_ENV === 'production') {
-  const buildFolder = path.resolve(__dirname, 'cm-template')
+  const buildFolder = path.resolve(__dirname, 'cm-template-build')
   webpackConfig.plugins.push(
     new webpack.optimize.UglifyJsPlugin({
       mangle: {
