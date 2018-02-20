@@ -20,14 +20,14 @@ const AreaChartGraph = ({ data, xKey, yKey, title }) => {
         data={data}
         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
       >
-        <XAxis dataKey="x" />
+        <XAxis dataKey={xKey} />
         <YAxis />
         <CartesianGrid strokeDasharray="3 3" />
         <Tooltip />
         <Legend />
         <Area
           type="monotone"
-          dataKey="y"
+          dataKey={yKey}
           stroke="#8884d8"
           fillOpacity={0.5}
           fill="#2AA8F7"
