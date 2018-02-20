@@ -1,5 +1,8 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './components/App.js';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './components/App.js'
+import ElementQueries from 'css-element-queries/src/ElementQueries'
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ElementQueries.listen()
+ElementQueries.init()
+ReactDOM.render(<App />, document.getElementById('root'))
