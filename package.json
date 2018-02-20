@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "NODE_ENV=production ./node_modules/.bin/webpack",
-    "start": "webpack-dashboard ./node_modules/.bin/webpack --watch"
+    "start": "./node_modules/.bin/webpack --watch"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
