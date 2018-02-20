@@ -3,7 +3,7 @@ demo
 yarn-error.log
 node_modules
 dist
-wp-react-boilerplate-built
+cm-template-build
 .DS_Store
 config.json
 # Logs
