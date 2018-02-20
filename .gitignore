@@ -5,6 +5,7 @@ node_modules
 dist
 wp-react-boilerplate-built
 .DS_Store
+config.json
 # Logs
 logs
 *.log
