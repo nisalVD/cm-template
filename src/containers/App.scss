@@ -5,8 +5,6 @@
 .plugin-container {
   width: 100%;
   background-color: grey;
-  // margin: 0px 40px 0px 40px;
-  // padding: 10px 0px 10px 0px;
   -ms-box-orient: horizontal;
   display: -webkit-box;
   display: -moz-box;
@@ -22,18 +20,35 @@
 }
 
 .plugin-flex {
+  cursor: pointer;
   width: 100%;
+  max-width: 400px;
   height: auto;
-  margin: 1px 0px 1px 0px;
-  padding: 10px 0px 10px 0px;
+  margin-left: auto;
+  margin-right: auto;
   background-color: rgb(62, 62, 62);
   color: white;
+  margin-bottom: 1px;
 }
 
 .data-inside {
-  // width: 350px;
+  width: 100%;
 }
 
-.plugin-container[max-width~="300px"] .data-inside {
+.current-device-data {
+  color: red;
+}
+
+.plugin-container[min-width~="400px"] .data-inside {
   display: none;
+}
+.plugin-container[max-width~="400px"] .data-inside-breakpoint {
+  display: none;
+}
+.plugin-container[max-width~="400px"] .plugin-flex {
+  height: 50px;
+}
+.plugin-container[min-width~="400px"] .plugin-flex {
+  pointer-events: none;
+  cursor: default;
 }

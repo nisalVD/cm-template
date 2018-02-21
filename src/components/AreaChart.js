@@ -11,28 +11,28 @@ import {
   ResponsiveContainer
 } from "recharts"
 
-const AreaChartGraph = ({ data, xKey, yKey, title }) => {
+const AreaChartGraph = ({ data, xKey, yKey }) => {
   return (
     <div>
-      <AreaChart
-        width={500}
-        height={300}
-        data={data}
-        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-      >
-        <XAxis dataKey={xKey} />
-        <YAxis />
-        <CartesianGrid strokeDasharray="3 3" />
-        <Tooltip />
-        <Legend />
-        <Area
-          type="monotone"
-          dataKey={yKey}
-          stroke="#8884d8"
-          fillOpacity={0.5}
-          fill="#2AA8F7"
-        />
-      </AreaChart>
+      <ResponsiveContainer width={300} height={200}>
+        <AreaChart
+          data={data}
+          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+        >
+          <XAxis dataKey={xKey} />
+          <YAxis />
+          <CartesianGrid strokeDasharray="3 3" />
+          <Tooltip />
+          <Legend />
+          <Area
+            type="monotone"
+            dataKey={yKey}
+            stroke="#8884d8"
+            fillOpacity={0.5}
+            fill="#2AA8F7"
+          />
+        </AreaChart>
+      </ResponsiveContainer>
     </div>
   )
 }

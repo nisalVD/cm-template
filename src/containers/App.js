@@ -8,7 +8,8 @@ class App extends Component {
     currentDeviceData: null,
     initialHistoricalDeviceData: null,
     filteredHistoricalData: null,
-    dataToBeDisplayed: ["humidity", "light", "pressure", "temperature"]
+    dataToBeDisplayed: ["humidity", "light", "pressure", "temperature"],
+    selectedData: null
   }
   // diconnect from current websocket function
   disconnectCurrentWebsocket = () => {
@@ -58,11 +59,11 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.connectConctrWebSocket(7, "days")
+    this.connectConctrWebSocket(2, "days")
   }
 
-  handleDataClick = (data, event) => {
-    console.log("data", data)
+  handleDataClick = selectedData => {
+    this.setState({ selectedData })
   }
 
   render() {
@@ -70,9 +71,9 @@ class App extends Component {
       currentDeviceData,
       initialHistoricalDeviceData,
       filteredHistoricalData,
-      dataToBeDisplayed
+      dataToBeDisplayed,
+      selectedData
     } = this.state
-    console.log("currentDeviceData", currentDeviceData)
     return (
       <div className="plugin-container wrap center-text">
         {dataToBeDisplayed &&
@@ -85,9 +86,26 @@ class App extends Component {
                 className="plugin-flex"
               >
                 {data}: {currentDeviceData && currentDeviceData[data]}
+                <div className="data-inside-breakpoint">
+                  <AreaChart
+                    data={filteredHistoricalData}
+                    xKey="_ts"
+                    yKey={data}
+                    title={data}
+                  />
+                </div>
               </div>
             )
           })}
+        {selectedData && (
+          <div className="data-inside">
+            <AreaChart
+              data={filteredHistoricalData}
+              xKey="_ts"
+              yKey={selectedData}
+            />
+          </div>
+        )}
       </div>
     )
   }
