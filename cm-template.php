@@ -31,18 +31,30 @@ add_action('wp_head', 'actionhero_js');
 add_action( 'wp_enqueue_scripts', 'include_react_files' );
 
 //#### Admin Setting Page
+
 function cm_template_admin_menu() {
   add_menu_page(
     "CM Admin Page", // Page Title
     "CM Admin Menu", // Menu Title
     "manage_options",
-    "cm_template_admin_menu", // Menu Slug(url)
+    "cm_template_admin", // Menu Slug(url)
     "cm_template_admin_menu_page" // Callback Function
   );
-
+    add_submenu_page(
+        'cm_template_admin', // parent slug(url)
+        'CM Edit Appearance Page', // page title
+        'CM Edit Appearance', // menu titile
+        'manage_options',
+        'cm-edit-appearance', // slug
+        'cm_edit_appearance' //callback
+       );
   //Activate custom settings
   add_action('admin_init', 'cm_template_custom_settings');
 }
 add_action("admin_menu", "cm_template_admin_menu");
-// include cm-admin.php
+// include admin stuff
 include_once('cm-admin.php');
+//  call template
+function cm_edit_appearance() {
+  include_once('cm-edit-appearance.php');
+}
