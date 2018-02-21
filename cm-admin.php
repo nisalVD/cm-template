@@ -1,19 +1,5 @@
 <?php
 
-function cm_template_admin_menu() {
-  add_menu_page(
-    "CM Admin Page", // Page Title
-    "CM Admin Menu", // Menu Title
-    "manage_options",
-    "cm_template_admin_menu", // Menu Slug(url)
-    "cm_template_admin_menu_page" // Callback Function
-  );
-
-  //Activate custom settings
-  add_action('admin_init', 'cm_template_custom_settings');
-}
-add_action("admin_menu", "cm_template_admin_menu");
-
 function cm_template_custom_settings() {
   register_setting( 'wp-starter-settings-group', 'api_key');
   register_setting( 'wp-starter-settings-group', 'app_id');

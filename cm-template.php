@@ -31,4 +31,18 @@ add_action('wp_head', 'actionhero_js');
 add_action( 'wp_enqueue_scripts', 'include_react_files' );
 
 //#### Admin Setting Page
+function cm_template_admin_menu() {
+  add_menu_page(
+    "CM Admin Page", // Page Title
+    "CM Admin Menu", // Menu Title
+    "manage_options",
+    "cm_template_admin_menu", // Menu Slug(url)
+    "cm_template_admin_menu_page" // Callback Function
+  );
+
+  //Activate custom settings
+  add_action('admin_init', 'cm_template_custom_settings');
+}
+add_action("admin_menu", "cm_template_admin_menu");
+// include cm-admin.php
 include_once('cm-admin.php');
