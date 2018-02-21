@@ -38,6 +38,7 @@ function PluginField({
             Temperature: '{temperature}' C°
             <div>
               <img
+                className="test"
                 src="http://www.excel-easy.com/examples/images/combination-chart/combination-chart.png"
                 alt="chart"
               />
