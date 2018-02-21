@@ -86,11 +86,11 @@ li {
   height: auto;
 }
 
-.plugin-flex[max-width~='300px'] img {
+.plugin-flex[max-width~="300px"] img {
   display: none;
 }
 
-.plugin-flex[min-width~='300px'] {
+.plugin-flex[min-width~="300px"] {
   width: 100%;
   max-width: 400px;
   height: auto;
