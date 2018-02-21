@@ -31,7 +31,11 @@
   margin-bottom: 1px;
 }
 
-.data-inside {
+.plugin-flex:hover {
+  background-color: #a9a9a9;
+}
+
+.selected-chart-data {
   width: 100%;
 }
 
@@ -39,10 +43,14 @@
   color: red;
 }
 
-.plugin-container[min-width~="400px"] .data-inside {
+.plugin-container[min-width~="400px"] .selected-chart-data {
   display: none;
 }
-.plugin-container[max-width~="400px"] .data-inside-breakpoint {
+
+.plugin-container[max-width~="400px"] .plugin-flex-selected {
+  background-color: #222222;
+}
+.plugin-container[max-width~="400px"] .historical-charts-data {
   display: none;
 }
 .plugin-container[max-width~="400px"] .plugin-flex {

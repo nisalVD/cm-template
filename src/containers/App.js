@@ -83,10 +83,11 @@ class App extends Component {
               <div
                 onClick={this.handleDataClick.bind(this, data)}
                 key={data}
-                className="plugin-flex"
+                className={`plugin-flex ${data === selectedData &&
+                  "plugin-flex-selected"}`}
               >
                 {data}: {currentDeviceData && currentDeviceData[data]}
-                <div className="data-inside-breakpoint">
+                <div className="historical-charts-data">
                   <AreaChart
                     data={filteredHistoricalData}
                     xKey="_ts"
@@ -98,7 +99,7 @@ class App extends Component {
             )
           })}
         {selectedData && (
-          <div className="data-inside">
+          <div className="selected-chart-data">
             <AreaChart
               data={filteredHistoricalData}
               xKey="_ts"
