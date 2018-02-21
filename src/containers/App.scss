@@ -1,3 +1,62 @@
-h1 {
-  color: dodgerblue;
+.center-text {
+  text-align: center;
+}
+
+.plugin-container {
+  width: 100%;
+  background-color: grey;
+  -ms-box-orient: horizontal;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: flex;
+}
+
+.wrap {
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+.plugin-flex {
+  cursor: pointer;
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgb(62, 62, 62);
+  color: white;
+  margin-bottom: 1px;
+}
+
+.plugin-flex:hover {
+  background-color: #a9a9a9;
+}
+
+.selected-chart-data {
+  width: 100%;
+}
+
+.current-device-data {
+  color: red;
+}
+
+.plugin-container[min-width~="400px"] .selected-chart-data {
+  display: none;
+}
+
+.plugin-container[max-width~="400px"] .plugin-flex-selected {
+  background-color: #222222;
+}
+.plugin-container[max-width~="400px"] .historical-charts-data {
+  display: none;
+}
+.plugin-container[max-width~="400px"] .plugin-flex {
+  height: 50px;
+}
+.plugin-container[min-width~="400px"] .plugin-flex {
+  pointer-events: none;
+  cursor: default;
 }
