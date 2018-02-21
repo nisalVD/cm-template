@@ -14,7 +14,7 @@ import {
 const AreaChartGraph = ({ data, xKey, yKey }) => {
   return (
     <div>
-      <ResponsiveContainer width={300} height={200}>
+      <ResponsiveContainer width="100%" height={200}>
         <AreaChart
           data={data}
           margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
