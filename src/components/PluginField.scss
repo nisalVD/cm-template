@@ -1,5 +1,6 @@
 .center-text {
   text-align: center;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
 }
 
 /* Remove list bullet points and padding */
@@ -88,7 +89,7 @@ li {
   flex-wrap: wrap;
 }
 
-.plugin-flex {
+.inner-container {
   width: 100%;
   height: auto;
   margin: 1px 0px 1px 0px;
@@ -97,17 +98,25 @@ li {
   color: white;
 }
 
-.plugin-flex img {
+.inner-container img {
   padding: 10px 0px 10px 0px;
   width: 80%;
   height: auto;
 }
-
-.plugin-flex[max-width~='300px'] img {
-  display: none;
+.toggleable-chart img {
+  width: 80%;
 }
-
-.plugin-flex[min-width~='300px'] {
+.plugin-container[max-width~='400px'] .inner-container {
+  img {
+    display: none;
+  }
+}
+.plugin-container[min-width~='400px'] .toggleable-chart {
+  img {
+    display: none;
+  }
+}
+.inner-container[min-width~='400px'] {
   width: 100%;
   max-width: 400px;
   height: auto;

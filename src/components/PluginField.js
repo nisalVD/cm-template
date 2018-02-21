@@ -34,18 +34,8 @@ function PluginField({
 
       <div>
         <ul className="plugin-container wrap">
-          <li className="plugin-flex ">
-            Temperature: '{temperature}' C°
-            <div>
-              <img
-                className="test"
-                src="http://www.excel-easy.com/examples/images/combination-chart/combination-chart.png"
-                alt="chart"
-              />
-            </div>
-          </li>
-          <li className="plugin-flex">
-            Humidity: '{humidity}' %
+          <li className="inner-container">
+            TEMPERATURE: '{temperature}' C°
             <div>
               <img
                 src="http://www.excel-easy.com/examples/images/combination-chart/combination-chart.png"
@@ -53,8 +43,8 @@ function PluginField({
               />
             </div>
           </li>
-          <li className="plugin-flex">
-            Pressure: '{pressure}' hPa
+          <li className="inner-container">
+            HUMIDITY: '{humidity}' %
             <div>
               <img
                 src="http://www.excel-easy.com/examples/images/combination-chart/combination-chart.png"
@@ -62,8 +52,8 @@ function PluginField({
               />
             </div>
           </li>
-          <li className="plugin-flex">
-            Light: '{light}' 0 relative
+          <li className="inner-container">
+            PRESSURE: '{pressure}' hPa
             <div>
               <img
                 src="http://www.excel-easy.com/examples/images/combination-chart/combination-chart.png"
@@ -71,7 +61,16 @@ function PluginField({
               />
             </div>
           </li>
-          <li className="plugin-flex">
+          <li className="inner-container">
+            LIGHT: '{light}' 0 relative
+            <div>
+              <img
+                src="http://www.excel-easy.com/examples/images/combination-chart/combination-chart.png"
+                alt="chart"
+              />
+            </div>
+          </li>
+          <li className="inner-container">
             RSSI: '{rssi}' dBm
             <div>
               <img
@@ -79,6 +78,12 @@ function PluginField({
                 alt="chart"
               />
             </div>
+          </li>
+          <li className="toggleable-chart">
+            <img
+              src="http://www.excel-easy.com/examples/images/combination-chart/combination-chart.png"
+              alt="chart"
+            />
           </li>
         </ul>
       </div>
