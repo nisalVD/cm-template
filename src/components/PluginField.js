@@ -21,7 +21,7 @@ function PluginField({
   rssi
 }) {
   return (
-    <div className="center-text">
+    <div>
       <div className="battery-flex">
         <p className="battery-tracker">'{battery}'%</p>
         <ul className="battery-display">
