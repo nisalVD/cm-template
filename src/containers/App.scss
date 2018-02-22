@@ -60,3 +60,19 @@
   pointer-events: none;
   cursor: default;
 }
+
+.warning {
+  animation: warning-pulse 3s infinite;
+}
+
+@keyframes warning-pulse {
+  0% {
+    background-color: rgba(250, 220, 220, 0);
+  }
+  50% {
+    background-color: rgba(200, 40, 40, 0.5);
+  }
+  100% {
+    background-color: rgba(250, 220, 220, 0);
+  }
+}

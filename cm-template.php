@@ -16,8 +16,10 @@ function include_react_files() {
   wp_enqueue_style('prefix-style', plugin_dir_url( __FILE__ ) . 'dist/style.bundle.css', array(), '0.0.1', 'all' );
   wp_enqueue_script('plugin-scripts', plugin_dir_url( __FILE__ ) . 'dist/bundle.js', array(), '0.0.1', 'all' );
 
-  wp_localize_script('plugin-scripts','wp_home_url', array(
-      "base_url" => home_url()
+  wp_localize_script('plugin-scripts','cm_device_info', array(
+      "api_key" => get_option("api_key"),
+      "app_id" => get_option("app_id"),
+      "device_id" => get_option("device_id")
   ));
 }
 

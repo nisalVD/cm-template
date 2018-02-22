@@ -2,6 +2,7 @@ import React, { Component } from "react" // eslint-disable-line no-unused-vars
 import "./App.scss"
 import AreaChart from "../components/AreaChart"
 import { websocketQuery } from "../api/deviceWebSocket"
+import { getAlertConfig } from "../api/alertSetting"
 
 class App extends Component {
   state = {
@@ -9,7 +10,8 @@ class App extends Component {
     initialHistoricalDeviceData: null,
     filteredHistoricalData: null,
     dataToBeDisplayed: ["humidity", "light", "pressure", "temperature"],
-    selectedData: null
+    selectedData: null,
+    alertConfig: null
   }
   // diconnect from current websocket function
   disconnectCurrentWebsocket = () => {
@@ -60,6 +62,10 @@ class App extends Component {
 
   componentDidMount() {
     this.connectConctrWebSocket(2, "days")
+
+    getAlertConfig().then((alertConfigData) => {
+      this.setState({ alertConfig: alertConfigData })
+    })
   }
 
   handleDataClick = selectedData => {
@@ -84,7 +90,7 @@ class App extends Component {
                 onClick={this.handleDataClick.bind(this, data)}
                 key={data}
                 className={`plugin-flex ${data === selectedData &&
-                  "plugin-flex-selected"}`}
+                  "plugin-flex-selected"} warning`}
               >
                 {data}: {currentDeviceData && currentDeviceData[data]}
                 <div className="historical-charts-data">
