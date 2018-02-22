@@ -9,10 +9,30 @@ class App extends Component {
     currentDeviceData: null,
     initialHistoricalDeviceData: null,
     filteredHistoricalData: null,
-    dataToBeDisplayed: ["humidity", "light", "pressure", "temperature"],
+    dataToBeDisplayed: null,
     selectedData: null,
     alertConfig: null
   }
+
+  // chek if current value exceeds alert setting
+  checkRange = (dataKey) => {
+    const alertSetting = this.state.alertConfig[dataKey]
+    const currentValue = this.state.currentDeviceData[dataKey]
+    const upperlimit = alertSetting["GT"]
+    const lowerlimit = alertSetting["LT"]
+    console.log(alertSetting, currentValue, upperlimit, lowerlimit)
+    if (currentValue === null || !upperlimit && !lowerlimit) return
+    if (!upperlimit && lowerlimit > currentValue) return "warning"
+    else if (!upperlimit && lowerlimit < currentValue) return ""
+    else if (!lowerlimit && upperlimit < currentValue) return "warning"
+    else if (!lowerlimit && upperlimit > currentValue) return ""
+    else if (lowerlimit > currentValue || upperlimit < currentValue) {
+      return "warning"
+    }
+    else return ""
+  }
+
+
   // diconnect from current websocket function
   disconnectCurrentWebsocket = () => {
     const { client } = this.state
@@ -64,7 +84,12 @@ class App extends Component {
     this.connectConctrWebSocket(2, "days")
 
     getAlertConfig().then((alertConfigData) => {
-      this.setState({ alertConfig: alertConfigData })
+      this.setState({
+        alertConfig: alertConfigData,
+        dataToBeDisplayed: alertConfigData.selectedKey
+      })
+
+      console.log(alertConfigData)
     })
   }
 
@@ -90,7 +115,7 @@ class App extends Component {
                 onClick={this.handleDataClick.bind(this, data)}
                 key={data}
                 className={`plugin-flex ${data === selectedData &&
-                  "plugin-flex-selected"} warning`}
+                  "plugin-flex-selected"} ${this.checkRange(data)}`}
               >
                 {data}: {currentDeviceData && currentDeviceData[data]}
                 <div className="historical-charts-data">
