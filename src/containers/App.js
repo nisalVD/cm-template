@@ -3,6 +3,7 @@ import "./App.scss"
 import AreaChart from "../components/AreaChart"
 import { websocketQuery } from "../api/deviceWebSocket"
 import { getAlertConfig } from "../api/alertSetting"
+import moment from "moment"
 
 class App extends Component {
   state = {
@@ -12,7 +13,28 @@ class App extends Component {
     dataToBeDisplayed: null,
     selectedData: null,
     alertConfig: null,
+    chartData: null,
     chartPriodType: "days"
+  }
+
+  // fomat histrical data 
+  formatChartData = (data, type) => {
+    const chartTimeFormat = {
+      days: "MMM D, hA",
+      weeks: "MMM D, YYYY",
+      months: "MMM D, YYYY"
+    }
+    let dataFormat = {}
+    this.state.dataToBeDisplayed.forEach((dataKey) => {
+      dataFormat[dataKey] = []
+      data.forEach((ob) => {
+        let dataObject = {}
+        dataObject[dataKey] = Math.round(ob[dataKey] * 100) / 100
+        dataObject["date"] = moment(ob["_ts"]).format(chartTimeFormat[type])
+        dataFormat[dataKey].push(dataObject)
+      })
+    })
+    this.setState({ chartData: dataFormat })
   }
 
   // chek if current value exceeds alert setting
@@ -65,14 +87,20 @@ class App extends Component {
             this.setState({
               currentDeviceData: message.data[message.data.length - 1]
             })
-            this.setState({ filteredHistoricalData: message.data })
+            this.setState({ filteredHistoricalData: message.data }, () => {
+              if (!this.state.chartData) {
+                this.formatChartData(this.state.filteredHistoricalData, this.state.chartPriodType)
+              }
+            })
           }
           if (message.event === "update_data") {
             const { initialHistoricalDeviceData } = this.state
             const newValue = message.data.new_val
             const newHistoricalData = [...initialHistoricalDeviceData, newValue]
             this.setState({ initialHistoricalDeviceData: newHistoricalData })
-            this.setState({ filteredHistoricalData: newHistoricalData })
+            this.setState({ filteredHistoricalData: newHistoricalData }, () => {
+              this.formatChartData(this.state.filteredHistoricalData, this.state.chartPriodType)
+            })
             this.setState({ currentDeviceData: newValue })
           }
           break
@@ -96,7 +124,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.filteredHistoricalData)
     const {
       currentDeviceData,
       initialHistoricalDeviceData,
@@ -107,7 +134,7 @@ class App extends Component {
     return (
       <div className="plugin-container wrap center-text">
         <select onChange={(e) => {
-          this.setState({ chartPriodType: e.target.value }, () => {
+          this.setState({ chartPriodType: e.target.value, chartData: null }, () => {
             this.connectConctrWebSocket(1, this.state.chartPriodType)
           })
         }}>
@@ -127,22 +154,20 @@ class App extends Component {
               >
                 {data}: {currentDeviceData && currentDeviceData[data]}
                 <div className="historical-charts-data">
-                  <AreaChart
-                    data={filteredHistoricalData}
+                  {this.state.chartData && <AreaChart
+                    data={this.state.chartData}
                     dataKey={data}
-                    chartPriodType={this.state.chartPriodType}
-                  />
+                  />}
                 </div>
               </div>
             )
           })}
         {selectedData && (
           <div className="selected-chart-data">
-            <AreaChart
-              data={filteredHistoricalData}
+            {this.state.chartData && <AreaChart
+              data={this.state.chartData}
               dataKey={selectedData}
-              chartPriodType={this.state.chartPriodType}
-            />
+            />}
           </div>
         )}
       </div>

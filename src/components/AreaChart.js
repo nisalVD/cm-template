@@ -13,27 +13,13 @@ import {
   ResponsiveContainer
 } from "recharts"
 
-const AreaChartGraph = ({ data, dataKey, chartPriodType }) => {
-  const chartTimeFormat = {
-    days: "MMM D, hA",
-    weeks: "MMM D, YYYY",
-    months: "MMM D, YYYY"
-  }
-
-  const dataFormat = []
-  data && data.forEach((ob) => {
-    let dataObject = {}
-    dataObject[dataKey] = Math.round(ob[dataKey] * 100) / 100
-    dataObject["date"] = moment(ob["_ts"]).format(chartTimeFormat[chartPriodType])
-    dataFormat.push(dataObject)
-  })
-
+const AreaChartGraph = ({ data, dataKey }) => {
 
   return (
     <div>
       <ResponsiveContainer width="100%" height={200}>
         <AreaChart
-          data={dataFormat}
+          data={data[dataKey]}
           margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
         >
           <XAxis dataKey="date" />
