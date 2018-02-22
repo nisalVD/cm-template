@@ -20,7 +20,7 @@ class App extends Component {
     const currentValue = this.state.currentDeviceData[dataKey]
     const upperlimit = alertSetting["GT"]
     const lowerlimit = alertSetting["LT"]
-    console.log(alertSetting, currentValue, upperlimit, lowerlimit)
+
     if (currentValue === null || !upperlimit && !lowerlimit) return
     if (!upperlimit && lowerlimit > currentValue) return "warning"
     else if (!upperlimit && lowerlimit < currentValue) return ""
@@ -88,8 +88,6 @@ class App extends Component {
         alertConfig: alertConfigData,
         dataToBeDisplayed: alertConfigData.selectedKey
       })
-
-      console.log(alertConfigData)
     })
   }
 
