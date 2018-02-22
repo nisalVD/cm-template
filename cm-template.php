@@ -8,22 +8,24 @@ Author URI: github.com/nisalvd
 */
 
 // ############Including compiled js and css files
-function wp_react_hello_world() {
-  echo '<div id="root"></div>';
+function cm_template() {
+  echo '<div id="cm-template"></div>';
 }
 
 function include_react_files() {
   wp_enqueue_style('prefix-style', plugin_dir_url( __FILE__ ) . 'dist/style.bundle.css', array(), '0.0.1', 'all' );
   wp_enqueue_script('plugin-scripts', plugin_dir_url( __FILE__ ) . 'dist/bundle.js', array(), '0.0.1', 'all' );
 
-  wp_localize_script('plugin-scripts','wp_home_url', array(
-      "base_url" => home_url()
+  wp_localize_script('plugin-scripts','cm_device_info', array(
+      "api_key" => get_option("api_key"),
+      "app_id" => get_option("app_id"),
+      "device_id" => get_option("device_id")
   ));
 }
 
 // change this later to be compiled automatically with webpack
 function actionhero_js() {
-  $url = plugin_dir_url(__FILE__). 'dist/actionheroClient.min.js';
+  $url = plugin_dir_url(__FILE__). 'actionheroClient.min.js';
   echo '<script type="text/javascript" src= '.$url.' ></script>';
 }
 
@@ -40,6 +42,16 @@ function cm_template_admin_menu() {
     "cm_template_admin", // Menu Slug(url)
     "cm_template_admin_menu_page" // Callback Function
   );
+
+  add_submenu_page(
+    'cm_template_admin', // parent slug(url)
+    'Alert Setting Page', // page title
+    'Alert Setting Page', // menu titile
+    'manage_options',
+    'my-custom-submenu-page', // slug
+    'alert_setting_page_callback' //callback
+   );
+
     add_submenu_page(
         'cm_template_admin', // parent slug(url)
         'CM Edit Appearance Page', // page title
@@ -54,7 +66,23 @@ function cm_template_admin_menu() {
 add_action("admin_menu", "cm_template_admin_menu");
 // include admin stuff
 include_once('cm-admin.php');
+
+
 //  call template
 function cm_edit_appearance() {
   include_once('cm-edit-appearance.php');
 }
+//  call template
+function alert_setting_page_callback() {
+  include_once('cm-alert-setting.php');
+}
+
+// add main.js file
+add_action("admin_print_scripts", function(){
+  wp_enqueue_script( 'main_js', plugins_url('js/main.js', __FILE__), NULL, null, true);      
+  wp_localize_script('main_js','cm_device_info', array(
+    "apiKey" => get_option("api_key"),
+    "appId" => get_option("app_id"),
+    "deviceId" => get_option("device_id")
+  ));
+ });

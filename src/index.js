@@ -5,4 +5,4 @@ import ElementQueries from 'css-element-queries/src/ElementQueries'
 
 ElementQueries.listen()
 ElementQueries.init()
-ReactDOM.render(<App />, document.getElementById('root'))
+ReactDOM.render(<App />, document.getElementById('cm-template'))
