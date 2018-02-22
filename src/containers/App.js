@@ -3,6 +3,7 @@ import "./App.scss"
 import AreaChart from "../components/AreaChart"
 import { websocketQuery } from "../api/deviceWebSocket"
 import { getAlertConfig } from "../api/alertSetting"
+import Push from 'push.js'
 
 class App extends Component {
   state = {
