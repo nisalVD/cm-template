@@ -3,7 +3,6 @@ import "./App.scss"
 import AreaChart from "../components/AreaChart"
 import { websocketQuery } from "../api/deviceWebSocket"
 import { getAlertConfig } from "../api/alertSetting"
-import Push from 'push.js'
 
 class App extends Component {
   state = {
@@ -12,7 +11,8 @@ class App extends Component {
     filteredHistoricalData: null,
     dataToBeDisplayed: null,
     selectedData: null,
-    alertConfig: null
+    alertConfig: null,
+    chartPriodType: "days"
   }
 
   // chek if current value exceeds alert setting
@@ -53,7 +53,7 @@ class App extends Component {
 
     client.connect((err, detail) => {
       // use the imported query to query the websocket
-      const deviceSearchQuery = websocketQuery(time, timeFormat)
+      const deviceSearchQuery = websocketQuery(1, timeFormat)
       client.action("device_search_historical", deviceSearchQuery)
     })
 
@@ -61,7 +61,6 @@ class App extends Component {
       switch (message.context) {
         case "historical_data":
           if (message.event === "initial_data") {
-            console.log("historical Data", message.value)
             this.setState({ initialHistoricalDeviceData: message.data })
             this.setState({
               currentDeviceData: message.data[message.data.length - 1]
@@ -82,7 +81,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.connectConctrWebSocket(2, "days")
+    this.connectConctrWebSocket(1, this.state.chartPriodType)
 
     getAlertConfig().then((alertConfigData) => {
       this.setState({
@@ -97,6 +96,7 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.state.filteredHistoricalData)
     const {
       currentDeviceData,
       initialHistoricalDeviceData,
@@ -106,6 +106,15 @@ class App extends Component {
     } = this.state
     return (
       <div className="plugin-container wrap center-text">
+        <select onChange={(e) => {
+          this.setState({ chartPriodType: e.target.value }, () => {
+            this.connectConctrWebSocket(1, this.state.chartPriodType)
+          })
+        }}>
+          <option value="days">1 day</option>
+          <option value="weeks">1 week</option>
+          <option value="months">1 Month</option>
+        </select>
         {dataToBeDisplayed &&
           currentDeviceData &&
           dataToBeDisplayed.map(data => {
@@ -120,9 +129,8 @@ class App extends Component {
                 <div className="historical-charts-data">
                   <AreaChart
                     data={filteredHistoricalData}
-                    xKey="_ts"
-                    yKey={data}
-                    title={data}
+                    dataKey={data}
+                    chartPriodType={this.state.chartPriodType}
                   />
                 </div>
               </div>
@@ -132,8 +140,8 @@ class App extends Component {
           <div className="selected-chart-data">
             <AreaChart
               data={filteredHistoricalData}
-              xKey="_ts"
-              yKey={selectedData}
+              dataKey={selectedData}
+              chartPriodType={this.state.chartPriodType}
             />
           </div>
         )}
