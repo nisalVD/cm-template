@@ -2,9 +2,9 @@ import moment from "moment"
 
 const websocketQuery = (time, timeFormat) => {
   return {
-    authorization: "api:f7de8f7a525349f38c63596982634d50",
-    _device_id: "30000c2a690cc6be",
-    app_id: "2bf8fdd3b3144deea63aa54402938d68",
+    authorization: `api:${window.cm_device_info.api_key}`,
+    _device_id: window.cm_device_info.device_id,
+    app_id: window.cm_device_info.app_id,
     limit: 10000,
     orderBy: [
       {
