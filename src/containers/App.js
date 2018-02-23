@@ -4,6 +4,7 @@ import AreaChart from "../components/AreaChart"
 import { websocketQuery } from "../api/deviceWebSocket"
 import { getAlertConfig } from "../api/alertSetting"
 import moment from "moment"
+import FontAwesome from 'react-fontawesome'
 
 class App extends Component {
   state = {
@@ -133,6 +134,7 @@ class App extends Component {
     } = this.state
     return (
       <div className="plugin-container wrap center-text">
+
         <select onChange={(e) => {
           this.setState({ chartPriodType: e.target.value, chartData: null }, () => {
             this.connectConctrWebSocket(1, this.state.chartPriodType)
@@ -143,7 +145,7 @@ class App extends Component {
           <option value="months">1 Month</option>
         </select>
         {dataToBeDisplayed &&
-          currentDeviceData &&
+          currentDeviceData ?
           dataToBeDisplayed.map(data => {
             return (
               <div
@@ -154,20 +156,35 @@ class App extends Component {
               >
                 {data}: {currentDeviceData && currentDeviceData[data]}
                 <div className="historical-charts-data">
-                  {this.state.chartData && <AreaChart
+                  {this.state.chartData ? <AreaChart
                     data={this.state.chartData}
                     dataKey={data}
-                  />}
+                  /> :
+                    <FontAwesome
+                      name='refresh'
+                      size='2x'
+                      spin
+                    />}
                 </div>
               </div>
             )
-          })}
+          }) :
+          <FontAwesome
+            name='refresh'
+            size='2x'
+            spin
+          />
+        }
         {selectedData && (
           <div className="selected-chart-data">
-            {this.state.chartData && <AreaChart
+            {this.state.chartData ? <AreaChart
               data={this.state.chartData}
               dataKey={selectedData}
-            />}
+            /> : <FontAwesome
+                name='refresh'
+                size='2x'
+                spin
+              />}
           </div>
         )}
       </div>
