@@ -86,3 +86,9 @@ add_action("admin_print_scripts", function(){
     "deviceId" => get_option("device_id")
   ));
  });
+
+ // add short code for this plugin
+ function shortcode_func() {
+  return "<div id=cm-template></div>";
+  }
+  add_shortcode('cm-template', 'shortcode_func');
