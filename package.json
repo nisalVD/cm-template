@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "NODE_ENV=production ./node_modules/.bin/webpack",
+    "build": "cross-env NODE_ENV=production ./node_modules/.bin/webpack",
     "start": "./node_modules/.bin/webpack --watch"
   },
   "devDependencies": {
