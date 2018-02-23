@@ -15,7 +15,8 @@ class App extends Component {
     selectedData: null,
     alertConfig: null,
     chartData: null,
-    chartPriodType: "days"
+    chartPriodType: "days",
+    errorType: null
   }
 
   // fomat histrical data 
@@ -116,7 +117,13 @@ class App extends Component {
       this.setState({
         alertConfig: alertConfigData,
         dataToBeDisplayed: alertConfigData.selectedKey
+      }, () => {
+        if (this.state.dataToBeDisplayed.length === 0) {
+          this.setState({ errorType: "dataKeys" })
+        }
       })
+    }).catch((error) => {
+      this.setState({ errorType: "keys" })
     })
   }
 
@@ -130,10 +137,11 @@ class App extends Component {
       initialHistoricalDeviceData,
       filteredHistoricalData,
       dataToBeDisplayed,
-      selectedData
+      selectedData,
+      errorType
     } = this.state
     return (
-      <div className="plugin-container wrap center-text">
+      !errorType ? <div className="plugin-container wrap center-text">
 
         <div className='select-styling'>
           <select onChange={(e) => {
@@ -193,7 +201,7 @@ class App extends Component {
               />}
           </div>
         )}
-      </div>
+      </div> : errorType === "keys" ? <div className='errorMess'>Please check your device keys</div> : <div className='errorMess'>You have not choosen any data keys to display</div>
     )
   }
 }
