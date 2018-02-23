@@ -78,7 +78,18 @@ if (process.env.NODE_ENV === "production") {
 
   webpackConfig.plugins.push(
     new CopyWebpackPlugin(
-      [{ from: path.resolve(__dirname, "*.php"), to: buildFolder }],
+      [
+        { from: path.resolve(__dirname, "*.php"), to: buildFolder },
+        {
+          from: path.resolve(__dirname, "external-packages/*.js"),
+          to: buildFolder,
+          flatten: true
+        },
+        {
+          from: path.resolve(__dirname, "cm-alert/*.js"),
+          to: buildFolder
+        }
+      ],
       {
         // By default, we only copy modified files during
         // a watch or webpack-dev-server build. Setting this

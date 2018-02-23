@@ -23,7 +23,7 @@ function cm_temlate_api() {
 }
 function cm_temlate_app() {
   $app_id = esc_attr(get_option('app_id'));
-  echo '<input type="text" name="app_id" value="'.$app_id.'" placeholder="Device id" />';
+  echo '<input type="text" name="app_id" value="'.$app_id.'" placeholder="App id" />';
 }
 function cm_temlate_device() {
   $device_id = esc_attr(get_option('device_id'));
