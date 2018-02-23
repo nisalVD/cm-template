@@ -1,3 +1,4 @@
+
 import React, { Component } from "react" // eslint-disable-line no-unused-vars
 import "./App.scss"
 import LineChart from "../components/LineChart"
@@ -61,7 +62,7 @@ class App extends Component {
   // diconnect from current websocket function
   disconnectCurrentWebsocket = () => {
     const { client } = this.state
-    if (client && client.state === "connected") {
+    if (client && client.state === 'connected') {
       client.disconnect()
     }
   }
@@ -71,7 +72,7 @@ class App extends Component {
     // disconnect from current websocket if it exists
     this.disconnectCurrentWebsocket()
     const client = new window.ActionheroClient({
-      url: "https://api.staging.conctr.com"
+      url: 'https://api.staging.conctr.com'
     })
     this.setState({ client })
 
@@ -81,7 +82,7 @@ class App extends Component {
       client.action("device_search_historical", deviceSearchQuery)
     })
 
-    client.on("message", message => {
+    client.on('message', message => {
       switch (message.context) {
         case "historical_data":
           if (message.event === "initial_data") {
@@ -95,7 +96,7 @@ class App extends Component {
               }
             })
           }
-          if (message.event === "update_data") {
+          if (message.event === 'update_data') {
             const { initialHistoricalDeviceData } = this.state
             const newValue = message.data.new_val
             const newHistoricalData = [...initialHistoricalDeviceData, newValue]
