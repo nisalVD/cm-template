@@ -135,15 +135,17 @@ class App extends Component {
     return (
       <div className="plugin-container wrap center-text">
 
-        <select onChange={(e) => {
-          this.setState({ chartPriodType: e.target.value, chartData: null }, () => {
-            this.connectConctrWebSocket(1, this.state.chartPriodType)
-          })
-        }}>
-          <option value="days">1 day</option>
-          <option value="weeks">1 week</option>
-          <option value="months">1 Month</option>
-        </select>
+        <div className='select-styling'>
+          <select onChange={(e) => {
+            this.setState({ chartPriodType: e.target.value, chartData: null }, () => {
+              this.connectConctrWebSocket(1, this.state.chartPriodType)
+            })
+          }}>
+            <option value="days">1 day</option>
+            <option value="weeks">1 week</option>
+            <option value="months">1 Month</option>
+          </select>
+        </div>
         {dataToBeDisplayed &&
           currentDeviceData ?
           dataToBeDisplayed.map(data => {
@@ -169,11 +171,15 @@ class App extends Component {
               </div>
             )
           }) :
-          <FontAwesome
-            name='refresh'
-            size='2x'
-            spin
-          />
+          <div
+            className={`plugin-flex`}
+          >
+            <FontAwesome
+              name='refresh'
+              size='2x'
+              spin
+            />
+          </div>
         }
         {selectedData && (
           <div className="selected-chart-data">
