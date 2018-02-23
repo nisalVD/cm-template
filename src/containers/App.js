@@ -1,6 +1,6 @@
 import React, { Component } from "react" // eslint-disable-line no-unused-vars
 import "./App.scss"
-import AreaChart from "../components/AreaChart"
+import LineChart from "../components/LineChart"
 import { websocketQuery } from "../api/deviceWebSocket"
 import { getAlertConfig } from "../api/alertSetting"
 import moment from "moment"
@@ -158,7 +158,7 @@ class App extends Component {
               >
                 {data}: {currentDeviceData && currentDeviceData[data]}
                 <div className="historical-charts-data">
-                  {this.state.chartData ? <AreaChart
+                  {this.state.chartData ? <LineChart
                     data={this.state.chartData}
                     dataKey={data}
                   /> :
@@ -183,7 +183,7 @@ class App extends Component {
         }
         {selectedData && (
           <div className="selected-chart-data">
-            {this.state.chartData ? <AreaChart
+            {this.state.chartData ? <LineChart
               data={this.state.chartData}
               dataKey={selectedData}
             /> : <FontAwesome

@@ -1,10 +1,10 @@
 import React from "react" // eslint-disable-line no-unused-vars
-import "./AreaChart.scss"
+import "./LineChart.scss"
 import moment from "moment"
 
 import {
-  AreaChart,
-  Area,
+  LineChart,
+  Line,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -13,12 +13,12 @@ import {
   ResponsiveContainer
 } from "recharts"
 
-const AreaChartGraph = ({ data, dataKey }) => {
+const LineChartGraph = ({ data, dataKey }) => {
 
   return (
     <div>
       <ResponsiveContainer width="100%" height={200}>
-        <AreaChart
+        <LineChart
           data={data[dataKey]}
           margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
         >
@@ -27,17 +27,17 @@ const AreaChartGraph = ({ data, dataKey }) => {
           <CartesianGrid strokeDasharray="3 3" />
           <Tooltip />
           <Legend />
-          <Area
+          <Line
             type="monotone"
             dataKey={dataKey}
             stroke="#8884d8"
             fillOpacity={0.5}
             fill="#2AA8F7"
           />
-        </AreaChart>
+        </LineChart>
       </ResponsiveContainer>
     </div>
   )
 }
 
-export default AreaChartGraph
+export default LineChartGraph
