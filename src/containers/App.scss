@@ -81,6 +81,15 @@
   animation: warning-pulse 3s infinite;
 }
 
+.errorMess {
+font-size: 16px;
+padding: 15px 25px;
+margin: 25px;
+color: hsla(9, 87%, 46%, 1);
+border: 1px solid hsla(9, 87%, 46%, 1);
+background-color: hsla(9, 15%, 97%, 1);
+}
+
 @keyframes warning-pulse {
   0% {
     background-color: #fff;
