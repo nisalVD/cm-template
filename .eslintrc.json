@@ -3,7 +3,6 @@
         "browser": true,
         "commonjs": true,
         "es6": true,
-        "stage-2": true,
         "node": true
     },
     "parserOptions": {
