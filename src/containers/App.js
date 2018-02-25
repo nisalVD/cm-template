@@ -1,7 +1,6 @@
 
 import React, { Component } from "react" // eslint-disable-line no-unused-vars
 import "./App.scss"
-import LineChart from "../components/LineChart"
 import { websocketQuery } from "../api/deviceWebSocket"
 import { getAlertConfig } from "../api/alertSetting"
 import moment from "moment"
@@ -22,7 +21,10 @@ class App extends Component {
     errorType: null
   }
 
-
+  //  round decimal point 2
+  roundDecimalTwo = (data) => {
+    return Math.round(data * 100) / 100
+  }
 
   // find the latest valid data
   getLatestValidData = (dataArr) => {
@@ -34,27 +36,6 @@ class App extends Component {
     }
     return validData
   }
-
-  // fomat histrical data (for recharts)
-  formatChartData = (data, type) => {
-    const chartTimeFormat = {
-      days: "MMM D, hA",
-      weeks: "MMM D, YYYY",
-      months: "MMM D, YYYY"
-    }
-    let dataFormat = {}
-    this.state.dataToBeDisplayed.forEach((dataKey) => {
-      dataFormat[dataKey] = []
-      data.forEach((ob) => {
-        let dataObject = {}
-        dataObject[dataKey] = Math.round(ob[dataKey] * 100) / 100
-        dataObject["date"] = moment(ob["_ts"]).format(chartTimeFormat[type])
-        dataFormat[dataKey].push(dataObject)
-      })
-    })
-    this.setState({ chartData: dataFormat })
-  }
-
 
   // fomat histrical data (for react chart.js2)
   formatChartData = (data, type) => {
@@ -69,7 +50,7 @@ class App extends Component {
       dataFormat[dataKey] = []
       dataFormat["date"] = []
       data.forEach((ob) => {
-        dataFormat[dataKey].push(Math.round(ob[dataKey] * 100) / 100)
+        dataFormat[dataKey].push(this.roundDecimalTwo(ob[dataKey]))
         dataFormat["date"].push(moment(ob["_ts"]).format(chartTimeFormat[type]))
       })
     })
@@ -237,13 +218,9 @@ class App extends Component {
                 className={`plugin-flex ${data === selectedData &&
                   "plugin-flex-selected"} ${this.checkRange(data)}`}
               >
-                {data}: {currentDeviceData && currentDeviceData[data]}
+                {data}: {currentDeviceData && this.roundDecimalTwo(currentDeviceData[data])}
                 <div className="historical-charts-data">
                   {this.state.chartData ?
-                    // <LineChart
-                    //   data={this.state.chartData}
-                    //   dataKey={data}
-                    // /> 
                     <Line data={this.getChartData(data)} />
                     :
                     <FontAwesome
@@ -268,10 +245,6 @@ class App extends Component {
         {selectedData && (
           <div className="selected-chart-data">
             {this.state.chartData ?
-              // <LineChart
-              //   data={this.state.chartData}
-              //   dataKey={selectedData}
-              // /> 
               <Line data={this.getChartData(selectedData)} />
               : <FontAwesome
                 name='refresh'
