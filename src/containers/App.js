@@ -22,7 +22,20 @@ class App extends Component {
     errorType: null
   }
 
-  // fomat histrical data 
+
+
+  // find the latest valid data
+  getLatestValidData = (dataArr) => {
+    let count = 1
+    let validData = dataArr[dataArr.length - count]
+    while (!dataArr[dataArr.length - count]["temperature"]) {
+      count++
+      validData = dataArr[dataArr.length - count]
+    }
+    return validData
+  }
+
+  // fomat histrical data (for recharts)
   formatChartData = (data, type) => {
     const chartTimeFormat = {
       days: "MMM D, hA",
@@ -40,6 +53,60 @@ class App extends Component {
       })
     })
     this.setState({ chartData: dataFormat })
+  }
+
+
+  // fomat histrical data (for react chart.js2)
+  formatChartData = (data, type) => {
+    const chartTimeFormat = {
+      days: "MMM D, hA",
+      weeks: "MMM D, YYYY",
+      months: "MMM D, YYYY"
+    }
+
+    let dataFormat = {}
+    this.state.dataToBeDisplayed.forEach((dataKey) => {
+      dataFormat[dataKey] = []
+      dataFormat["date"] = []
+      data.forEach((ob) => {
+        dataFormat[dataKey].push(Math.round(ob[dataKey] * 100) / 100)
+        dataFormat["date"].push(moment(ob["_ts"]).format(chartTimeFormat[type]))
+      })
+    })
+    this.setState({ chartData: dataFormat })
+  }
+
+  // retrun data for the corresponding key
+  getChartData = (datakey) => {
+
+    const data = {
+      labels: this.state.chartData["date"],
+      datasets: [
+        {
+          label: datakey,
+          fill: false,
+          lineTension: 0.1,
+          backgroundColor: 'rgba(75,192,192,0.4)',
+          borderColor: 'rgba(75,192,192,1)',
+          borderCapStyle: 'butt',
+          borderDash: [],
+          borderDashOffset: 0.0,
+          borderJoinStyle: 'miter',
+          pointBorderColor: 'rgba(75,192,192,1)',
+          pointBackgroundColor: '#fff',
+          pointBorderWidth: 1,
+          pointHoverRadius: 5,
+          pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+          pointHoverBorderColor: 'rgba(220,220,220,1)',
+          pointHoverBorderWidth: 2,
+          pointRadius: 1,
+          pointHitRadius: 10,
+          data: this.state.chartData[datakey]
+        }
+
+      ]
+    }
+    return data
   }
 
   // chek if current value exceeds alert setting
@@ -90,8 +157,9 @@ class App extends Component {
           if (message.event === "initial_data") {
             this.setState({ initialHistoricalDeviceData: message.data })
             this.setState({
-              currentDeviceData: message.data[message.data.length - 1]
+              currentDeviceData: this.getLatestValidData(message.data)
             })
+
             this.setState({ filteredHistoricalData: message.data }, () => {
               if (!this.state.chartData) {
                 this.formatChartData(this.state.filteredHistoricalData, this.state.chartPriodType)
@@ -145,35 +213,8 @@ class App extends Component {
       errorType
     } = this.state
 
-    const data = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      datasets: [
-        {
-          label: 'My First dataset',
-          fill: false,
-          lineTension: 0.1,
-          backgroundColor: 'rgba(75,192,192,0.4)',
-          borderColor: 'rgba(75,192,192,1)',
-          borderCapStyle: 'butt',
-          borderDash: [],
-          borderDashOffset: 0.0,
-          borderJoinStyle: 'miter',
-          pointBorderColor: 'rgba(75,192,192,1)',
-          pointBackgroundColor: '#fff',
-          pointBorderWidth: 1,
-          pointHoverRadius: 5,
-          pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-          pointHoverBorderColor: 'rgba(220,220,220,1)',
-          pointHoverBorderWidth: 2,
-          pointRadius: 1,
-          pointHitRadius: 10,
-          data: [65, 59, 80, 81, 56, 55, 40]
-        }
-      ]
-    };
     return (
       !errorType ? <div className="plugin-container wrap center-text">
-        <Line data={data} />
 
         <div className='select-styling'>
           <select onChange={(e) => {
@@ -198,10 +239,13 @@ class App extends Component {
               >
                 {data}: {currentDeviceData && currentDeviceData[data]}
                 <div className="historical-charts-data">
-                  {this.state.chartData ? <LineChart
-                    data={this.state.chartData}
-                    dataKey={data}
-                  /> :
+                  {this.state.chartData ?
+                    // <LineChart
+                    //   data={this.state.chartData}
+                    //   dataKey={data}
+                    // /> 
+                    <Line data={this.getChartData(data)} />
+                    :
                     <FontAwesome
                       name='refresh'
                       size='2x'
@@ -223,10 +267,13 @@ class App extends Component {
         }
         {selectedData && (
           <div className="selected-chart-data">
-            {this.state.chartData ? <LineChart
-              data={this.state.chartData}
-              dataKey={selectedData}
-            /> : <FontAwesome
+            {this.state.chartData ?
+              // <LineChart
+              //   data={this.state.chartData}
+              //   dataKey={selectedData}
+              // /> 
+              <Line data={this.getChartData(selectedData)} />
+              : <FontAwesome
                 name='refresh'
                 size='2x'
                 spin
