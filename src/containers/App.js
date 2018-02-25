@@ -1,11 +1,12 @@
 
 import React, { Component } from "react" // eslint-disable-line no-unused-vars
 import "./App.scss"
-import LineChart from "../components/LineChart"
 import { websocketQuery } from "../api/deviceWebSocket"
 import { getAlertConfig } from "../api/alertSetting"
 import moment from "moment"
 import FontAwesome from 'react-fontawesome'
+
+import { Line } from 'react-chartjs-2'
 
 class App extends Component {
   state = {
@@ -20,24 +21,82 @@ class App extends Component {
     errorType: null
   }
 
-  // fomat histrical data 
+  //  round decimal point 2
+  roundDecimalTwo = (data) => {
+    return Math.round(data * 100) / 100
+  }
+
+  // find the latest valid data
+  getLatestValidData = (dataArr) => {
+    let count = 1
+    let validData = dataArr[dataArr.length - count]
+    while (!dataArr[dataArr.length - count]["temperature"]) {
+      count++
+      validData = dataArr[dataArr.length - count]
+    }
+    return validData
+  }
+
+  // fomat histrical data (for react chart.js2)
   formatChartData = (data, type) => {
     const chartTimeFormat = {
       days: "MMM D, hA",
       weeks: "MMM D, YYYY",
       months: "MMM D, YYYY"
     }
+
+    //  adjust how much data you need for each type.(3 means taking every 3 data from historical data)
+    const chartDataAmount = {
+      days: 1,
+      weeks: 3,
+      months: 15
+    }
+
     let dataFormat = {}
     this.state.dataToBeDisplayed.forEach((dataKey) => {
       dataFormat[dataKey] = []
-      data.forEach((ob) => {
-        let dataObject = {}
-        dataObject[dataKey] = Math.round(ob[dataKey] * 100) / 100
-        dataObject["date"] = moment(ob["_ts"]).format(chartTimeFormat[type])
-        dataFormat[dataKey].push(dataObject)
+      dataFormat["date"] = []
+      data.forEach((ob, index) => {
+        if (index % chartDataAmount[type] === 0) {
+          dataFormat[dataKey].push(this.roundDecimalTwo(ob[dataKey]))
+          dataFormat["date"].push(moment(ob["_ts"]).format(chartTimeFormat[type]))
+        }
       })
     })
     this.setState({ chartData: dataFormat })
+  }
+
+  // retrun data for the corresponding key
+  getChartData = (datakey) => {
+
+    const data = {
+      labels: this.state.chartData["date"],
+      datasets: [
+        {
+          label: datakey,
+          fill: false,
+          lineTension: 0.1,
+          backgroundColor: 'rgba(75,192,192,0.4)',
+          borderColor: 'rgba(75,192,192,1)',
+          borderCapStyle: 'butt',
+          borderDash: [],
+          borderDashOffset: 0.0,
+          borderJoinStyle: 'miter',
+          pointBorderColor: 'rgba(75,192,192,1)',
+          pointBackgroundColor: '#fff',
+          pointBorderWidth: 1,
+          pointHoverRadius: 5,
+          pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+          pointHoverBorderColor: 'rgba(220,220,220,1)',
+          pointHoverBorderWidth: 2,
+          pointRadius: 1,
+          pointHitRadius: 10,
+          data: this.state.chartData[datakey]
+        }
+
+      ]
+    }
+    return data
   }
 
   // chek if current value exceeds alert setting
@@ -88,8 +147,9 @@ class App extends Component {
           if (message.event === "initial_data") {
             this.setState({ initialHistoricalDeviceData: message.data })
             this.setState({
-              currentDeviceData: message.data[message.data.length - 1]
+              currentDeviceData: this.getLatestValidData(message.data)
             })
+
             this.setState({ filteredHistoricalData: message.data }, () => {
               if (!this.state.chartData) {
                 this.formatChartData(this.state.filteredHistoricalData, this.state.chartPriodType)
@@ -132,6 +192,7 @@ class App extends Component {
     this.setState({ selectedData })
   }
 
+
   render() {
     const {
       currentDeviceData,
@@ -141,6 +202,7 @@ class App extends Component {
       selectedData,
       errorType
     } = this.state
+
     return (
       !errorType ? <div className="plugin-container wrap center-text">
 
@@ -165,12 +227,11 @@ class App extends Component {
                 className={`plugin-flex ${data === selectedData &&
                   "plugin-flex-selected"} ${this.checkRange(data)}`}
               >
-                {data}: {currentDeviceData && currentDeviceData[data]}
+                {data}: {currentDeviceData && this.roundDecimalTwo(currentDeviceData[data])}
                 <div className="historical-charts-data">
-                  {this.state.chartData ? <LineChart
-                    data={this.state.chartData}
-                    dataKey={data}
-                  /> :
+                  {this.state.chartData ?
+                    <Line data={this.getChartData(data)} />
+                    :
                     <FontAwesome
                       name='refresh'
                       size='2x'
@@ -192,10 +253,9 @@ class App extends Component {
         }
         {selectedData && (
           <div className="selected-chart-data">
-            {this.state.chartData ? <LineChart
-              data={this.state.chartData}
-              dataKey={selectedData}
-            /> : <FontAwesome
+            {this.state.chartData ?
+              <Line data={this.getChartData(selectedData)} />
+              : <FontAwesome
                 name='refresh'
                 size='2x'
                 spin
