@@ -15,6 +15,7 @@ function cm_template() {
 function include_react_files() {
   wp_enqueue_style('prefix-style', plugin_dir_url( __FILE__ ) . 'dist/style.bundle.css', array(), '0.0.1', 'all' );
   wp_enqueue_script('plugin-scripts', plugin_dir_url( __FILE__ ) . 'dist/bundle.js', array(), '0.0.1', 'all' );
+  wp_enqueue_style('font-awesome', '//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'); 
 
   wp_localize_script('plugin-scripts','cm_device_info', array(
       "api_key" => get_option("api_key"),
@@ -79,7 +80,7 @@ function alert_setting_page_callback() {
 
 // add main.js file
 add_action("admin_print_scripts", function(){
-  wp_enqueue_script( 'main_js', plugins_url('cm-alert/main.js', __FILE__), NULL, null, true);      
+  wp_enqueue_script( 'main_js', plugins_url('cm-alert/main.js', __FILE__), NULL, null, true);
   wp_localize_script('main_js','cm_device_info', array(
     "apiKey" => get_option("api_key"),
     "appId" => get_option("app_id"),

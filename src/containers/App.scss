@@ -4,8 +4,8 @@
 
 .plugin-container {
   width: 100%;
-  background-color: #e15d5e;
-  border-radius: 10px;
+  background-color: #fff;
+  border-radius: 2px;
   padding: 20px 1px 20px 1px;
   -ms-box-orient: horizontal;
   display: -webkit-box;
@@ -14,6 +14,8 @@
   display: -moz-flex;
   display: -webkit-flex;
   display: flex;
+  box-shadow: 0 1px 3px rgba(255, 128, 128, 0.12),
+    0 1px 2px rgba(225, 93, 94, 0.24);
 }
 
 .wrap {
@@ -82,12 +84,12 @@
 }
 
 .errorMess {
-font-size: 16px;
-padding: 15px 25px;
-margin: 25px;
-color: hsla(9, 87%, 46%, 1);
-border: 1px solid hsla(9, 87%, 46%, 1);
-background-color: hsla(9, 15%, 97%, 1);
+  font-size: 16px;
+  padding: 15px 25px;
+  margin: 25px;
+  color: hsla(9, 87%, 46%, 1);
+  border: 1px solid hsla(9, 87%, 46%, 1);
+  background-color: hsla(9, 15%, 97%, 1);
 }
 
 @keyframes warning-pulse {
