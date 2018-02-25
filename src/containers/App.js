@@ -45,13 +45,22 @@ class App extends Component {
       months: "MMM D, YYYY"
     }
 
+    //  adjust how much data you need for each type.(3 means taking every 3 data from historical data)
+    const chartDataAmount = {
+      days: 1,
+      weeks: 3,
+      months: 15
+    }
+
     let dataFormat = {}
     this.state.dataToBeDisplayed.forEach((dataKey) => {
       dataFormat[dataKey] = []
       dataFormat["date"] = []
-      data.forEach((ob) => {
-        dataFormat[dataKey].push(this.roundDecimalTwo(ob[dataKey]))
-        dataFormat["date"].push(moment(ob["_ts"]).format(chartTimeFormat[type]))
+      data.forEach((ob, index) => {
+        if (index % chartDataAmount[type] === 0) {
+          dataFormat[dataKey].push(this.roundDecimalTwo(ob[dataKey]))
+          dataFormat["date"].push(moment(ob["_ts"]).format(chartTimeFormat[type]))
+        }
       })
     })
     this.setState({ chartData: dataFormat })
