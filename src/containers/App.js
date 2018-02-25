@@ -20,6 +20,11 @@ class App extends Component {
     errorType: null
   }
 
+  // button onclick func
+  buttonOnClick = (e) => {
+    this.setState({ chartPriodType: e.target.value, chartData: null }, () => { this.connectConctrWebSocket(1, this.state.chartPriodType) })
+  }
+
   //  round decimal point 2
   roundDecimalTwo = data => {
     return Math.round(data * 100) / 100
@@ -27,6 +32,7 @@ class App extends Component {
 
   // find the latest valid data
   getLatestValidData = dataArr => {
+    console.log(dataArr)
     let count = 1
     let validData = dataArr[dataArr.length - count]
     while (!dataArr[dataArr.length - count]["temperature"]) {
@@ -142,12 +148,13 @@ class App extends Component {
       switch (message.context) {
         case "historical_data":
           if (message.event === "initial_data") {
-            this.setState({ initialHistoricalDeviceData: message.data })
+            const filteredNullData = message.data.filter(data => data.temperature)
+            this.setState({ initialHistoricalDeviceData: filteredNullData })
             this.setState({
-              currentDeviceData: this.getLatestValidData(message.data)
+              currentDeviceData: this.getLatestValidData(filteredNullData)
             })
 
-            this.setState({ filteredHistoricalData: message.data }, () => {
+            this.setState({ filteredHistoricalData: filteredNullData }, () => {
               if (!this.state.chartData) {
                 this.formatChartData(
                   this.state.filteredHistoricalData,
@@ -158,9 +165,8 @@ class App extends Component {
           }
           if (
             message.event === "update_data" &&
-            message.data.new_val.temperature != null
+            message.data.new_val.temperature
           ) {
-            console.log("historica Data")
             const { initialHistoricalDeviceData } = this.state
             const newValue = message.data.new_val
             const newHistoricalData = [...initialHistoricalDeviceData, newValue]
@@ -174,26 +180,7 @@ class App extends Component {
             this.setState({ currentDeviceData: newValue })
           }
           break
-        case "current_data":
-          if (
-            message.event === "update_data" &&
-            message.data.new_val.temperature != null
-          ) {
-            console.log("historica Data")
-            console.log("current Data")
-            const { initialHistoricalDeviceData } = this.state
-            const newValue = message.data.new_val
-            const newHistoricalData = [...initialHistoricalDeviceData, newValue]
-            this.setState({ filteredHistoricalData: newHistoricalData })
-            this.setState({ filteredHistoricalData: newHistoricalData }, () => {
-              this.formatChartData(
-                this.state.filteredHistoricalData,
-                this.state.chartPriodType
-              )
-            })
-            this.setState({ currentDeviceData: newValue })
-          }
-          break
+
       }
     })
   }
@@ -236,7 +223,8 @@ class App extends Component {
 
     return !errorType ? (
       <div className="plugin-container wrap center-text">
-        <div className="select-styling">
+
+        {/* <div className="select-styling">
           <select
             onChange={e => {
               this.setState(
@@ -251,7 +239,20 @@ class App extends Component {
             <option value="weeks">1 week</option>
             <option value="months">1 Month</option>
           </select>
+        </div> */}
+
+        <div className='typeButtons'>
+          <button value="days" onClick={(e) => {
+            this.buttonOnClick(e)
+          }}>1 day</button>
+          <button value="weeks" onClick={(e) => {
+            this.buttonOnClick(e)
+          }}>1 week</button>
+          <button value="months" onClick={(e) => {
+            this.buttonOnClick(e)
+          }}>1 month</button>
         </div>
+
         {dataToBeDisplayed && currentDeviceData ? (
           dataToBeDisplayed.map(data => {
             return (
@@ -268,34 +269,34 @@ class App extends Component {
                   {this.state.chartData ? (
                     <Line data={this.getChartData(data)} />
                   ) : (
-                    <FontAwesome name="refresh" size="2x" spin />
-                  )}
+                      <FontAwesome name="refresh" size="2x" spin />
+                    )}
                 </div>
               </div>
             )
           })
         ) : (
-          <div className={`plugin-flex`}>
-            <FontAwesome name="refresh" size="2x" spin />
-          </div>
-        )}
+            <div className={`plugin-flex`}>
+              <FontAwesome name="refresh" size="2x" spin />
+            </div>
+          )}
         {selectedData && (
           <div className="selected-chart-data">
             {this.state.chartData ? (
               <Line data={this.getChartData(selectedData)} />
             ) : (
-              <FontAwesome name="refresh" size="2x" spin />
-            )}
+                <FontAwesome name="refresh" size="2x" spin />
+              )}
           </div>
         )}
       </div>
     ) : errorType === "keys" ? (
       <div className="errorMess">Please check your device keys</div>
     ) : (
-      <div className="errorMess">
-        You have not choosen any data keys to display
+          <div className="errorMess">
+            You have not choosen any data keys to display
       </div>
-    )
+        )
   }
 }
 
