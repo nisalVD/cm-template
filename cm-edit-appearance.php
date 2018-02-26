@@ -5,6 +5,7 @@
   <div class="sunset">
   <?php settings_errors(); ?>
   <?php settings_fields('cm-edit-appearance-settings-group'); ?>
+  <?php include_once('editAppearanceComponent.js'); ?>
   <?php do_settings_sections('cm_edit_appearance_page'); ?>
   <?php submit_button(); ?>
   </form>
@@ -14,5 +15,4 @@
 $backgroundColor = get_option('cm_template_bg_color');
 ?>
 <?php
-include_once('editAppearanceComponent.js');
 

@@ -13,7 +13,7 @@
 		marginBottom: 1,
 		cursor: 'pointer'
   }
-	let pluginFlex = {
+	let pluginFlexStyle = {
 		borderTop: '1px solid #e3e6ea',
 		borderBottom: '1px solid #e3e6ea',
 		backgroundColor: '#fff',
@@ -32,9 +32,6 @@
     constructor(props) {
     super(props)
       this.state = {
-        bgColor: document.getElementsByName("cm_template_bg_color")[0].value,
-        primaryColor: document.getElementsByName("cm_template_primary_color")[0].value,
-        secondaryColor: document.getElementsByName("cm_template_secondary_color")[0].value,
         inputFieldOpen: false,
         selectedStyle: null,
         selectedElement: null,
@@ -43,17 +40,18 @@
     }
     componentDidMount() {
       const bgColorInput = document.getElementsByName("cm_template_bg_color")[0]
-      const primaryColorInput = document.getElementsByName("cm_template_primary_color")[0]
-      const secondaryColorInput = document.getElementsByName("cm_template_secondary_color")[0]
-      bgColorInput.onkeyup = () => {
-        this.setState({bgColor: bgColorInput.value})
+        const pluginFlexColorInput = document.getElementsByName("cm_template_plugin_flex_color")[0]
+
+      console.log('Plugin Flex Color', pluginFlexColorInput.value)
+      const colorStyles = {
+        backgroundStyles: {
+          backgroundColor: bgColorInput.value,
+        },
+        pluginFlexStyle : {
+          backgroundColor: pluginFlexColorInput.value
+        }
       }
-      primaryColorInput.onkeyup = () => {
-        this.setState({primaryColor: primaryColorInput.value})
-      }
-      secondaryColorInput.onkeyup = () => {
-        this.setState({secondaryColor: secondaryColorInput.value})
-      }
+      this.setState({setColor : colorStyles})
     }
 
     clickElement = (selectedStyle, selectedElement, e) => {
@@ -64,9 +62,19 @@
     }
 
     submitSetting = (e) => {
+      const bgColorInput = document.getElementsByName("cm_template_bg_color")[0]
+      const pluginFlexColorInput = document.getElementsByName("cm_template_plugin_flex_color")[0]
       e.preventDefault()
       const enteredSetting = e.target.elements.setting.value
       const {selectedStyle, selectedElement, setColor} = this.state
+
+      if (selectedStyle === 'backgroundStyles') {
+        bgColorInput.value = enteredSetting
+      }
+      if (selectedStyle === 'pluginFlexStyle') {
+        pluginFlexColorInput.value = enteredSetting
+      }
+
       const currentStyleData = {
         [selectedStyle]: {
           [selectedElement]: enteredSetting
@@ -78,7 +86,7 @@
     }
 
     render() {
-      const {bgColor, primaryColor, secondaryColor, inputFieldOpen, setColor} = this.state
+      const {inputFieldOpen, setColor} = this.state
       console.log('setColor', setColor)
       return(
         <div>
@@ -91,13 +99,11 @@
           }
           <div onClick={this.clickElement.bind(this,'backgroundStyles', 'backgroundColor')} style={Object.assign({}, backgroundStyles,
             setColor && setColor.backgroundStyles && setColor.backgroundStyles)}>
-            <div onClick={this.clickElement.bind(this, 'pluginFlex', 'backgroundColor')} style={Object.assign({}, pluginFlex,
-              setColor && setColor.pluginFlex && setColor.pluginFlex)}>
-              <p style={pluginFlexText}>Temperature: 23.037</p>
+            <div onClick={this.clickElement.bind(this, 'pluginFlexStyle', 'backgroundColor')} style={Object.assign({}, pluginFlexStyle,
+              setColor && setColor.pluginFlexStyle && setColor.pluginFlexStyle)}>
+              <p onClick={this.clickElement.bind(this, 'pluginFlexText', 'color')} style={
+                Object.assign({},pluginFlexText, setColor && setColor.pluginFlexText && setColor.pluginFlexText)}>Temperature: 23.037</p>
             </div>
-            <p className="">Background Color: {bgColor}</p>
-            <p>Primary Color: {primaryColor}</p>
-            <p>Secondary Color: {secondaryColor}</p>
           </div>
         </div>
       )
