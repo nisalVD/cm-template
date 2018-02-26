@@ -13,10 +13,14 @@ function cm_template_custom_settings() {
 
   // Appearance Settings
   register_setting( 'cm-edit-appearance-settings-group', 'cm_template_bg_color');
+  register_setting( 'cm-edit-appearance-settings-group', 'cm_template_primary_color');
+  register_setting( 'cm-edit-appearance-settings-group', 'cm_template_secondary_color');
 
   add_settings_section( 'cm-edit-appearance-options', NULL, 'cm_edit_appearance_settings_options', 'cm_edit_appearance_page');
 
   add_settings_field( 'cm-edit-appearance-bg-color', 'Background Color', 'cm_edit_appearance_bg_color_callback', 'cm_edit_appearance_page', 'cm-edit-appearance-options');
+  add_settings_field( 'cm-edit-appearance-primary-color', 'Primary Color', 'cm_edit_appearance_primary_color_callback', 'cm_edit_appearance_page', 'cm-edit-appearance-options');
+  add_settings_field( 'cm-edit-appearance-secondary-color', 'Secondary Color', 'cm_edit_appearance_secondary_color_callback', 'cm_edit_appearance_page', 'cm-edit-appearance-options');
 
 }
 // Appearance Settings
@@ -26,9 +30,18 @@ function cm_edit_appearance_settings_options() {
 
 function cm_edit_appearance_bg_color_callback() {
   $bg_color = esc_attr(get_option('cm_template_bg_color'));
-  echo '<input type="text" name="cm_template_bg_color" value="'.$bg_color.'" placeholder="Background Color" />';
+    echo '<input type="text" name="cm_template_bg_color" value="'.$bg_color.'" placeholder="Background Color" />';
 }
 
+function cm_edit_appearance_primary_color_callback() {
+  $primary_color = esc_attr(get_option('cm_template_primary_color'));
+    echo '<input type="text" name="cm_template_primary_color" value="'.$primary_color.'" placeholder="Primary Color" />';
+}
+
+function cm_edit_appearance_secondary_color_callback() {
+  $secondary_color = esc_attr(get_option('cm_template_secondary_color'));
+    echo '<input type="text" name="cm_template_secondary_color" value="'.$secondary_color.'" placeholder="Secondary Color" />';
+}
 
 // admin Settings
 
