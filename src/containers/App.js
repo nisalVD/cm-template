@@ -1,11 +1,11 @@
-import React, { Component } from "react" // eslint-disable-line no-unused-vars
-import "./App.scss"
-import { websocketQuery } from "../api/deviceWebSocket"
-import { getAlertConfig } from "../api/alertSetting"
-import moment from "moment"
-import FontAwesome from "react-fontawesome"
+import React, { Component } from 'react' // eslint-disable-line no-unused-vars
+import './App.scss'
+import { websocketQuery } from '../api/deviceWebSocket'
+import { getAlertConfig } from '../api/alertSetting'
+import moment from 'moment'
+import FontAwesome from 'react-fontawesome'
 
-import { Line } from "react-chartjs-2"
+import { Line } from 'react-chartjs-2'
 
 class App extends Component {
   state = {
@@ -16,13 +16,15 @@ class App extends Component {
     selectedData: null,
     alertConfig: null,
     chartData: null,
-    chartPriodType: "days",
+    chartPriodType: 'days',
     errorType: null
   }
 
   // button onclick func
-  buttonOnClick = (e) => {
-    this.setState({ chartPriodType: e.target.value, chartData: null }, () => { this.connectConctrWebSocket(1, this.state.chartPriodType) })
+  buttonOnClick = e => {
+    this.setState({ chartPriodType: e.target.value, chartData: null }, () => {
+      this.connectConctrWebSocket(1, this.state.chartPriodType)
+    })
   }
 
   //  round decimal point 2
@@ -35,7 +37,7 @@ class App extends Component {
     console.log(dataArr)
     let count = 1
     let validData = dataArr[dataArr.length - count]
-    while (!dataArr[dataArr.length - count]["temperature"]) {
+    while (!dataArr[dataArr.length - count]['temperature']) {
       count++
       validData = dataArr[dataArr.length - count]
     }
@@ -45,9 +47,9 @@ class App extends Component {
   // fomat histrical data (for react chart.js2)
   formatChartData = (data, type) => {
     const chartTimeFormat = {
-      days: "MMM D, hA",
-      weeks: "MMM D, YYYY",
-      months: "MMM D, YYYY"
+      days: 'MMM D, hA',
+      weeks: 'MMM D, YYYY',
+      months: 'MMM D, YYYY'
     }
 
     //  adjust how much data you need for each type.(3 means taking every 3 data from historical data)
@@ -60,12 +62,12 @@ class App extends Component {
     let dataFormat = {}
     this.state.dataToBeDisplayed.forEach(dataKey => {
       dataFormat[dataKey] = []
-      dataFormat["date"] = []
+      dataFormat['date'] = []
       data.forEach((ob, index) => {
         if (index % chartDataAmount[type] === 0) {
           dataFormat[dataKey].push(this.roundDecimalTwo(ob[dataKey]))
-          dataFormat["date"].push(
-            moment(ob["_ts"]).format(chartTimeFormat[type])
+          dataFormat['date'].push(
+            moment(ob['_ts']).format(chartTimeFormat[type])
           )
         }
       })
@@ -76,24 +78,24 @@ class App extends Component {
   // retrun data for the corresponding key
   getChartData = datakey => {
     const data = {
-      labels: this.state.chartData["date"],
+      labels: this.state.chartData['date'],
       datasets: [
         {
           label: datakey,
           fill: false,
           lineTension: 0.1,
-          backgroundColor: "rgba(75,192,192,0.4)",
-          borderColor: "rgba(75,192,192,1)",
-          borderCapStyle: "butt",
+          backgroundColor: 'rgba(75,192,192,0.4)',
+          borderColor: 'rgba(75,192,192,1)',
+          borderCapStyle: 'butt',
           borderDash: [],
           borderDashOffset: 0.0,
-          borderJoinStyle: "miter",
-          pointBorderColor: "rgba(75,192,192,1)",
-          pointBackgroundColor: "#fff",
+          borderJoinStyle: 'miter',
+          pointBorderColor: 'rgba(75,192,192,1)',
+          pointBackgroundColor: '#fff',
           pointBorderWidth: 1,
           pointHoverRadius: 5,
-          pointHoverBackgroundColor: "rgba(75,192,192,1)",
-          pointHoverBorderColor: "rgba(220,220,220,1)",
+          pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+          pointHoverBorderColor: 'rgba(220,220,220,1)',
           pointHoverBorderWidth: 2,
           pointRadius: 1,
           pointHitRadius: 10,
@@ -108,23 +110,23 @@ class App extends Component {
   checkRange = dataKey => {
     const alertSetting = this.state.alertConfig[dataKey]
     const currentValue = this.state.currentDeviceData[dataKey]
-    const upperlimit = alertSetting["GT"]
-    const lowerlimit = alertSetting["LT"]
+    const upperlimit = alertSetting['GT']
+    const lowerlimit = alertSetting['LT']
 
     if (currentValue === null || (!upperlimit && !lowerlimit)) return
-    if (!upperlimit && lowerlimit > currentValue) return "warning"
-    else if (!upperlimit && lowerlimit < currentValue) return ""
-    else if (!lowerlimit && upperlimit < currentValue) return "warning"
-    else if (!lowerlimit && upperlimit > currentValue) return ""
+    if (!upperlimit && lowerlimit > currentValue) return 'warning'
+    else if (!upperlimit && lowerlimit < currentValue) return ''
+    else if (!lowerlimit && upperlimit < currentValue) return 'warning'
+    else if (!lowerlimit && upperlimit > currentValue) return ''
     else if (lowerlimit > currentValue || upperlimit < currentValue) {
-      return "warning"
-    } else return ""
+      return 'warning'
+    } else return ''
   }
 
   // diconnect from current websocket function
   disconnectCurrentWebsocket = () => {
     const { client } = this.state
-    if (client && client.state === "connected") {
+    if (client && client.state === 'connected') {
       client.disconnect()
     }
   }
@@ -134,21 +136,23 @@ class App extends Component {
     // disconnect from current websocket if it exists
     this.disconnectCurrentWebsocket()
     const client = new window.ActionheroClient({
-      url: "https://api.staging.conctr.com"
+      url: 'https://api.staging.conctr.com'
     })
     this.setState({ client })
 
     client.connect((err, detail) => {
       // use the imported query to query the websocket
       const deviceSearchQuery = websocketQuery(1, timeFormat)
-      client.action("device_search_historical", deviceSearchQuery)
+      client.action('device_search_historical', deviceSearchQuery)
     })
 
-    client.on("message", message => {
+    client.on('message', message => {
       switch (message.context) {
-        case "historical_data":
-          if (message.event === "initial_data") {
-            const filteredNullData = message.data.filter(data => data.temperature)
+        case 'historical_data':
+          if (message.event === 'initial_data') {
+            const filteredNullData = message.data.filter(
+              data => data.temperature
+            )
             this.setState({ initialHistoricalDeviceData: filteredNullData })
             this.setState({
               currentDeviceData: this.getLatestValidData(filteredNullData)
@@ -164,7 +168,7 @@ class App extends Component {
             })
           }
           if (
-            message.event === "update_data" &&
+            message.event === 'update_data' &&
             message.data.new_val.temperature
           ) {
             const { initialHistoricalDeviceData } = this.state
@@ -180,7 +184,6 @@ class App extends Component {
             this.setState({ currentDeviceData: newValue })
           }
           break
-
       }
     })
   }
@@ -197,13 +200,13 @@ class App extends Component {
           },
           () => {
             if (this.state.dataToBeDisplayed.length === 0) {
-              this.setState({ errorType: "dataKeys" })
+              this.setState({ errorType: 'dataKeys' })
             }
           }
         )
       })
       .catch(error => {
-        this.setState({ errorType: "keys" })
+        this.setState({ errorType: 'keys' })
       })
   }
 
@@ -223,7 +226,6 @@ class App extends Component {
 
     return !errorType ? (
       <div className="plugin-container wrap center-text">
-
         {/* <div className="select-styling">
           <select
             onChange={e => {
@@ -241,16 +243,34 @@ class App extends Component {
           </select>
         </div> */}
 
-        <div className='typeButtons'>
-          <button value="days" onClick={(e) => {
-            this.buttonOnClick(e)
-          }}>1 day</button>
-          <button value="weeks" onClick={(e) => {
-            this.buttonOnClick(e)
-          }}>1 week</button>
-          <button value="months" onClick={(e) => {
-            this.buttonOnClick(e)
-          }}>1 month</button>
+        <div className="button-group">
+          <button
+            className="type-buttons"
+            value="days"
+            onClick={e => {
+              this.buttonOnClick(e)
+            }}
+          >
+            1 day
+          </button>
+          <button
+            className="type-buttons"
+            value="weeks"
+            onClick={e => {
+              this.buttonOnClick(e)
+            }}
+          >
+            1 week
+          </button>
+          <button
+            className="type-buttons"
+            value="months"
+            onClick={e => {
+              this.buttonOnClick(e)
+            }}
+          >
+            1 month
+          </button>
         </div>
 
         {dataToBeDisplayed && currentDeviceData ? (
@@ -260,43 +280,43 @@ class App extends Component {
                 onClick={this.handleDataClick.bind(this, data)}
                 key={data}
                 className={`plugin-flex ${data === selectedData &&
-                  "plugin-flex-selected"} ${this.checkRange(data)}`}
+                  'plugin-flex-selected'} ${this.checkRange(data)}`}
               >
-                {data}:{" "}
+                {data}:{' '}
                 {currentDeviceData &&
                   this.roundDecimalTwo(currentDeviceData[data])}
                 <div className="historical-charts-data">
                   {this.state.chartData ? (
                     <Line data={this.getChartData(data)} />
                   ) : (
-                      <FontAwesome name="refresh" size="2x" spin />
-                    )}
+                    <FontAwesome name="refresh" size="2x" spin />
+                  )}
                 </div>
               </div>
             )
           })
         ) : (
-            <div className={`plugin-flex`}>
-              <FontAwesome name="refresh" size="2x" spin />
-            </div>
-          )}
+          <div className={`plugin-flex`}>
+            <FontAwesome name="refresh" size="2x" spin />
+          </div>
+        )}
         {selectedData && (
           <div className="selected-chart-data">
             {this.state.chartData ? (
               <Line data={this.getChartData(selectedData)} />
             ) : (
-                <FontAwesome name="refresh" size="2x" spin />
-              )}
+              <FontAwesome name="refresh" size="2x" spin />
+            )}
           </div>
         )}
       </div>
-    ) : errorType === "keys" ? (
+    ) : errorType === 'keys' ? (
       <div className="errorMess">Please check your device keys</div>
     ) : (
-          <div className="errorMess">
-            You have not choosen any data keys to display
+      <div className="errorMess">
+        You have not choosen any data keys to display
       </div>
-        )
+    )
   }
 }
 
