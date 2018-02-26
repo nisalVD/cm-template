@@ -10,7 +10,28 @@ function cm_template_custom_settings() {
   add_settings_field( 'cm-temlate-api', 'Api key', 'cm_temlate_api', 'cm_template_admin_menu_page', 'wp-starter-options');
   add_settings_field( 'cm-temlate-app', 'Application id', 'cm_temlate_app', 'cm_template_admin_menu_page', 'wp-starter-options');
   add_settings_field( 'cm-temlate-device', 'Device id', 'cm_temlate_device', 'cm_template_admin_menu_page', 'wp-starter-options');
+
+  // Appearance Settings
+  register_setting( 'cm-edit-appearance-settings-group', 'cm_template_bg_color');
+
+  add_settings_section( 'cm-edit-appearance-options', NULL, 'cm_edit_appearance_settings_options', 'cm_edit_appearance_page');
+
+  add_settings_field( 'cm-edit-appearance-bg-color', 'Background Color', 'cm_edit_appearance_bg_color_callback', 'cm_edit_appearance_page', 'cm-edit-appearance-options');
+
 }
+// Appearance Settings
+function cm_edit_appearance_settings_options() {
+  echo 'Custmize Your Appearance';
+}
+
+function cm_edit_appearance_bg_color_callback() {
+  $bg_color = esc_attr(get_option('cm_template_bg_color'));
+  echo '<input type="text" name="cm_template_bg_color" value="'.$bg_color.'" placeholder="Background Color" />';
+}
+
+
+// admin Settings
+
 
 function cm_template_settings_options() {
   echo 'Customize Your Settings';
@@ -34,7 +55,7 @@ function cm_template_admin_menu_page() {
   ?>
       <h1>CM Admin Page</h1>
   <?php settings_errors(); ?>
-  
+
 
   <form action="options.php" method="post">
     <?php settings_fields('wp-starter-settings-group'); ?>

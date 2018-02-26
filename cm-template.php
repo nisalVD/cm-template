@@ -15,7 +15,7 @@ function cm_template() {
 function include_react_files() {
   wp_enqueue_style('prefix-style', plugin_dir_url( __FILE__ ) . 'dist/style.bundle.css', array(), '0.0.1', 'all' );
   wp_enqueue_script('plugin-scripts', plugin_dir_url( __FILE__ ) . 'dist/bundle.js', array(), '0.0.1', 'all' );
-  wp_enqueue_style('font-awesome', '//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'); 
+  wp_enqueue_style('font-awesome', '//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 
   wp_localize_script('plugin-scripts','cm_device_info', array(
       "api_key" => get_option("api_key"),
@@ -59,7 +59,7 @@ function cm_template_admin_menu() {
         'CM Edit Appearance', // menu titile
         'manage_options',
         'cm-edit-appearance', // slug
-        'cm_edit_appearance' //callback
+        'cm_edit_appearance_page' //callback
        );
   //Activate custom settings
   add_action('admin_init', 'cm_template_custom_settings');
@@ -70,7 +70,7 @@ include_once('cm-admin.php');
 
 
 //  call template
-function cm_edit_appearance() {
+function cm_edit_appearance_page() {
   include_once('cm-edit-appearance.php');
 }
 //  call template
