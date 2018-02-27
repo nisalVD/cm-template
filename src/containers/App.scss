@@ -18,6 +18,12 @@
   background-color: #77757a;
   border-radius: 5px 5px 0px 0px;
 }
+
+.type-buttons:focus{
+  outline: none;
+}
+
+
 .type-buttons:hover {
   background-color: #f16265;
   color: white;
