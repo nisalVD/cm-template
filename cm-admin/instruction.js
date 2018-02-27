@@ -6,7 +6,7 @@ var modal = document.getElementById('myModal');
 var modalBtn = document.getElementById("myBtn");
 
 // Get the <span> element that closes the modal
-var span = document.getElementsByClassName("cm-admin-modal")[0];
+var span = document.getElementsByClassName("cm-admin-close")[0];
 
 // When the user clicks on the button, open the modal 
 modalBtn.onclick = function () {
