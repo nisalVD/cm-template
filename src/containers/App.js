@@ -34,7 +34,6 @@ class App extends Component {
 
   // find the latest valid data
   getLatestValidData = dataArr => {
-    console.log(dataArr)
     let count = 1
     let validData = dataArr[dataArr.length - count]
     while (!dataArr[dataArr.length - count]['temperature']) {
@@ -215,6 +214,7 @@ class App extends Component {
   }
 
   render() {
+    console.log('plugin-container', window.cm_device_info.bg_color)
     const {
       currentDeviceData,
       initialHistoricalDeviceData,
@@ -223,26 +223,8 @@ class App extends Component {
       selectedData,
       errorType
     } = this.state
-
     return !errorType ? (
-      <div className="plugin-container wrap center-text">
-        {/* <div className="select-styling">
-          <select
-            onChange={e => {
-              this.setState(
-                { chartPriodType: e.target.value, chartData: null },
-                () => {
-                  this.connectConctrWebSocket(1, this.state.chartPriodType)
-                }
-              )
-            }}
-          >
-            <option value="days">1 day</option>
-            <option value="weeks">1 week</option>
-            <option value="months">1 Month</option>
-          </select>
-        </div> */}
-
+      <div className="plugin-container wrap center-text" style={{backgroundColor: window.cm_device_info.bg_color}}>
         <div className="button-group">
           <button
             className="type-buttons"
@@ -281,10 +263,11 @@ class App extends Component {
                 key={data}
                 className={`plugin-flex ${data === selectedData &&
                   'plugin-flex-selected'} ${this.checkRange(data)}`}
+                style={{backgroundColor: window.cm_device_info.plugin_flex_color}}
               >
-                {data}:{' '}
+                <div style={{color: window.cm_device_info.plugin_flex_text_color}}>{data}:{' '}
                 {currentDeviceData &&
-                  this.roundDecimalTwo(currentDeviceData[data])}
+                    this.roundDecimalTwo(currentDeviceData[data])}</div>
                 <div className="historical-charts-data">
                   {this.state.chartData ? (
                     <Line data={this.getChartData(data)} />
