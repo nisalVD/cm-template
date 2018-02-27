@@ -51,7 +51,54 @@ function cm_temlate_device() {
 
 function cm_template_admin_menu_page() {
   ?>
+  <div id="admin-head">
       <h1>CM Admin Page</h1>
+      <!-- Trigger/Open The Modal -->
+<p id="myBtn">Set up guide</p>
+</div>
+
+<!-- The Modal -->
+<div id="myModal" class="cm-admin-modal">
+
+  <!-- Modal content -->
+  <div class="cm-admin-modal-content">
+    <span class="cm-admin-close">&times;</span>
+    <h3>## Get your Authorisation Keys for the plugin</h3>
+1.Go to <a href="https://conctr.com/" target=_blank>https://conctr.com/</a> and create an account <br/>
+2.Log into Conctr, you will get taken to the dashboard<br/>
+3.Select your device below<br/>
+4.On the next screen, click on the Models tab<br/>
+5. Identify the model for the device that you are using and then click on Example Code<br/>
+6.Click on the information tab and you can view your Application Id and API key<br/>
+7. To get your Device Id, go to the Devices tab <br/>
+8. Click on Search under the Data Fields section and then click on Select/List under the Devices windows<br/>
+9.In the popup window, you can view all devices that you own, identify the device that you own and look for the Device Id on the left-hand column labelled Device Id<br/>
+
+<h3>## Input your Authorisation Keys</h3>
+1. Access the CM Admin menu and click on CM Admin Menu<br/>
+2. Enter your Authorisation Keys in the appropriate sections<br/>
+3. Click on Save Changes when you are done<br/>
+
+<h3>## Customise the data to be displayed and their Alert Settings</h3>
+1. Access the CM Admin menu and click on Alert Setting Page<br/>
+2. You can toggle the statistics you want to view in the checkboxes at the top of the page<br/>
+3. You can customise the warning thresholds (the maximum and minimum points when the statistics begin to flash warning colours) underneath<br/>
+4. If you are satisfied, click the Update button at the bottom<br/>
+
+
+<h3>## Customise the chart/user interface</h3>
+1. Access the CM Admin menu and click on CM Edit Appearance<br/>
+2. Hello World (get off Vim and get this thing working Nisal!)<br/>
+
+<h3>## Put the plugin on the site using shortcode</h3>
+1.Go to the Appearance tab on the Wordpress dashboard and enter the Widgets submenu<br/>
+2.Select the Text widget and drag it to the desired location on the right-hand side of the page<br/>
+3.Enter the shortcode [cm-template] in the text-area and save when ready<br/>
+4.When you view your page, you should see the widget appear in the section that you placed it in<br/>
+</p>
+  </div>
+
+</div>
   <?php settings_errors(); ?>
 
 
