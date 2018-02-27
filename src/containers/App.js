@@ -230,28 +230,7 @@ class App extends Component {
       chartPeriodType
     } = this.state
     return !errorType ? (
-<<<<<<< HEAD
       <div className="plugin-container wrap center-text" style={{backgroundColor: window.cm_device_info.bg_color}}>
-=======
-      <div className="plugin-container wrap center-text">
-        {/* <div className="select-styling">
-          <select
-            onChange={e => {
-              this.setState(
-                { chartPeriodType: e.target.value, chartData: null },
-                () => {
-                  this.connectConctrWebSocket(1, this.state.chartPeriodType)
-                }
-              )
-            }}
-          >
-            <option value="days">1 day</option>
-            <option value="weeks">1 week</option>
-            <option value="months">1 Month</option>
-          </select>
-        </div> */}
-
->>>>>>> highlight buttons and minor fixes
         <div className="button-group">
           <button
             className={`type-buttons ${this.toggleButtonColor("days")}`}
@@ -289,16 +268,10 @@ class App extends Component {
                 onClick={this.handleDataClick.bind(this, data)}
                 key={data}
                 className={`plugin-flex ${data === selectedData &&
-<<<<<<< HEAD
                   'plugin-flex-selected'} ${this.checkRange(data)}`}
                 style={{backgroundColor: window.cm_device_info.plugin_flex_color}}
               >
                 <div style={{color: window.cm_device_info.plugin_flex_text_color}}>{data}:{' '}
-=======
-                  "plugin-flex-selected"} ${this.checkRange(data)}`}
-              >
-                {data}:{" "}
->>>>>>> highlight buttons and minor fixes
                 {currentDeviceData &&
                     this.roundDecimalTwo(currentDeviceData[data])}</div>
                 <div className="historical-charts-data">
