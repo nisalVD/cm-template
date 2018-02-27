@@ -232,23 +232,6 @@ class App extends Component {
 
     return !errorType ? (
       <div className="plugin-container wrap center-text">
-        {/* <div className="select-styling">
-          <select
-            onChange={e => {
-              this.setState(
-                { chartPeriodType: e.target.value, chartData: null },
-                () => {
-                  this.connectConctrWebSocket(1, this.state.chartPeriodType)
-                }
-              )
-            }}
-          >
-            <option value="days">1 day</option>
-            <option value="weeks">1 week</option>
-            <option value="months">1 Month</option>
-          </select>
-        </div> */}
-
         <div className="button-group">
           <button
             className={`type-buttons ${this.toggleButtonColor("days")}`}
@@ -295,34 +278,34 @@ class App extends Component {
                   {this.state.chartData ? (
                     <Line data={this.getChartData(data)} />
                   ) : (
-                    <FontAwesome name="refresh" size="2x" spin />
-                  )}
+                      <FontAwesome name="refresh" size="2x" spin />
+                    )}
                 </div>
               </div>
             )
           })
         ) : (
-          <div className={`plugin-flex`}>
-            <FontAwesome name="refresh" size="2x" spin />
-          </div>
-        )}
+            <div className={`plugin-flex`}>
+              <FontAwesome name="refresh" size="2x" spin />
+            </div>
+          )}
         {selectedData && (
           <div className="selected-chart-data">
             {this.state.chartData ? (
               <Line data={this.getChartData(selectedData)} />
             ) : (
-              <FontAwesome name="refresh" size="2x" spin />
-            )}
+                <FontAwesome name="refresh" size="2x" spin />
+              )}
           </div>
         )}
       </div>
     ) : errorType === "keys" ? (
       <div className="errorMess">Please check your device keys</div>
     ) : (
-      <div className="errorMess">
-        You have not choosen any data keys to display
+          <div className="errorMess">
+            You have not choosen any data keys to display
       </div>
-    )
+        )
   }
 }
 
