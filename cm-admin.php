@@ -14,6 +14,7 @@ function cm_template_custom_settings() {
   // Appearance Settings
   register_setting( 'cm-edit-appearance-settings-group', 'cm_template_bg_color');
   register_setting( 'cm-edit-appearance-settings-group', 'cm_template_plugin_flex_color');
+  register_setting( 'cm-edit-appearance-settings-group', 'cm_template_plugin_flex_text_color');
 
   add_settings_section( 'cm-edit-appearance-options', NULL, 'cm_edit_appearance_settings_options', 'cm_edit_appearance_page');
 
@@ -24,6 +25,8 @@ $bg_color = esc_attr(get_option('cm_template_bg_color'));
     echo '<input type="hidden" name="cm_template_bg_color" value="'.$bg_color.'" />';
 $plugin_flex = esc_attr(get_option('cm_template_plugin_flex_color'));
     echo '<input type="hidden" name="cm_template_plugin_flex_color" value="'.$plugin_flex.'"/>';
+$plugin_text_flex = esc_attr(get_option('cm_template_plugin_flex_text_color'));
+    echo '<input type="hidden" name="cm_template_plugin_flex_text_color" value="'.$plugin_text_flex.'"/>';
 }
 // admin Settings
 

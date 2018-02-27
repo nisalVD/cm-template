@@ -36,19 +36,26 @@
         selectedStyle: null,
         selectedElement: null,
         setColor: null,
+        colorWheelValue: '',
+        enteredColorValue: ''
       }
     }
     componentDidMount() {
       const bgColorInput = document.getElementsByName("cm_template_bg_color")[0]
         const pluginFlexColorInput = document.getElementsByName("cm_template_plugin_flex_color")[0]
+        const pluginFlexTextColorInput = document.getElementsByName("cm_template_plugin_flex_text_color")[0]
 
       console.log('Plugin Flex Color', pluginFlexColorInput.value)
+      // get initial value for each input from hidden php form
       const colorStyles = {
         backgroundStyles: {
           backgroundColor: bgColorInput.value,
         },
         pluginFlexStyle : {
           backgroundColor: pluginFlexColorInput.value
+        },
+        pluginFlexText : {
+          color: pluginFlexTextColorInput.value
         }
       }
       this.setState({setColor : colorStyles})
@@ -64,15 +71,18 @@
     submitSetting = (e) => {
       const bgColorInput = document.getElementsByName("cm_template_bg_color")[0]
       const pluginFlexColorInput = document.getElementsByName("cm_template_plugin_flex_color")[0]
+      const pluginFlexColorTextInput = document.getElementsByName("cm_template_plugin_flex_text_color")[0]
       e.preventDefault()
       const enteredSetting = e.target.elements.setting.value
       const {selectedStyle, selectedElement, setColor} = this.state
-
       if (selectedStyle === 'backgroundStyles') {
         bgColorInput.value = enteredSetting
       }
       if (selectedStyle === 'pluginFlexStyle') {
         pluginFlexColorInput.value = enteredSetting
+      }
+      if (selectedStyle === 'pluginFlexText') {
+        pluginFlexColorTextInput.value = enteredSetting
       }
 
       const currentStyleData = {
@@ -85,15 +95,29 @@
       this.setState({inputFieldOpen: false})
     }
 
+    handleColorWheelChange = (e) => {
+      const {enteredColorValue} = this.state
+      const colorWheelValue = e.target.value
+      this.setState({colorWheelValue})
+      this.setState({enteredColorValue: colorWheelValue})
+    }
+
+    handleSettingInputChange = (e) => {
+      this.setState({enteredColorValue: e.target.value})
+    }
+
     render() {
-      const {inputFieldOpen, setColor} = this.state
+      const {inputFieldOpen, setColor, colorWheelValue, enteredColorValue} = this.state
+      console.log('enteredColorValue', enteredColorValue)
+      console.log('colorWheelValue', colorWheelValue)
       console.log('setColor', setColor)
       return(
         <div>
           {
           inputFieldOpen &&
           <form onSubmit={this.submitSetting}>
-            <input name="setting" type="text"/>
+            <input name="setting" type="text" onChange={this.handleSettingInputChange} value={enteredColorValue}/>
+            <input type="color" value={colorWheelValue} onChange={this.handleColorWheelChange}/>
             <button type="submit">ok</button>
           </form>
           }

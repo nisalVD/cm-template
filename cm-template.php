@@ -84,7 +84,9 @@ add_action("admin_print_scripts", function(){
   wp_localize_script('main_js','cm_device_info', array(
     "apiKey" => get_option("api_key"),
     "appId" => get_option("app_id"),
-    "deviceId" => get_option("device_id")
+    "deviceId" => get_option("device_id"),
+    "bgColor" => get_option("cm_template_bg_color"),
+    "pluginFlexColor" => get_option("cm_template_plugin_flex_color")
   ));
  });
 
