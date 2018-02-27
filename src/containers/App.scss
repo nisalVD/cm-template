@@ -18,7 +18,10 @@
   background-color: #77757a;
   border-radius: 5px 5px 0px 0px;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> upstream/master
 .type-buttons:hover {
   background-color: #f16265;
   color: white;
@@ -28,7 +31,11 @@
   color: white;
 }
 .selected {
+<<<<<<< HEAD
   background-color: #f16265 !important;
+=======
+  background-color: #f16265;
+>>>>>>> upstream/master
   color: white;
 }
 .plugin-container {
@@ -77,11 +84,19 @@
   color: red;
 }
 .plugin-container[max-width~="300px"] .button-group {
+<<<<<<< HEAD
   display: none;
 }
 .plugin-container[max-width~="300px"] .selected-chart-data {
   display: none;
 }
+=======
+  display: none;
+}
+.plugin-container[max-width~="300px"] .selected-chart-data {
+  display: none;
+}
+>>>>>>> upstream/master
 .plugin-container[max-width~="300px"] .plugin-flex {
   margin: 0;
   pointer-events: none;

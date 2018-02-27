@@ -15,12 +15,16 @@ function cm_template() {
 function include_react_files() {
   wp_enqueue_style('prefix-style', plugin_dir_url( __FILE__ ) . 'dist/style.bundle.css', array(), '0.0.1', 'all' );
   wp_enqueue_script('plugin-scripts', plugin_dir_url( __FILE__ ) . 'dist/bundle.js', array(), '0.0.1', 'all' );
-  wp_enqueue_style('font-awesome', '//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'); 
+  wp_enqueue_style('font-awesome', '//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 
+  // inject so you can use in react files
   wp_localize_script('plugin-scripts','cm_device_info', array(
       "api_key" => get_option("api_key"),
       "app_id" => get_option("app_id"),
-      "device_id" => get_option("device_id")
+      "device_id" => get_option("device_id"),
+      "bg_color" => get_option("cm_template_bg_color"),
+      "plugin_flex_color" => get_option("cm_template_plugin_flex_color"),
+      "plugin_flex_text_color" => get_option("cm_template_plugin_flex_text_color"),
   ));
 }
 
@@ -59,7 +63,7 @@ function cm_template_admin_menu() {
         'CM Edit Appearance', // menu titile
         'manage_options',
         'cm-edit-appearance', // slug
-        'cm_edit_appearance' //callback
+        'cm_edit_appearance_page' //callback
        );
   //Activate custom settings
   add_action('admin_init', 'cm_template_custom_settings');
@@ -70,7 +74,7 @@ include_once('cm-admin.php');
 
 
 //  call template
-function cm_edit_appearance() {
+function cm_edit_appearance_page() {
   include_once('cm-edit-appearance.php');
 }
 //  call template
@@ -80,11 +84,13 @@ function alert_setting_page_callback() {
 
 // add main.js file
 add_action("admin_print_scripts", function(){
+
+  // add endpoint to get data for alert settings page
   wp_enqueue_script( 'main_js', plugins_url('cm-alert/main.js', __FILE__), NULL, null, true);
   wp_localize_script('main_js','cm_device_info', array(
     "apiKey" => get_option("api_key"),
     "appId" => get_option("app_id"),
-    "deviceId" => get_option("device_id")
+    "deviceId" => get_option("device_id"),
   ));
  });
 

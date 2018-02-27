@@ -39,7 +39,6 @@ class App extends Component {
 
   // find the latest valid data
   getLatestValidData = dataArr => {
-    console.log(dataArr)
     let count = 1
     let validData = dataArr[dataArr.length - count]
     while (!dataArr[dataArr.length - count]["temperature"]) {
@@ -220,6 +219,7 @@ class App extends Component {
   }
 
   render() {
+    console.log('plugin-container', window.cm_device_info.bg_color)
     const {
       currentDeviceData,
       initialHistoricalDeviceData,
@@ -229,9 +229,12 @@ class App extends Component {
       errorType,
       chartPeriodType
     } = this.state
-
     return !errorType ? (
+<<<<<<< HEAD
       <div className="plugin-container wrap center-text">
+=======
+      <div className="plugin-container wrap center-text" style={{backgroundColor: window.cm_device_info.bg_color}}>
+>>>>>>> upstream/master
         <div className="button-group">
           <button
             className={`type-buttons ${this.toggleButtonColor("days")}`}
@@ -269,11 +272,18 @@ class App extends Component {
                 onClick={this.handleDataClick.bind(this, data)}
                 key={data}
                 className={`plugin-flex ${data === selectedData &&
+<<<<<<< HEAD
                   "plugin-flex-selected"} ${this.checkRange(data)}`}
               >
                 {data}:{" "}
+=======
+                  'plugin-flex-selected'} ${this.checkRange(data)}`}
+                style={{backgroundColor: window.cm_device_info.plugin_flex_color}}
+              >
+                <div style={{color: window.cm_device_info.plugin_flex_text_color}}>{data}:{' '}
+>>>>>>> upstream/master
                 {currentDeviceData &&
-                  this.roundDecimalTwo(currentDeviceData[data])}
+                    this.roundDecimalTwo(currentDeviceData[data])}</div>
                 <div className="historical-charts-data">
                   {this.state.chartData ? (
                     <Line data={this.getChartData(data)} />
