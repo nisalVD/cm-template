@@ -86,12 +86,15 @@ class App extends Component {
       datasets: [
         {
           label: datakey,
+          // trigger of area chart
           fill: false,
           lineTension: 0.1,
           backgroundColor: "rgba(75,192,192,0.4)",
           //  chart line color
           borderColor: "rgba(75,192,192,1)",
           borderCapStyle: "butt",
+          //  color of area chart filling
+          backgroundColor: "rgba(75,192,192,0.6)",
           borderDash: [],
           borderDashOffset: 0.0,
           borderJoinStyle: "miter",
@@ -234,23 +237,23 @@ class App extends Component {
         xAxes: [{
           ticks: {
             // x axis font color
-            fontColor: '#1E90FF'
+            fontColor: '#000'
           },
           gridLines: {
             // display: false,
-            //  x axis line color
-            color: "black"
+            //  x axis grid line color
+            color: "#f3f3f3"
           }
         }],
         yAxes: [{
           ticks: {
             // y axis font color
-            fontColor: '#1E90FF'
+            fontColor: '#000'
           },
           gridLines: {
             // display: false,
-            //  y axis line color
-            color: "red"
+            //  y axis grid line color
+            color: "f3f3f3"
           }
         }]
       }
