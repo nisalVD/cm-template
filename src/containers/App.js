@@ -89,6 +89,7 @@ class App extends Component {
           fill: false,
           lineTension: 0.1,
           backgroundColor: "rgba(75,192,192,0.4)",
+          //  chart line color
           borderColor: "rgba(75,192,192,1)",
           borderCapStyle: "butt",
           borderDash: [],
@@ -219,7 +220,42 @@ class App extends Component {
   }
 
   render() {
-    console.log('plugin-container', window.cm_device_info.bg_color)
+
+    const chartOption = {
+      legend: {
+        display: true,
+        position: 'top',
+        labels: {
+          // top legend color
+          fontColor: 'black'
+        }
+      },
+      scales: {
+        xAxes: [{
+          ticks: {
+            // x axis font color
+            fontColor: '#1E90FF'
+          },
+          gridLines: {
+            // display: false,
+            //  x axis line color
+            color: "black"
+          }
+        }],
+        yAxes: [{
+          ticks: {
+            // y axis font color
+            fontColor: '#1E90FF'
+          },
+          gridLines: {
+            // display: false,
+            //  y axis line color
+            color: "red"
+          }
+        }]
+      }
+    }
+
     const {
       currentDeviceData,
       initialHistoricalDeviceData,
@@ -230,7 +266,7 @@ class App extends Component {
       chartPeriodType
     } = this.state
     return !errorType ? (
-      <div className="plugin-container wrap center-text" style={{backgroundColor: window.cm_device_info.bg_color}}>
+      <div className="plugin-container wrap center-text" style={{ backgroundColor: window.cm_device_info.bg_color }}>
         <div className="button-group">
           <button
             className={`type-buttons ${this.toggleButtonColor("days")}`}
@@ -269,43 +305,43 @@ class App extends Component {
                 key={data}
                 className={`plugin-flex ${data === selectedData &&
                   'plugin-flex-selected'} ${this.checkRange(data)}`}
-                style={{backgroundColor: window.cm_device_info.plugin_flex_color}}
+                style={{ backgroundColor: window.cm_device_info.plugin_flex_color }}
               >
-                <div style={{color: window.cm_device_info.plugin_flex_text_color}}>{data}:{' '}
-                {currentDeviceData &&
+                <div style={{ color: window.cm_device_info.plugin_flex_text_color }}>{data}:{' '}
+                  {currentDeviceData &&
                     this.roundDecimalTwo(currentDeviceData[data])}</div>
                 <div className="historical-charts-data">
                   {this.state.chartData ? (
-                    <Line data={this.getChartData(data)} />
+                    <Line data={this.getChartData(data)} options={chartOption} />
                   ) : (
-                    <FontAwesome name="refresh" size="2x" spin />
-                  )}
+                      <FontAwesome name="refresh" size="2x" spin />
+                    )}
                 </div>
               </div>
             )
           })
         ) : (
-          <div className={`plugin-flex`}>
-            <FontAwesome name="refresh" size="2x" spin />
-          </div>
-        )}
+            <div className={`plugin-flex`}>
+              <FontAwesome name="refresh" size="2x" spin />
+            </div>
+          )}
         {selectedData && (
           <div className="selected-chart-data">
             {this.state.chartData ? (
               <Line data={this.getChartData(selectedData)} />
             ) : (
-              <FontAwesome name="refresh" size="2x" spin />
-            )}
+                <FontAwesome name="refresh" size="2x" spin />
+              )}
           </div>
         )}
       </div>
     ) : errorType === "keys" ? (
       <div className="errorMess">Please check your device keys</div>
     ) : (
-      <div className="errorMess">
-        You have not choosen any data keys to display
+          <div className="errorMess">
+            You have not choosen any data keys to display
       </div>
-    )
+        )
   }
 }
 

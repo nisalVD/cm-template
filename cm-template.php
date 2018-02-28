@@ -37,6 +37,7 @@ function actionhero_js() {
 add_action('wp_head', 'actionhero_js');
 add_action( 'wp_enqueue_scripts', 'include_react_files' );
 
+
 //#### Admin Setting Page
 
 function cm_template_admin_menu() {
@@ -82,11 +83,18 @@ function alert_setting_page_callback() {
   include_once('cm-alert-setting.php');
 }
 
-// add main.js file
 add_action("admin_print_scripts", function(){
-
-  // add endpoint to get data for alert settings page
+  
+  // add main.js file
   wp_enqueue_script( 'main_js', plugins_url('cm-alert/main.js', __FILE__), NULL, null, true);
+  
+  // include js file for cm admin page
+  wp_enqueue_script( 'instruction_js', plugins_url('cm-admin/instruction.js', __FILE__), NULL, null, true);
+
+  // load css file for the admin page
+  wp_enqueue_style('admin_page_css', plugin_dir_url( __FILE__ ) . 'cm-admin.css', array(), '0.0.1', 'all' );
+  
+  // add endpoint to get data for alert settings page
   wp_localize_script('main_js','cm_device_info', array(
     "apiKey" => get_option("api_key"),
     "appId" => get_option("app_id"),
