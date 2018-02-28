@@ -40,14 +40,15 @@
 
 #admin-head{
   display: flex;
-  justify-content: space-between;
-  width:60%;
+  flex-wrap: nowrap;
   min-width: 300px;
 }
 
 #myBtn{
-color:dodgerblue;
-cursor: pointer;
+  color:dodgerblue;
+  cursor: pointer;
+  line-height: 52.83px;
+  margin-left :5%;
 }
 
 #myBtn:hover{

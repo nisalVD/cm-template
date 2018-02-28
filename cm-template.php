@@ -37,6 +37,7 @@ function actionhero_js() {
 add_action('wp_head', 'actionhero_js');
 add_action( 'wp_enqueue_scripts', 'include_react_files' );
 
+
 //#### Admin Setting Page
 
 function cm_template_admin_menu() {
