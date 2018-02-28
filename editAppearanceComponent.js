@@ -13,7 +13,7 @@
 		marginBottom: 1,
 		cursor: 'pointer'
   }
-	let pluginFlexStyle = {
+	const pluginFlexStyle = {
 		borderTop: '1px solid #e3e6ea',
 		borderBottom: '1px solid #e3e6ea',
 		backgroundColor: '#fff',
@@ -24,10 +24,24 @@
 		textAlign: 'center',
 		cursor: 'pointer'
 	}
-
-	let pluginFlexText = {
+	const pluginFlexText = {
 		color: 'blue'
 	}
+  const buttonGroupStyles = {
+    width: '100%',
+    height: 42,
+    textAlign: 'center',
+    backgroundColor: 'dodgerBlue'
+  }
+  const buttonStyles = {
+    width: 90,
+    height: 42,
+    fontSize: 12,
+    textAlign: 'center',
+    backgroundColor: '#77757a',
+    borderRadius: '5px 5px 0px 0px'
+  }
+
   class App extends React.Component {
     constructor(props) {
     super(props)
@@ -123,6 +137,9 @@
           }
           <div onClick={this.clickElement.bind(this,'backgroundStyles', 'backgroundColor')} style={Object.assign({}, backgroundStyles,
             setColor && setColor.backgroundStyles && setColor.backgroundStyles)}>
+            <div style={buttonGroupStyles}>
+              <div style={buttonStyles}></div>
+            </div>
             <div onClick={this.clickElement.bind(this, 'pluginFlexStyle', 'backgroundColor')} style={Object.assign({}, pluginFlexStyle,
               setColor && setColor.pluginFlexStyle && setColor.pluginFlexStyle)}>
               <p onClick={this.clickElement.bind(this, 'pluginFlexText', 'color')} style={
