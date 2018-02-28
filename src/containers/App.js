@@ -41,7 +41,7 @@ class App extends Component {
   getLatestValidData = dataArr => {
     let count = 1
     let validData = dataArr[dataArr.length - count]
-    while (!dataArr[dataArr.length - count]["temperature"]) {
+    while (!dataArr[dataArr.length - count][this.state.dataToBeDisplayed[0]]) {
       count++
       validData = dataArr[dataArr.length - count]
     }
@@ -156,7 +156,7 @@ class App extends Component {
         case "historical_data":
           if (message.event === "initial_data") {
             const filteredNullData = message.data.filter(
-              data => data.temperature
+              data => data[this.state.dataToBeDisplayed[0]]
             )
             this.setState({ initialHistoricalDeviceData: filteredNullData })
             this.setState({
@@ -174,7 +174,7 @@ class App extends Component {
           }
           if (
             message.event === "update_data" &&
-            message.data.new_val.temperature
+            message.data.new_val[this.state.dataToBeDisplayed[0]]
           ) {
             const { initialHistoricalDeviceData } = this.state
             const newValue = message.data.new_val
