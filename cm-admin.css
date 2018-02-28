@@ -54,8 +54,16 @@ cursor: pointer;
   opacity: 0.7;
 }
 
+
 @media screen and (max-width: 960px) {
   .cm-admin-modal-content {
     margin: 5% auto; /* 15% from the top and centered */
+  }
+}
+
+
+@media screen and (max-width: 782px) {
+  .cm-admin-modal-content {
+    margin: 15% auto; /* 15% from the top and centered */
   }
 }

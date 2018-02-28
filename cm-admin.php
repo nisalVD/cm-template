@@ -54,7 +54,7 @@ function cm_template_admin_menu_page() {
   <div id="admin-head">
       <h1>CM Admin Page</h1>
       <!-- Trigger/Open The Modal -->
-<p id="myBtn">Set up guide</p>
+<h4 id="myBtn">Set up guide</h4>
 </div>
 
 <!-- The Modal -->
