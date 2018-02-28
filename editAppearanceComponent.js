@@ -25,7 +25,7 @@
 		textAlign: 'center',
 		cursor: 'pointer'
 	}
-	const pluginFlexText = {
+	const pluginFlexTextStyles = {
 		color: 'blue'
 	}
   const buttonGroupStyles = {
@@ -60,12 +60,15 @@
     constructor(props) {
     super(props)
       this.state = {
-        inputFieldOpen: false,
+        inputFieldPrimaryOptionOpen: false,
+        inputFieldMultipleOptions: false,
         selectedStyle: null,
         selectedElement: null,
         setColor: null,
         colorWheelValue: '',
-        enteredColorValue: ''
+        enteredColorValue: '',
+        multipleSelectedData: null,
+        setMultipleColor: null
       }
     }
     componentDidMount() {
@@ -82,37 +85,33 @@
         pluginFlexStyle : {
           backgroundColor: pluginFlexColorInput.value
         },
-        pluginFlexText : {
+        pluginFlexTextStyles : {
           color: pluginFlexTextColorInput.value
         }
       }
       this.setState({setColor : colorStyles})
     }
 
-    clickElement = (selectedStyle, selectedElement, e) => {
+    // if only 1 element needs to be changed
+    clickElement = (selectedStyle, selectedElement, e ) => {
+      e.preventDefault()
       e.stopPropagation()
-      this.setState({inputFieldOpen: true})
+      this.setState({inputFieldMultipleOptions: false})
+      this.setState({inputFieldPrimaryOptionOpen: true})
       this.setState({selectedStyle})
       this.setState({selectedElement})
     }
 
+    // if more than 2 styles needs to be changed
+
     submitSetting = (e) => {
       const bgColorInput = document.getElementsByName("cm_template_bg_color")[0]
-      const pluginFlexColorInput = document.getElementsByName("cm_template_plugin_flex_color")[0]
-      const pluginFlexColorTextInput = document.getElementsByName("cm_template_plugin_flex_text_color")[0]
       e.preventDefault()
       const enteredSetting = e.target.elements.setting.value
       const {selectedStyle, selectedElement, setColor} = this.state
       if (selectedStyle === 'backgroundStyles') {
         bgColorInput.value = enteredSetting
       }
-      if (selectedStyle === 'pluginFlexStyle') {
-        pluginFlexColorInput.value = enteredSetting
-      }
-      if (selectedStyle === 'pluginFlexText') {
-        pluginFlexColorTextInput.value = enteredSetting
-      }
-
       const currentStyleData = {
         [selectedStyle]: {
           [selectedElement]: enteredSetting
@@ -120,7 +119,7 @@
       }
       const newSetColor = Object.assign({}, setColor, currentStyleData)
       this.setState({setColor: newSetColor})
-      this.setState({inputFieldOpen: false})
+      this.setState({inputFieldPrimaryOptionOpen: false})
     }
 
     handleColorWheelChange = (e) => {
@@ -134,18 +133,67 @@
       this.setState({enteredColorValue: e.target.value})
     }
 
+    // handle background color and text color
+    clickWithTextElement = (primaryStyle, primaryElement, secondaryStyle, secondaryElement, e) => {
+      e.preventDefault()
+      e.stopPropagation()
+      this.setState({inputFieldPrimaryOptionOpen: false})
+      this.setState({inputFieldMultipleOptions: true})
+      const selectedData = {
+        [primaryStyle]: primaryElement,
+        [secondaryStyle]: secondaryElement
+      }
+      this.setState({multipleSelectedData: selectedData})
+    }
+
+    submitMultipleSettings = (e) => {
+      e.preventDefault()
+      const pluginFlexColorInput = document.getElementsByName("cm_template_plugin_flex_color")[0]
+      const pluginFlexColorTextInput = document.getElementsByName("cm_template_plugin_flex_text_color")[0]
+      const elements = e.target.elements
+      const backgroundColor = elements.backgroundColor.value
+      const textColor = elements.textColor.value
+      const {multipleSelectedData} = this.state
+      const multipleSelectedDataKeys = Object.keys(multipleSelectedData)
+      const data = {
+        [multipleSelectedDataKeys[0]]: {
+          backgroundColor
+        },
+        [multipleSelectedDataKeys[1]]: {
+          color: textColor
+        }
+      }
+      //check if its the correct type
+      if(multipleSelectedDataKeys[0] === 'pluginFlexStyle' && multipleSelectedDataKeys[1] === 'pluginFlexTextStyles'){
+        pluginFlexColorInput.value = backgroundColor
+        pluginFlexColorTextInput.value = textColor
+      }
+      this.setState({setColor: data})
+      this.setState({inputFieldMultipleOptions: false})
+    }
+
     render() {
-      const {inputFieldOpen, setColor, colorWheelValue, enteredColorValue} = this.state
+      const {inputFieldPrimaryOptionOpen, setColor, colorWheelValue, enteredColorValue, inputFieldMultipleOptions, multipleSelectionData} = this.state
       console.log('enteredColorValue', enteredColorValue)
       console.log('colorWheelValue', colorWheelValue)
       console.log('setColor', setColor)
+      console.log('multipleSelectionData', multipleSelectionData)
       return(
         <div>
           {
-          inputFieldOpen &&
-          <form onSubmit={this.submitSetting}>
-            <input name="setting" type="text" onChange={this.handleSettingInputChange} value={enteredColorValue}/>
-            <input type="color" value={colorWheelValue} onChange={this.handleColorWheelChange}/>
+          inputFieldPrimaryOptionOpen &&
+            <form onSubmit={this.submitSetting}>
+              BackgroundColor{' '}<input name="setting" type="text" onChange={this.handleSettingInputChange} value={enteredColorValue}/>
+                <input type="color" value={colorWheelValue} onChange={this.handleColorWheelChange}/>
+              <button type="submit">ok</button>
+            </form>
+          }
+          { inputFieldMultipleOptions &&
+          <form onSubmit={this.submitMultipleSettings}>
+            Background Color:{''}<input type="text" name="backgroundColor"/>
+            <br/>
+            Text Color:<input type="text" name="textColor"/>
+            <br/>
             <button type="submit">ok</button>
           </form>
           }
@@ -162,10 +210,9 @@
                 1 Week(selected)
               </button>
             </div>
-            <div onClick={this.clickElement.bind(this, 'pluginFlexStyle', 'backgroundColor')} style={Object.assign({}, pluginFlexStyle,
+            <div onClick={this.clickWithTextElement.bind(this, 'pluginFlexStyle', 'backgroundColor', 'pluginFlexTextStyles', 'color')} style={Object.assign({}, pluginFlexStyle,
               setColor && setColor.pluginFlexStyle && setColor.pluginFlexStyle)}>
-              <p onClick={this.clickElement.bind(this, 'pluginFlexText', 'color')} style={
-                Object.assign({},pluginFlexText, setColor && setColor.pluginFlexText && setColor.pluginFlexText)}>Temperature: 23.037</p>
+              <p style={Object.assign({}, pluginFlexTextStyles, setColor && setColor.pluginFlexTextStyles)}>Temperature: 23.037</p>
             </div>
           </div>
         </div>
