@@ -85,21 +85,25 @@ function cm_template_admin_menu_page() {
 2. Enter your Authorisation Keys in the appropriate sections<br/>
 3. Click on Save Changes when you are done<br/>
 
-<h3>Customise the data to be displayed and their Alert Settings</h3>
-1. Access the CM Admin menu and click on Alert Setting Page<br/>
-2. You can toggle the statistics you want to view in the checkboxes at the top of the page<br/>
-3. You can customise the warning thresholds (the maximum and minimum points when the statistics begin to flash warning colours) underneath<br/>
-4. If you are satisfied, click the Update button at the bottom<br/>
-
 <h3>Put the plugin on the site using shortcode</h3>
 1.Go to the Appearance tab on the Wordpress dashboard and enter the Widgets submenu<br/>
 2.Select the Text widget and drag it to the desired location on the right-hand side of the page<br/>
 3.Enter the shortcode <strong>[cm-template]</strong> in the text-area and save when ready<br/>
 4.When you view your page, you should see the widget appear in the section that you placed it in<br/>
 
+<h3>Customise the data to be displayed and their Alert Settings</h3>
+1. Access the CM Admin menu and click on Alert Setting Page<br/>
+2. You can toggle the statistics you want to view in the checkboxes at the top of the page<br/>
+3. You can customise the warning thresholds (the maximum and minimum points when the statistics begin to flash warning colours) underneath<br/>
+4. If you are satisfied, click the Update button at the bottom<br/>
+
 <h3>Customise the chart/user interface</h3>
 1. Access the CM Admin menu and click on CM Edit Appearance<br/>
-2. Hello World (get off Vim and get this thing working Nisal!)<br/>
+2. You will see an interactive box that contains a mock-interface with all the chart elements which you can customise<br/>
+3. Click on the element which you want to customise and a text-field (for writing colors in) and a color-picking field will appear<br/>
+4. Type in or select the color of your choice in one of the two fields and press ‘OK’ to see a preview of the effect of your choice.<br/>
+5. Save changes when you are satisfied with your choices
+
   </div>
 
 </div>
