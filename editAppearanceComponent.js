@@ -4,14 +4,15 @@
 <div id="cm-edit-appearance-preview"></div>
 <script type="text/babel">
   let backgroundStyles = {
-		width: 350,
-		height: 300,
+		width: 592,
+		height: 500,
     borderTop: '1px solid #e3e6ea',
 		borderBottom: '1px solid #e3e6ea',
 		backgroundColor: '#fff',
 		color: '#f16265',
 		marginBottom: 1,
-		cursor: 'pointer'
+		cursor: 'pointer',
+    paddingTop: 15
   }
 	const pluginFlexStyle = {
 		borderTop: '1px solid #e3e6ea',
@@ -30,16 +31,29 @@
   const buttonGroupStyles = {
     width: '100%',
     height: 42,
+    backgroundColor: 'dodgerBlue',
     textAlign: 'center',
-    backgroundColor: 'dodgerBlue'
   }
   const buttonStyles = {
-    width: 90,
+    width: 130,
     height: 42,
     fontSize: 12,
     textAlign: 'center',
     backgroundColor: '#77757a',
-    borderRadius: '5px 5px 0px 0px'
+    borderRadius: '5px 5px 0px 0px',
+    textAlign: 'center',
+    fontFamily: 'sans-serif',
+    fontSize: 13,
+    fontWeight: 'bold',
+    color: '#fff',
+  }
+
+  const buttonHoverStyles = {
+    backgroundColor: '#f4c2b2'
+  }
+
+  const buttonSelectedStyles = {
+    backgroundColor: '#f16265'
   }
 
   class App extends React.Component {
@@ -138,7 +152,15 @@
           <div onClick={this.clickElement.bind(this,'backgroundStyles', 'backgroundColor')} style={Object.assign({}, backgroundStyles,
             setColor && setColor.backgroundStyles && setColor.backgroundStyles)}>
             <div style={buttonGroupStyles}>
-              <div style={buttonStyles}></div>
+              <button style={buttonStyles}>
+                 1 Week
+              </button>
+              <button style={Object.assign({}, buttonStyles, buttonHoverStyles)}>
+                1 Week(hover)
+              </button>
+              <button style={Object.assign({}, buttonStyles, buttonSelectedStyles)}>
+                1 Week(selected)
+              </button>
             </div>
             <div onClick={this.clickElement.bind(this, 'pluginFlexStyle', 'backgroundColor')} style={Object.assign({}, pluginFlexStyle,
               setColor && setColor.pluginFlexStyle && setColor.pluginFlexStyle)}>
