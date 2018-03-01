@@ -326,7 +326,7 @@ class App extends Component {
               <div className="wifi_top"></div>
               <div className="wifi_bottom"></div>
             </div>
-            <p>{Math.round(this.getPercentage(currentDeviceData.battery, 3))}%</p>
+            <p id="battery-percent">{Math.round(this.getPercentage(currentDeviceData.battery, 3))}%</p>
             <FontAwesome
               name={`battery-${this.checkBatteryLevel(currentDeviceData.battery)} batteryIcon`}
             />
