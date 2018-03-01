@@ -138,9 +138,6 @@
     submitSettings = (e) => {
       e.preventDefault()
       const {selectedData, selectedElementsKey, selectedElementsArray, setColor} = this.state
-      // Get the php defined hidden fields
-      const pluginFlexColorInput = document.getElementsByName("cm_template_plugin_flex_color")[0]
-      const pluginFlexColorTextInput = document.getElementsByName("cm_template_plugin_flex_text_color")[0]
       const elements = e.target.elements
 
       // selectedElemntArray is used to name the input field use
@@ -159,6 +156,7 @@
       console.log('selectedParsedData', selectedParsedData)
       this.setState({setColor: Object.assign({}, setColor ,selectedParsedData)})
       this.setState({inputFieldOpen: false})
+
     }
 
     render() {
