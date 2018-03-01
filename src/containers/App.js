@@ -20,6 +20,31 @@ class App extends Component {
     errorType: null
   }
 
+  // check rssi level 
+  checkRssiLevel = value => {
+    if (value >= -50) {
+      // ~ -50dBm
+      return "fourth"
+    }
+    else if (value >= -70) {
+      // -50dBm ~ -70dBm
+      return "third"
+    }
+    else if (value >= -80) {
+      // -70dBm ~ -80dBm
+      return "second"
+    }
+    else {
+      // -80dBm ~
+      return "first"
+    }
+  }
+
+  // get percentage of battery
+  getPercentage = (value, max) => {
+    return value / max * 100
+  }
+
   // check battery level 
   checkBatteryLevel = value => {
     if (value >= 3 * 0.9) {
@@ -45,6 +70,11 @@ class App extends Component {
   }
 
 
+  //  round decimal point 2
+  roundDecimalTwo = data => {
+    return Math.round(data * 100) / 100
+  }
+
   // toggle selected button color
   toggleButtonColor = type => {
     return this.state.chartPeriodType === type ? "selected" : ""
@@ -55,11 +85,6 @@ class App extends Component {
     this.setState({ chartPeriodType: e.target.value, chartData: null }, () => {
       this.connectConctrWebSocket(1, this.state.chartPeriodType)
     })
-  }
-
-  //  round decimal point 2
-  roundDecimalTwo = data => {
-    return Math.round(data * 100) / 100
   }
 
   // find the latest valid data
@@ -294,7 +319,21 @@ class App extends Component {
     } = this.state
     return !errorType ? (
       <div className="plugin-container wrap center-text" style={{ backgroundColor: window.cm_device_info.bg_color }}>
-        {this.state.currentDeviceData && <FontAwesome name={`battery-${this.checkBatteryLevel(this.state.currentDeviceData.battery)}`} size="1g" />}
+        {this.state.currentDeviceData &&
+          <div id='indicator'>
+            <p>{Math.round(this.getPercentage(currentDeviceData.battery, 3))}%</p>
+            <FontAwesome
+              className="batteryIcon"
+              name={`battery-${this.checkBatteryLevel(this.state.currentDeviceData.battery)}`}
+              size='2x'
+            />
+            <div className={`wifi_group ${this.checkRssiLevel(this.state.currentDeviceData.rssi)}`} >
+              <div className="wifi_top"></div>
+              <div className="wifi_bottom"></div>
+            </div>
+          </div>
+        }
+
         <div className="button-group">
           <button
             className={`type-buttons ${this.toggleButtonColor("days")}`}
