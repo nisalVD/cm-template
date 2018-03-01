@@ -20,12 +20,7 @@ function cm_template_custom_settings() {
   // button Normal
   register_setting( 'cm-edit-appearance-settings-group', 'cm_template_plugin_button_normal_bg');
   register_setting( 'cm-edit-appearance-settings-group', 'cm_template_plugin_button_normal_color');
-  // button hover
-  register_setting( 'cm-edit-appearance-settings-group', 'cm_template_plugin_button_hover_bg');
-  register_setting( 'cm-edit-appearance-settings-group', 'cm_template_plugin_button_hover_color');
-  // buton selected
-  register_setting( 'cm-edit-appearance-settings-group', 'cm_template_plugin_button_selected_bg');
-  register_setting( 'cm-edit-appearance-settings-group', 'cm_template_plugin_button_selected_color');
+
 
   add_settings_section( 'cm-edit-appearance-options', NULL, 'cm_edit_appearance_settings_options', 'cm_edit_appearance_page');
 
@@ -48,18 +43,6 @@ $plugin_btn_normal_bg = esc_attr(get_option('cm_template_plugin_button_normal_bg
 
 $plugin_btn_normal_color = esc_attr(get_option('cm_template_plugin_button_normal_color'));
   echo '<input type="hidden" name="cm_template_plugin_button_normal_color" value="'.$plugin_btn_normal_color.'"/>';
-// Hover Button
-$plugin_btn_hover_bg = esc_attr(get_option('cm_template_plugin_button_hover_bg'));
-  echo '<input type="hidden" name="cm_template_plugin_button_hover_bg" value="'.$plugin_btn_hover_bg.'"/>';
-
-$plugin_btn_hover_color = esc_attr(get_option('cm_template_plugin_button_hover_color'));
-  echo '<input type="hidden" name="cm_template_plugin_button_hover_color" value="'.$plugin_btn_hover_color.'"/>';
-// selected Button
-$plugin_btn_selected_bg = esc_attr(get_option('cm_template_plugin_button_selected_bg'));
-  echo '<input type="hidden" name="cm_template_plugin_button_selected_bg" value="'.$plugin_btn_selected_bg.'"/>';
-
-$plugin_btn_selected_color = esc_attr(get_option('cm_template_plugin_button_selected_color'));
-  echo '<input type="hidden" name="cm_template_plugin_button_selected_color" value="'.$plugin_btn_selected_color.'"/>';
 }
 
 // admin Settings
