@@ -15,6 +15,15 @@ function cm_template_custom_settings() {
   register_setting( 'cm-edit-appearance-settings-group', 'cm_template_bg_color');
   register_setting( 'cm-edit-appearance-settings-group', 'cm_template_plugin_flex_color');
   register_setting( 'cm-edit-appearance-settings-group', 'cm_template_plugin_flex_text_color');
+  // button Normal
+  register_setting( 'cm-edit-appearance-settings-group', 'cm_template_plugin_button_normal_bg');
+  register_setting( 'cm-edit-appearance-settings-group', 'cm_template_plugin_button_normal_color');
+  // button hover
+  register_setting( 'cm-edit-appearance-settings-group', 'cm_template_plugin_button_hover_bg');
+  register_setting( 'cm-edit-appearance-settings-group', 'cm_template_plugin_button_hover_color');
+  // buton selected
+  register_setting( 'cm-edit-appearance-settings-group', 'cm_template_plugin_button_selected_bg');
+  register_setting( 'cm-edit-appearance-settings-group', 'cm_template_plugin_button_selected_color');
 
   add_settings_section( 'cm-edit-appearance-options', NULL, 'cm_edit_appearance_settings_options', 'cm_edit_appearance_page');
 
@@ -22,12 +31,33 @@ function cm_template_custom_settings() {
 // Appearance Settings
 function cm_edit_appearance_settings_options() {
 $bg_color = esc_attr(get_option('cm_template_bg_color'));
-    echo '<input type="hidden" name="cm_template_bg_color" value="'.$bg_color.'" />';
+  echo '<input type="hidden" name="cm_template_bg_color" value="'.$bg_color.'" />';
 $plugin_flex = esc_attr(get_option('cm_template_plugin_flex_color'));
-    echo '<input type="hidden" name="cm_template_plugin_flex_color" value="'.$plugin_flex.'"/>';
+  echo '<input type="hidden" name="cm_template_plugin_flex_color" value="'.$plugin_flex.'"/>';
 $plugin_text_flex = esc_attr(get_option('cm_template_plugin_flex_text_color'));
-    echo '<input type="hidden" name="cm_template_plugin_flex_text_color" value="'.$plugin_text_flex.'"/>';
+  echo '<input type="hidden" name="cm_template_plugin_flex_text_color" value="'.$plugin_text_flex.'"/>';
+// input for changing button
+// Normal Button
+//
+$plugin_btn_normal_bg = esc_attr(get_option('cm_template_plugin_button_normal_bg'));
+  echo '<input type="hidden" name="cm_template_plugin_button_normal_bg" value="'.$plugin_btn_normal_bg.'"/>';
+
+$plugin_btn_normal_color = esc_attr(get_option('cm_template_plugin_button_normal_color'));
+  echo '<input type="hidden" name="cm_template_plugin_button_normal_color" value="'.$plugin_btn_normal_color.'"/>';
+// Hover Button
+$plugin_btn_hover_bg = esc_attr(get_option('cm_template_plugin_button_hover_bg'));
+  echo '<input type="hidden" name="cm_template_plugin_button_hover_bg" value="'.$plugin_btn_hover_bg.'"/>';
+
+$plugin_btn_hover_color = esc_attr(get_option('cm_template_plugin_button_hover_color'));
+  echo '<input type="hidden" name="cm_template_plugin_button_hover_color" value="'.$plugin_btn_hover_color.'"/>';
+// selected Button
+$plugin_btn_selected_bg = esc_attr(get_option('cm_template_plugin_button_selected_bg'));
+  echo '<input type="hidden" name="cm_template_plugin_button_selected_bg" value="'.$plugin_btn_selected_bg.'"/>';
+
+$plugin_btn_selected_color = esc_attr(get_option('cm_template_plugin_button_selected_color'));
+  echo '<input type="hidden" name="cm_template_plugin_button_selected_color" value="'.$plugin_btn_selected_color.'"/>';
 }
+
 // admin Settings
 
 
