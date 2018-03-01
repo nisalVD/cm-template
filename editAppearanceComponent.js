@@ -85,25 +85,23 @@
       }
     }
     componentDidMount() {
-      const bgColorInput = document.getElementsByName("cm_template_bg_color")[0]
-      const pluginFlexColorInput = document.getElementsByName("cm_template_plugin_flex_color")[0]
-      const pluginFlexTextColorInput = document.getElementsByName("cm_template_plugin_flex_text_color")[0]
-
-      console.log('Plugin Flex Color', pluginFlexColorInput.value)
+      const backgroundStylesBackgroundColor = document.getElementsByName("cm_template_bg_color")[0].value
+      const pluginFlexStylesBackgroundColor = document.getElementsByName("cm_template_plugin_flex_color")[0].value
+      const pluginFlexTextStylesColor = document.getElementsByName("cm_template_plugin_flex_text_color")[0].value
 
       // get initial value for each input from hidden php form
-      const colorStyles = {
+      const initialStyles = {
         backgroundStyles: {
-          backgroundColor: bgColorInput.value,
+          backgroundColor: backgroundStylesBackgroundColor
         },
         pluginFlexStyles : {
-          backgroundColor: pluginFlexColorInput.value
+          backgroundColor: pluginFlexStylesBackgroundColor
         },
         pluginFlexTextStyles : {
-          color: pluginFlexTextColorInput.value
+          color: pluginFlexTextStylesColor
         }
       }
-      this.setState({setColor : colorStyles})
+      this.setState({setColor : initialStyles})
     }
 
 
@@ -148,7 +146,22 @@
       console.log('submit settings selectedElementsKey', selectedElementsKey)
       console.log('submit settings selectedElementsArray', selectedElementsArray)
 
+      const plugin = {
+        backgroundStyles: {
+          backgroundColor: document.getElementsByName("cm_template_bg_color")[0]
+        },
+        pluginFlexStyles: {
+          backgroundColor: document.getElementsByName("cm_template_plugin_flex_color")[0]
+        },
+        pluginFlexTextStyles: {
+          color: document.getElementsByName("cm_template_plugin_flex_text_color")[0]
+        }
+      }
+
       const selectedParsedData = selectedElementsKey.reduce((acc, element, idx) => {
+        // set the data to hidden form
+        plugin[element][selectedElementsArray[idx]].value = elementFormData[idx]
+        // compose the data to be displayed
         acc[element] = acc[element] || {}
         acc[element][selectedElementsArray[idx]] = elementFormData[idx]
         return acc
