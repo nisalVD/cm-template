@@ -25,7 +25,7 @@
 
 
 .type-buttons:hover {
-  background-color: #f16265;
+  background-color: #f16265 !important;
   color: white;
 }
 .type-buttons:active {
@@ -40,7 +40,7 @@
   width: 100%;
   background-color: #fff;
   border-radius: 2px;
-  padding: 20px 0px 20px 0px;
+  padding: 3px 0px;
   -ms-box-orient: horizontal;
   display: -webkit-box;
   display: -moz-box;
@@ -121,7 +121,7 @@
 }
 .plugin-container[min-width~="400px"] {
   border-radius: 10px;
-  padding: 20px 0px 20px 0px;
+  padding: 3px 0px;
   background-color: #f3f3f3;
 }
 .warning {
