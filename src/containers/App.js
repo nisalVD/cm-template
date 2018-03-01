@@ -322,7 +322,7 @@ class App extends Component {
       <div className="plugin-container wrap center-text" style={{ backgroundColor: window.cm_device_info.bg_color }}>
         {currentDeviceData &&
           <div id='indicator'>
-            <div className={`wifi_group ${this.checkRssiLevel(-60)}`} >
+            <div className={`wifi_group ${this.checkRssiLevel(currentDeviceData.rssi)}`} >
               <div className="wifi_top"></div>
               <div className="wifi_bottom"></div>
             </div>
