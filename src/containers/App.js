@@ -322,16 +322,16 @@ class App extends Component {
       <div className="plugin-container wrap center-text" style={{ backgroundColor: window.cm_device_info.bg_color }}>
         {currentDeviceData &&
           <div id='indicator'>
+            <div className={`wifi_group ${this.checkRssiLevel(currentDeviceData.rssi)}`} >
+              <div className="wifi_top"></div>
+              <div className="wifi_bottom"></div>
+            </div>
             <p>{Math.round(this.getPercentage(currentDeviceData.battery, 3))}%</p>
             <FontAwesome
               className="batteryIcon"
               name={`battery-${this.checkBatteryLevel(currentDeviceData.battery)}`}
               size='2x'
             />
-            <div className={`wifi_group ${this.checkRssiLevel(currentDeviceData.rssi)}`} >
-              <div className="wifi_top"></div>
-              <div className="wifi_bottom"></div>
-            </div>
           </div>
         }
 

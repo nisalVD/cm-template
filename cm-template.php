@@ -81,15 +81,14 @@ function cm_edit_appearance_page() {
 //  call template
 function alert_setting_page_callback() {
   include_once('cm-alert-setting.php');
+    // add main.js file
+    wp_enqueue_script( 'alertSetting_js', plugins_url('cm-alert/alertSetting.js', __FILE__), NULL, null, true);
 }
 
 add_action("admin_print_scripts", function(){
   
-  // add main.js file
-  wp_enqueue_script( 'main_js', plugins_url('cm-alert/main.js', __FILE__), NULL, null, true);
-  
-  // include js file for cm admin page
-  wp_enqueue_script( 'instruction_js', plugins_url('cm-admin/instruction.js', __FILE__), NULL, null, true);
+   // include main file for value injection
+   wp_enqueue_script( 'main_js', plugins_url('cm-alert/main.js', __FILE__), NULL, null, true);
 
   // load css file for the admin page
   wp_enqueue_style('admin_page_css', plugin_dir_url( __FILE__ ) . 'cm-admin.css', array(), '0.0.1', 'all' );
