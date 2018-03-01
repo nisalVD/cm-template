@@ -25,6 +25,9 @@ function include_react_files() {
       "bg_color" => get_option("cm_template_bg_color"),
       "plugin_flex_color" => get_option("cm_template_plugin_flex_color"),
       "plugin_flex_text_color" => get_option("cm_template_plugin_flex_text_color"),
+      "button_group_bg" => get_option("cm_template_plugin_button_group_bg"),
+      "button_normal_bg" => get_option("cm_template_plugin_button_normal_bg"),
+      "button_normal_color" => get_option("cm_template_plugin_button_normal_color")
   ));
 }
 
