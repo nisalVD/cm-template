@@ -317,17 +317,18 @@ class App extends Component {
       errorType,
       chartPeriodType
     } = this.state
+
     return !errorType ? (
       <div className="plugin-container wrap center-text" style={{ backgroundColor: window.cm_device_info.bg_color }}>
-        {this.state.currentDeviceData &&
+        {currentDeviceData &&
           <div id='indicator'>
             <p>{Math.round(this.getPercentage(currentDeviceData.battery, 3))}%</p>
             <FontAwesome
               className="batteryIcon"
-              name={`battery-${this.checkBatteryLevel(this.state.currentDeviceData.battery)}`}
+              name={`battery-${this.checkBatteryLevel(currentDeviceData.battery)}`}
               size='2x'
             />
-            <div className={`wifi_group ${this.checkRssiLevel(this.state.currentDeviceData.rssi)}`} >
+            <div className={`wifi_group ${this.checkRssiLevel(currentDeviceData.rssi)}`} >
               <div className="wifi_top"></div>
               <div className="wifi_bottom"></div>
             </div>
