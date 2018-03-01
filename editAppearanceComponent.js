@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="https://unpkg.com/huebee@1/dist/huebee.min.css">
 <script crossorigin src="https://unpkg.com/huebee@1/dist/huebee.pkgd.min.js"></script>
 <script type="text/babel">
-  let backgroundStyles = {
+  const backgroundStyles = {
 		width: 592,
 		height: 500,
     borderTop: '1px solid #e3e6ea',
