@@ -20,6 +20,31 @@ class App extends Component {
     errorType: null
   }
 
+  // check battery level 
+  checkBatteryLevel = value => {
+    if (value >= 3 * 0.9) {
+      // above 90 % 
+      return "full ok"
+    }
+    else if (value >= 3 * 0.75) {
+      // above 75 %
+      return "three-quarters ok"
+    }
+    else if (value >= 3 * 0.5) {
+      // above 50 %
+      return "half middle"
+    }
+    else if (value > 3 * 0.25) {
+      // above 25 %
+      return "quarter danger"
+    }
+    else {
+      // below 25 %
+      return "empty danger"
+    }
+  }
+
+
   // toggle selected button color
   toggleButtonColor = type => {
     return this.state.chartPeriodType === type ? "selected" : ""
@@ -223,7 +248,6 @@ class App extends Component {
   }
 
   render() {
-
     const chartOption = {
       legend: {
         display: true,
@@ -270,6 +294,7 @@ class App extends Component {
     } = this.state
     return !errorType ? (
       <div className="plugin-container wrap center-text" style={{ backgroundColor: window.cm_device_info.bg_color }}>
+        {this.state.currentDeviceData && <FontAwesome name={`battery-${this.checkBatteryLevel(this.state.currentDeviceData.battery)}`} size="1g" />}
         <div className="button-group">
           <button
             className={`type-buttons ${this.toggleButtonColor("days")}`}
