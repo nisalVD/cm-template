@@ -54,16 +54,6 @@
     color: '#fff'
   }
 
-  const buttonHoverStyles = {
-    backgroundColor: '#f16265',
-    color: '#fff'
-  }
-
-  const buttonSelectedStyles = {
-    backgroundColor: '#f16265',
-    color: '#fff'
-  }
-
   const ColorChangeInputField = ({
     name
   }) => {
@@ -91,10 +81,6 @@
       const buttonGroupStylesBackgroundColor = document.getElementsByName("cm_template_plugin_button_group_bg")[0].value
       const buttonNormalStylesBackgroundColor = document.getElementsByName("cm_template_plugin_button_normal_bg")[0].value
       const buttonNormalStylesColor = document.getElementsByName("cm_template_plugin_button_normal_color")[0].value
-      const buttonHoverStylesBackgroundColor = document.getElementsByName("cm_template_plugin_button_hover_bg")[0].value
-      const buttonHoverStylesColor = document.getElementsByName("cm_template_plugin_button_hover_color")[0].value
-      const buttonSelectedStylesBackgroundColor = document.getElementsByName("cm_template_plugin_button_selected_bg")[0].value
-      const buttonSelectedColor = document.getElementsByName("cm_template_plugin_button_selected_color")[0].value
 
       // get initial value for each input from hidden php form
       const initialStyles = {
@@ -107,14 +93,6 @@
         buttonNormalStyles: {
           [!!buttonNormalStylesBackgroundColor && 'backgroundColor']: buttonNormalStylesBackgroundColor,
           [!!buttonNormalStylesColor && 'color']: buttonNormalStylesColor
-        },
-        buttonHoverStyles: {
-          [!!buttonHoverStylesBackgroundColor && 'backgroundColor']: buttonHoverStylesBackgroundColor,
-          [!!buttonHoverStylesColor && 'color']: buttonHoverStylesColor
-        },
-        buttonSelectedStyles: {
-          [!!buttonSelectedStylesBackgroundColor && 'backgroundColor']: buttonSelectedStylesBackgroundColor,
-          [!!buttonSelectedColor && 'color']: buttonSelectedColor
         },
         pluginFlexStyles: {
           [!!pluginFlexStylesBackgroundColor && 'backgroundColor']: pluginFlexStylesBackgroundColor
@@ -174,10 +152,6 @@
       const buttonGroupStylesBackgroundColor = document.getElementsByName("cm_template_plugin_button_group_bg")[0]
       const buttonNormalStylesBackgroundColor = document.getElementsByName("cm_template_plugin_button_normal_bg")[0]
       const buttonNormalStylesColor = document.getElementsByName("cm_template_plugin_button_normal_color")[0]
-      const buttonHoverStylesBackgroundColor = document.getElementsByName("cm_template_plugin_button_hover_bg")[0]
-      const buttonHoverStylesColor = document.getElementsByName("cm_template_plugin_button_hover_color")[0]
-      const buttonSelectedStylesBackgroundColor = document.getElementsByName("cm_template_plugin_button_selected_bg")[0]
-      const buttonSelectedColor = document.getElementsByName("cm_template_plugin_button_selected_color")[0]
 
       const plugin = {
         backgroundStyles: {
@@ -189,14 +163,6 @@
         buttonNormalStyles: {
           backgroundColor: buttonNormalStylesBackgroundColor,
           color: buttonNormalStylesColor
-        },
-        buttonHoverStyles: {
-          backgroundColor: buttonHoverStylesBackgroundColor,
-          color: buttonHoverStylesColor
-        },
-        buttonSelectedStyles: {
-          backgroundColor: buttonSelectedStylesBackgroundColor,
-          color: buttonSelectedColor
         },
         pluginFlexStyles: {
           backgroundColor: pluginFlexStylesBackgroundColor
@@ -251,21 +217,6 @@
                   'color', 'buttonNormalStyles', 'backgroundColor')}
                 style={Object.assign({}, buttonStyles, buttonNormalStyles, setColor && setColor.buttonNormalStyles)}>
                  1 Week
-              </button>
-              <button
-                onClick={this.clickElement.bind(this, 'buttonHoverStyles', 'color', 'buttonHoverStyles', 'backgroundColor')}
-                style={Object.assign({}, buttonStyles, buttonHoverStyles,
-                  setColor && setColor.buttonHoverStyles)}>
-                1 Week(hover)
-              </button>
-              <button
-                onClick={this.clickElement.bind(this, 'buttonSelectedStyles',
-                  'color', 'buttonSelectedStyles', 'backgroundColor'
-                )}
-                style={Object.assign({}, buttonStyles, buttonSelectedStyles,
-                  setColor && setColor.buttonSelectedStyles
-                )}>
-                1 Week(selected)
               </button>
             </div>
             <div onClick={this.clickElement.bind(this, 'pluginFlexTextStyles', 'color', 'pluginFlexStyles', 'backgroundColor')} style={Object.assign({}, pluginFlexStyles,
