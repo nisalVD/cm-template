@@ -328,9 +328,7 @@ class App extends Component {
             </div>
             <p>{Math.round(this.getPercentage(currentDeviceData.battery, 3))}%</p>
             <FontAwesome
-              className="batteryIcon"
-              name={`battery-${this.checkBatteryLevel(currentDeviceData.battery)}`}
-              size='2x'
+              name={`battery-${this.checkBatteryLevel(currentDeviceData.battery)} batteryIcon`}
             />
           </div>
         }
