@@ -15,6 +15,8 @@ function cm_template_custom_settings() {
   register_setting( 'cm-edit-appearance-settings-group', 'cm_template_bg_color');
   register_setting( 'cm-edit-appearance-settings-group', 'cm_template_plugin_flex_color');
   register_setting( 'cm-edit-appearance-settings-group', 'cm_template_plugin_flex_text_color');
+  // button group
+  register_setting( 'cm-edit-appearance-settings-group', 'cm_template_plugin_button_group_bg');
   // button Normal
   register_setting( 'cm-edit-appearance-settings-group', 'cm_template_plugin_button_normal_bg');
   register_setting( 'cm-edit-appearance-settings-group', 'cm_template_plugin_button_normal_color');
@@ -36,9 +38,11 @@ $plugin_flex = esc_attr(get_option('cm_template_plugin_flex_color'));
   echo '<input type="hidden" name="cm_template_plugin_flex_color" value="'.$plugin_flex.'"/>';
 $plugin_text_flex = esc_attr(get_option('cm_template_plugin_flex_text_color'));
   echo '<input type="hidden" name="cm_template_plugin_flex_text_color" value="'.$plugin_text_flex.'"/>';
+// Button Group backgroundcolor
+$plugin_btn_group_bg = esc_attr(get_option('cm_template_plugin_button_group_bg'));
+  echo '<input type="hidden" name="cm_template_plugin_button_group_bg" value="'.$plugin_btn_group_bg.'"/>';
 // input for changing button
 // Normal Button
-//
 $plugin_btn_normal_bg = esc_attr(get_option('cm_template_plugin_button_normal_bg'));
   echo '<input type="hidden" name="cm_template_plugin_button_normal_bg" value="'.$plugin_btn_normal_bg.'"/>';
 
