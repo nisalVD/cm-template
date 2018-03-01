@@ -94,16 +94,11 @@
 .plugin-container[max-width~="300px"] {
   padding: 0px;
 }
-// .plugin-container[min-width~='320px']  .type-buttons{
-//   width: 33.33333333333333333333%;
-// }
-// .plugin-container[max-width~='400px']  .type-buttons{
-//   width: 33.33333333333333333333%;
-// }
 
 .plugin-container[min-width~="400px"] .selected-chart-data {
   display: none;
 }
+
 .plugin-container[max-width~="400px"] .plugin-flex-selected {
   background-color: #b5b5b5;
   color: #fff;
@@ -153,4 +148,172 @@
     background-color: #fff;
     color: #f16265;
   }
+}
+
+// battery css
+
+.ok{
+  color: green;
+}
+
+.middle{
+  color: orange;
+}
+
+.danger{
+  color: red;
+}
+
+
+// wifi style
+$dark: #000;
+$dark-light: lighten($dark, 80%);
+$borderWidth: 2px;
+$wifiSize: 27px;
+
+@mixin center {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  margin: auto;
+}
+
+@mixin signal ($size, $color) {
+  border-radius: 50%;
+  border-top: $size solid $color;
+  border-bottom: $size solid transparent;
+  border-right: $size solid transparent;
+  border-left: $size solid transparent;
+}
+
+@mixin wifiGeneral ($size) {
+  @include center();
+
+  transform: translateY(40%) scale(1.4, 1.4);
+  &:before,
+  &:after {
+    @include center();
+
+    content: "";
+    display: block;
+    box-sizing: border-box;
+  }
+}
+
+@mixin wifiTop ($size) {
+  &:before {
+    @include signal($borderWidth, $dark-light);
+    height: $size;
+    width: $size;
+  }
+  &:after {
+    @include signal($borderWidth, $dark-light);
+    height: $size/4*3;
+    width: $size/4*3;
+  }
+}
+
+@mixin wifiBottom ($size) {
+  &:before {
+    @include signal($borderWidth, $dark-light);
+    height: $size/4*2;
+    width: $size/4*2;
+  }
+  &:after {
+    @include signal($borderWidth, $dark-light);
+    height: $size/4;
+    width: $size/4;
+  }
+}
+
+.wifi_group.xs {
+  transform: scale(0.3, 0.3);
+}
+
+.wifi_group.sm {
+  transform: scale(0.7, 0.7);
+}
+
+.wifi_group.md {
+  transform: scale(1, 1);
+}
+
+.wifi_group.lg {
+  transform: scale(1.4, 1.4);
+}
+
+.wifi_group {
+  width: $wifiSize;
+  height: $wifiSize;
+  margin-right: 15px;
+  overflow: hidden;
+  position: relative;
+  bottom:2px;
+}
+
+.wifi_top {
+  @include wifiGeneral($wifiSize);
+  @include wifiTop($wifiSize);
+}
+
+.wifi_bottom {
+  @include wifiGeneral($wifiSize);
+  @include wifiBottom($wifiSize);
+}
+
+.first {
+  .wifi_top:before,
+  .wifi_top:after,
+  .wifi_bottom:before {
+    @include signal($borderWidth, $dark-light);
+  }
+
+  .wifi_bottom:after {
+    @include signal($borderWidth, $dark);
+  }
+}
+
+.second {
+  .wifi_top:before,
+  .wifi_top:after {
+    @include signal($borderWidth, $dark-light);
+  }
+  .wifi_bottom:before,
+  .wifi_bottom:after {
+    @include signal($borderWidth, $dark);
+  }
+}
+
+.third {
+  .wifi_top:before {
+    @include signal($borderWidth, $dark-light);
+  }
+  .wifi_top:after,
+  .wifi_bottom:before,
+  .wifi_bottom:after {
+    @include signal($borderWidth, $dark);
+  }
+}
+
+.fourth {
+  .wifi_top:before,
+  .wifi_top:after,
+  .wifi_bottom:before,
+  .wifi_bottom:after {
+    @include signal($borderWidth, $dark);
+  }
+}
+
+#indicator{
+  width:100%;
+  max-height: 35px;
+display: flex;
+justify-content: flex-end;
+position: relative;
+}
+
+.batteryIcon:before{
+  font-size: 28px;
 }

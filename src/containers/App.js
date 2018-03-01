@@ -20,6 +20,61 @@ class App extends Component {
     errorType: null
   }
 
+  // check rssi level 
+  checkRssiLevel = value => {
+    if (value >= -50) {
+      // ~ -50dBm
+      return "fourth"
+    }
+    else if (value >= -70) {
+      // -50dBm ~ -70dBm
+      return "third"
+    }
+    else if (value >= -80) {
+      // -70dBm ~ -80dBm
+      return "second"
+    }
+    else {
+      // -80dBm ~
+      return "first"
+    }
+  }
+
+  // get percentage of battery
+  getPercentage = (value, max) => {
+    return value / max * 100
+  }
+
+  // check battery level 
+  checkBatteryLevel = value => {
+    if (value >= 3 * 0.9) {
+      // above 90 % 
+      return "full ok"
+    }
+    else if (value >= 3 * 0.75) {
+      // above 75 %
+      return "three-quarters ok"
+    }
+    else if (value >= 3 * 0.5) {
+      // above 50 %
+      return "half middle"
+    }
+    else if (value > 3 * 0.25) {
+      // above 25 %
+      return "quarter danger"
+    }
+    else {
+      // below 25 %
+      return "empty danger"
+    }
+  }
+
+
+  //  round decimal point 2
+  roundDecimalTwo = data => {
+    return Math.round(data * 100) / 100
+  }
+
   // toggle selected button color
   toggleButtonColor = type => {
     return this.state.chartPeriodType === type ? "selected" : ""
@@ -32,16 +87,11 @@ class App extends Component {
     })
   }
 
-  //  round decimal point 2
-  roundDecimalTwo = data => {
-    return Math.round(data * 100) / 100
-  }
-
   // find the latest valid data
   getLatestValidData = dataArr => {
     let count = 1
     let validData = dataArr[dataArr.length - count]
-    while (!dataArr[dataArr.length - count]["temperature"]) {
+    while (!dataArr[dataArr.length - count][this.state.dataToBeDisplayed[0]]) {
       count++
       validData = dataArr[dataArr.length - count]
     }
@@ -86,12 +136,15 @@ class App extends Component {
       datasets: [
         {
           label: datakey,
+          // trigger of area chart
           fill: false,
           lineTension: 0.1,
           backgroundColor: "rgba(75,192,192,0.4)",
           //  chart line color
           borderColor: "rgba(75,192,192,1)",
           borderCapStyle: "butt",
+          //  color of area chart filling
+          backgroundColor: "rgba(75,192,192,0.6)",
           borderDash: [],
           borderDashOffset: 0.0,
           borderJoinStyle: "miter",
@@ -156,7 +209,7 @@ class App extends Component {
         case "historical_data":
           if (message.event === "initial_data") {
             const filteredNullData = message.data.filter(
-              data => data.temperature
+              data => data[this.state.dataToBeDisplayed[0]]
             )
             this.setState({ initialHistoricalDeviceData: filteredNullData })
             this.setState({
@@ -174,7 +227,7 @@ class App extends Component {
           }
           if (
             message.event === "update_data" &&
-            message.data.new_val.temperature
+            message.data.new_val[this.state.dataToBeDisplayed[0]]
           ) {
             const { initialHistoricalDeviceData } = this.state
             const newValue = message.data.new_val
@@ -220,7 +273,6 @@ class App extends Component {
   }
 
   render() {
-
     const chartOption = {
       legend: {
         display: true,
@@ -234,23 +286,23 @@ class App extends Component {
         xAxes: [{
           ticks: {
             // x axis font color
-            fontColor: '#1E90FF'
+            fontColor: '#000'
           },
           gridLines: {
             // display: false,
-            //  x axis line color
-            color: "black"
+            //  x axis grid line color
+            color: "#f3f3f3"
           }
         }],
         yAxes: [{
           ticks: {
             // y axis font color
-            fontColor: '#1E90FF'
+            fontColor: '#000'
           },
           gridLines: {
             // display: false,
-            //  y axis line color
-            color: "red"
+            //  y axis grid line color
+            color: "f3f3f3"
           }
         }]
       }
@@ -265,8 +317,22 @@ class App extends Component {
       errorType,
       chartPeriodType
     } = this.state
+
     return !errorType ? (
       <div className="plugin-container wrap center-text" style={{ backgroundColor: window.cm_device_info.bg_color }}>
+        {currentDeviceData &&
+          <div id='indicator'>
+            <div className={`wifi_group ${this.checkRssiLevel(currentDeviceData.rssi)}`} >
+              <div className="wifi_top"></div>
+              <div className="wifi_bottom"></div>
+            </div>
+            <p>{Math.round(this.getPercentage(currentDeviceData.battery, 3))}%</p>
+            <FontAwesome
+              name={`battery-${this.checkBatteryLevel(currentDeviceData.battery)} batteryIcon`}
+            />
+          </div>
+        }
+
         <div className="button-group">
           <button
             className={`type-buttons ${this.toggleButtonColor("days")}`}

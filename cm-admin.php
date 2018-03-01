@@ -84,6 +84,9 @@ function cm_temlate_device() {
 }
 
 function cm_template_admin_menu_page() {
+
+  // include js file for cm admin page
+  wp_enqueue_script( 'instruction_js', plugins_url('cm-admin/instruction.js', __FILE__), NULL, null, true);
   ?>
 
   <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
