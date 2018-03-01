@@ -14,7 +14,7 @@
 		cursor: 'pointer',
     paddingTop: 15
   }
-	const pluginFlexStyle = {
+	const pluginFlexStyles = {
 		borderTop: '1px solid #e3e6ea',
 		borderBottom: '1px solid #e3e6ea',
 		backgroundColor: '#fff',
@@ -46,173 +46,231 @@
     fontSize: 13,
     fontWeight: 'bold',
     color: '#fff',
+    cursor: 'pointer'
+  }
+
+  const buttonNormalStyles = {
+    backgroundColor: '#77757a',
+    color: '#fff'
   }
 
   const buttonHoverStyles = {
-    backgroundColor: '#f4c2b2'
+    backgroundColor: '#f16265',
+    color: '#fff'
   }
 
   const buttonSelectedStyles = {
-    backgroundColor: '#f16265'
+    backgroundColor: '#f16265',
+    color: '#fff'
+  }
+
+  const ColorChangeInputField = ({
+    name
+  }) => {
+    return (
+      <input type="text" name={name}></input>
+    )
   }
 
   class App extends React.Component {
     constructor(props) {
     super(props)
       this.state = {
-        inputFieldPrimaryOptionOpen: false,
-        inputFieldMultipleOptions: false,
-        selectedStyle: null,
-        selectedElement: null,
+        inputFieldOpen: false,
         setColor: null,
-        colorWheelValue: '',
-        enteredColorValue: '',
-        multipleSelectedData: null,
-        setMultipleColor: null
+        selectedData: null,
+        setMultipleColor: null,
+        selectedElementsKey: null,
+        selectedElementsArray: null
       }
     }
     componentDidMount() {
-      const bgColorInput = document.getElementsByName("cm_template_bg_color")[0]
-        const pluginFlexColorInput = document.getElementsByName("cm_template_plugin_flex_color")[0]
-        const pluginFlexTextColorInput = document.getElementsByName("cm_template_plugin_flex_text_color")[0]
+      const backgroundStylesBackgroundColor = document.getElementsByName("cm_template_bg_color")[0].value
+      const pluginFlexStylesBackgroundColor = document.getElementsByName("cm_template_plugin_flex_color")[0].value
+      const pluginFlexTextStylesColor = document.getElementsByName("cm_template_plugin_flex_text_color")[0].value
+      const buttonGroupStylesBackgroundColor = document.getElementsByName("cm_template_plugin_button_group_bg")[0].value
+      const buttonNormalStylesBackgroundColor = document.getElementsByName("cm_template_plugin_button_normal_bg")[0].value
+      const buttonNormalStylesColor = document.getElementsByName("cm_template_plugin_button_normal_color")[0].value
+      const buttonHoverStylesBackgroundColor = document.getElementsByName("cm_template_plugin_button_hover_bg")[0].value
+      const buttonHoverStylesColor = document.getElementsByName("cm_template_plugin_button_hover_color")[0].value
+      const buttonSelectedStylesBackgroundColor = document.getElementsByName("cm_template_plugin_button_selected_bg")[0].value
+      const buttonSelectedColor = document.getElementsByName("cm_template_plugin_button_selected_color")[0].value
 
-      console.log('Plugin Flex Color', pluginFlexColorInput.value)
       // get initial value for each input from hidden php form
-      const colorStyles = {
+      const initialStyles = {
         backgroundStyles: {
-          backgroundColor: bgColorInput.value,
+          [!!backgroundStylesBackgroundColor && 'backgroundColor']: backgroundStylesBackgroundColor
         },
-        pluginFlexStyle : {
-          backgroundColor: pluginFlexColorInput.value
+        buttonGroupStyles: {
+          [!!buttonGroupStylesBackgroundColor && 'backgroundColor']: buttonGroupStylesBackgroundColor
+        },
+        buttonNormalStyles: {
+          [!!buttonNormalStylesBackgroundColor && 'backgroundColor']: buttonNormalStylesBackgroundColor,
+          [!!buttonNormalStylesColor && 'color']: buttonNormalStylesColor
+        },
+        buttonHoverStyles: {
+          [!!buttonHoverStylesBackgroundColor && 'backgroundColor']: buttonHoverStylesBackgroundColor,
+          [!!buttonHoverStylesColor && 'color']: buttonHoverStylesColor
+        },
+        buttonSelectedStyles: {
+          [!!buttonSelectedStylesBackgroundColor && 'backgroundColor']: buttonSelectedStylesBackgroundColor,
+          [!!buttonSelectedColor && 'color']: buttonSelectedColor
+        },
+        pluginFlexStyles: {
+          [!!pluginFlexStylesBackgroundColor && 'backgroundColor']: pluginFlexStylesBackgroundColor
         },
         pluginFlexTextStyles : {
-          color: pluginFlexTextColorInput.value
+          [!!pluginFlexTextStylesColor && 'color']: pluginFlexTextStylesColor
         }
       }
-      this.setState({setColor : colorStyles})
+      this.setState({setColor : initialStyles})
     }
 
-    // if only 1 element needs to be changed
-    clickElement = (selectedStyle, selectedElement, e ) => {
-      e.preventDefault()
-      e.stopPropagation()
-      this.setState({inputFieldMultipleOptions: false})
-      this.setState({inputFieldPrimaryOptionOpen: true})
-      this.setState({selectedStyle})
-      this.setState({selectedElement})
-    }
 
-    // if more than 2 styles needs to be changed
+    clickElement() {
+      this.setState({inputFieldOpen: true})
+      const argumentArr = Array.prototype.slice.call(arguments)
+      const event = argumentArr[argumentArr.length - 1]
+      // event actions
+      event.preventDefault()
+      event.stopPropagation()
 
-    submitSetting = (e) => {
-      const bgColorInput = document.getElementsByName("cm_template_bg_color")[0]
-      e.preventDefault()
-      const enteredSetting = e.target.elements.setting.value
-      const {selectedStyle, selectedElement, setColor} = this.state
-      if (selectedStyle === 'backgroundStyles') {
-        bgColorInput.value = enteredSetting
-      }
-      const currentStyleData = {
-        [selectedStyle]: {
-          [selectedElement]: enteredSetting
+      console.log('argumentArr', argumentArr)
+
+      // arguments except the event method passed in onclick event
+      const receivedArguments = argumentArr.slice(0, -1)
+
+      let argumentKey = []
+      let argumentKeyValue = []
+      receivedArguments.forEach((argument, idx) => {
+        if (idx%2 === 0){
+          argumentKey.push(argument)
+        } else {
+          argumentKeyValue.push(argument)
         }
-      }
-      const newSetColor = Object.assign({}, setColor, currentStyleData)
-      this.setState({setColor: newSetColor})
-      this.setState({inputFieldPrimaryOptionOpen: false})
+      })
+
+      this.setState({selectedElementsKey: argumentKey})
+      this.setState({selectedElementsArray: argumentKeyValue})
     }
 
-    handleColorWheelChange = (e) => {
-      const {enteredColorValue} = this.state
-      const colorWheelValue = e.target.value
-      this.setState({colorWheelValue})
-      this.setState({enteredColorValue: colorWheelValue})
-    }
 
-    handleSettingInputChange = (e) => {
-      this.setState({enteredColorValue: e.target.value})
-    }
-
-    // handle background color and text color
-    clickWithTextElement = (primaryStyle, primaryElement, secondaryStyle, secondaryElement, e) => {
+    submitSettings = (e) => {
       e.preventDefault()
-      e.stopPropagation()
-      this.setState({inputFieldPrimaryOptionOpen: false})
-      this.setState({inputFieldMultipleOptions: true})
-      const selectedData = {
-        [primaryStyle]: primaryElement,
-        [secondaryStyle]: secondaryElement
-      }
-      this.setState({multipleSelectedData: selectedData})
-    }
-
-    submitMultipleSettings = (e) => {
-      e.preventDefault()
-      const pluginFlexColorInput = document.getElementsByName("cm_template_plugin_flex_color")[0]
-      const pluginFlexColorTextInput = document.getElementsByName("cm_template_plugin_flex_text_color")[0]
+      const {selectedData, selectedElementsKey, selectedElementsArray, setColor} = this.state
       const elements = e.target.elements
-      const backgroundColor = elements.backgroundColor.value
-      const textColor = elements.textColor.value
-      const {multipleSelectedData} = this.state
-      const multipleSelectedDataKeys = Object.keys(multipleSelectedData)
-      const data = {
-        [multipleSelectedDataKeys[0]]: {
-          backgroundColor
+
+      // selectedElemntArray is used to name the input field use
+      // that to get all the values
+      const elementFormData = selectedElementsArray.map(element => {
+        return elements[element].value
+      })
+      console.log('submit settings selectedElementsKey', selectedElementsKey)
+      console.log('submit settings selectedElementsArray', selectedElementsArray)
+
+      const backgroundStylesBackgroundColor = document.getElementsByName("cm_template_bg_color")[0]
+      const pluginFlexStylesBackgroundColor = document.getElementsByName("cm_template_plugin_flex_color")[0]
+      const pluginFlexTextStylesColor = document.getElementsByName("cm_template_plugin_flex_text_color")[0]
+      const buttonGroupStylesBackgroundColor = document.getElementsByName("cm_template_plugin_button_group_bg")[0]
+      const buttonNormalStylesBackgroundColor = document.getElementsByName("cm_template_plugin_button_normal_bg")[0]
+      const buttonNormalStylesColor = document.getElementsByName("cm_template_plugin_button_normal_color")[0]
+      const buttonHoverStylesBackgroundColor = document.getElementsByName("cm_template_plugin_button_hover_bg")[0]
+      const buttonHoverStylesColor = document.getElementsByName("cm_template_plugin_button_hover_color")[0]
+      const buttonSelectedStylesBackgroundColor = document.getElementsByName("cm_template_plugin_button_selected_bg")[0]
+      const buttonSelectedColor = document.getElementsByName("cm_template_plugin_button_selected_color")[0]
+
+      const plugin = {
+        backgroundStyles: {
+          backgroundColor: backgroundStylesBackgroundColor
         },
-        [multipleSelectedDataKeys[1]]: {
-          color: textColor
+        buttonGroupStyles: {
+          backgroundColor: buttonGroupStylesBackgroundColor
+        },
+        buttonNormalStyles: {
+          backgroundColor: buttonNormalStylesBackgroundColor,
+          color: buttonNormalStylesColor
+        },
+        buttonHoverStyles: {
+          backgroundColor: buttonHoverStylesBackgroundColor,
+          color: buttonHoverStylesColor
+        },
+        buttonSelectedStyles: {
+          backgroundColor: buttonSelectedStylesBackgroundColor,
+          color: buttonSelectedColor
+        },
+        pluginFlexStyles: {
+          backgroundColor: pluginFlexStylesBackgroundColor
+        },
+        pluginFlexTextStyles : {
+          color: pluginFlexTextStylesColor
         }
       }
-      //check if its the correct type
-      if(multipleSelectedDataKeys[0] === 'pluginFlexStyle' && multipleSelectedDataKeys[1] === 'pluginFlexTextStyles'){
-        pluginFlexColorInput.value = backgroundColor
-        pluginFlexColorTextInput.value = textColor
-      }
-      this.setState({setColor: data})
-      this.setState({inputFieldMultipleOptions: false})
+
+      const selectedParsedData = selectedElementsKey.reduce((acc, element, idx) => {
+        // set the data to hidden form
+        plugin[element][selectedElementsArray[idx]].value = elementFormData[idx]
+        // compose the data to be displayed
+        acc[element] = acc[element] || {}
+        acc[element][selectedElementsArray[idx]] = elementFormData[idx]
+        return acc
+      },{})
+      console.log('selectedParsedData', selectedParsedData)
+      this.setState({setColor: Object.assign({}, setColor ,selectedParsedData)})
+      this.setState({inputFieldOpen: false})
+
     }
 
     render() {
-      const {inputFieldPrimaryOptionOpen, setColor, colorWheelValue, enteredColorValue, inputFieldMultipleOptions, multipleSelectionData} = this.state
-      console.log('enteredColorValue', enteredColorValue)
-      console.log('colorWheelValue', colorWheelValue)
+      const {setColor, inputFieldOpen, multipleSelectionData, selectedElementsArray} = this.state
       console.log('setColor', setColor)
+      console.log('selectedElementsKeysArray', selectedElementsArray)
       console.log('multipleSelectionData', multipleSelectionData)
       return(
         <div>
-          {
-          inputFieldPrimaryOptionOpen &&
-            <form onSubmit={this.submitSetting}>
-              BackgroundColor{' '}<input name="setting" type="text" onChange={this.handleSettingInputChange} value={enteredColorValue}/>
-                <input type="color" value={colorWheelValue} onChange={this.handleColorWheelChange}/>
+          { inputFieldOpen &&
+            <form onSubmit={this.submitSettings}>
+              {
+                selectedElementsArray.map(element => (
+                  <div key={element}>
+                    {element}{' '}
+                    <ColorChangeInputField name={element} />
+                    <br/>
+                  </div>
+                ))
+              }
               <button type="submit">ok</button>
             </form>
           }
-          { inputFieldMultipleOptions &&
-          <form onSubmit={this.submitMultipleSettings}>
-            Background Color:{''}<input type="text" name="backgroundColor"/>
-            <br/>
-            Text Color:<input type="text" name="textColor"/>
-            <br/>
-            <button type="submit">ok</button>
-          </form>
-          }
           <div onClick={this.clickElement.bind(this,'backgroundStyles', 'backgroundColor')} style={Object.assign({}, backgroundStyles,
-            setColor && setColor.backgroundStyles && setColor.backgroundStyles)}>
-            <div style={buttonGroupStyles}>
-              <button style={buttonStyles}>
+            setColor && setColor.backgroundStyles)}>
+            <div
+              onClick={this.clickElement.bind(this, 'buttonGroupStyles', 'backgroundColor')}
+              style={Object.assign({}, buttonGroupStyles, setColor && setColor.buttonGroupStyles)}>
+              <button
+                onClick={this.clickElement.bind(this, 'buttonNormalStyles',
+                  'color', 'buttonNormalStyles', 'backgroundColor')}
+                style={Object.assign({}, buttonStyles, buttonNormalStyles, setColor && setColor.buttonNormalStyles)}>
                  1 Week
               </button>
-              <button style={Object.assign({}, buttonStyles, buttonHoverStyles)}>
+              <button
+                onClick={this.clickElement.bind(this, 'buttonHoverStyles', 'color', 'buttonHoverStyles', 'backgroundColor')}
+                style={Object.assign({}, buttonStyles, buttonHoverStyles,
+                  setColor && setColor.buttonHoverStyles)}>
                 1 Week(hover)
               </button>
-              <button style={Object.assign({}, buttonStyles, buttonSelectedStyles)}>
+              <button
+                onClick={this.clickElement.bind(this, 'buttonSelectedStyles',
+                  'color', 'buttonSelectedStyles', 'backgroundColor'
+                )}
+                style={Object.assign({}, buttonStyles, buttonSelectedStyles,
+                  setColor && setColor.buttonSelectedStyles
+                )}>
                 1 Week(selected)
               </button>
             </div>
-            <div onClick={this.clickWithTextElement.bind(this, 'pluginFlexStyle', 'backgroundColor', 'pluginFlexTextStyles', 'color')} style={Object.assign({}, pluginFlexStyle,
-              setColor && setColor.pluginFlexStyle && setColor.pluginFlexStyle)}>
-              <p style={Object.assign({}, pluginFlexTextStyles, setColor && setColor.pluginFlexTextStyles)}>Temperature: 23.037</p>
+            <div onClick={this.clickElement.bind(this, 'pluginFlexTextStyles', 'color', 'pluginFlexStyles', 'backgroundColor')} style={Object.assign({}, pluginFlexStyles,
+              setColor && setColor.pluginFlexStyles && setColor.pluginFlexStyles)}>
+              <p style={Object.assign({}, pluginFlexTextStyles, setColor && setColor.pluginFlexTextStyles )}>Temperature: 23.037</p>
             </div>
           </div>
         </div>
