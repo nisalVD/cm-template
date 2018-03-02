@@ -266,39 +266,40 @@ class App extends Component {
   }
 
   render() {
+    // option for customizing chart's color
     const chartOption = {
-      legend: {
-        display: true,
-        position: 'top',
-        labels: {
-          // top legend color
-          fontColor: 'black'
-        }
-      },
-      scales: {
-        xAxes: [{
-          ticks: {
-            // x axis font color
-            fontColor: '#000'
-          },
-          gridLines: {
-            // display: false,
-            //  x axis grid line color
-            color: "#f3f3f3"
-          }
-        }],
-        yAxes: [{
-          ticks: {
-            // y axis font color
-            fontColor: '#000'
-          },
-          gridLines: {
-            // display: false,
-            //  y axis grid line color
-            color: "f3f3f3"
-          }
-        }]
-      }
+      // legend: {
+      //   display: true,
+      //   position: 'top',
+      //   labels: {
+      //     // top legend color
+      //     fontColor: 'black'
+      //   }
+      // },
+      // scales: {
+      //   xAxes: [{
+      //     ticks: {
+      //       // x axis font color
+      //       fontColor: '#000'
+      //     },
+      //     gridLines: {
+      //       // display: false,
+      //       //  x axis grid line color
+      //       color: "#f3f3f3"
+      //     }
+      //   }],
+      //   yAxes: [{
+      //     ticks: {
+      //       // y axis font color
+      //       fontColor: '#000'
+      //     },
+      //     gridLines: {
+      //       // display: false,
+      //       //  y axis grid line color
+      //       color: "f3f3f3"
+      //     }
+      //   }]
+      // }
     }
 
     const {

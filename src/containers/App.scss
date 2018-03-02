@@ -65,7 +65,8 @@
   border-top: 1px solid #e3e6ea;
   border-bottom: 1px solid #e3e6ea;
   background-color: #fff;
-  color: #f16265;
+  // loading icon color
+  color: #000;
   margin-bottom: 1px;
 }
 .plugin-flex:hover {
@@ -123,7 +124,7 @@ left: 0px;
   // pointer-events: none;
   cursor: default;
   background-color: #fff;
-  color: #f16265;
+  // color: #f16265;
   padding: 10px 0px 10px 0px;
   margin: 10px 0px;
   box-shadow: 0 1px 3px rgba(255, 128, 128, 0.04),
@@ -337,7 +338,7 @@ padding-right: 10px;
   width: 2.5px;
   height: 8px;
   position: absolute;
-  top: 2.5px;
+  top: 2.3px;
   left: 24px;
     content: "";
   -webkit-border-radius-top-right:2px;
@@ -346,12 +347,12 @@ padding-right: 10px;
   -moz-border-radius-bottomright: 2px;
   }
   .battery-filling{
-    margin:0px 1px;
+    margin:auto 1px ;
     max-width:21px;
   background-color: green;
   width: 100%;
   height: 10px;
   position: absolute;
-  top: 1.6px;
+  top: 1.4px;
   left: 0px;
   }
