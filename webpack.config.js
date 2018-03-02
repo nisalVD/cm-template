@@ -81,9 +81,8 @@ if (process.env.NODE_ENV === "production") {
       [
         { from: path.resolve(__dirname, "*.php"), to: buildFolder },
         {
-          from: path.resolve(__dirname, "external-packages/*.js"),
-          to: buildFolder,
-          flatten: true
+          from: path.resolve(__dirname, "./editAppearanceComponent.js"),
+          to: buildFolder
         },
         {
           from: path.resolve(__dirname, "cm-alert/*.js"),
