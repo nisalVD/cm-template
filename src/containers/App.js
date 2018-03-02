@@ -311,6 +311,8 @@ class App extends Component {
       chartPeriodType
     } = this.state
 
+    const batteryPercentage = currentDeviceData ? Math.round(this.getPercentage(currentDeviceData.battery, 3)) : null
+
     return !errorType ? (
       <div className="plugin-container wrap center-text" style={{ backgroundColor: window.cm_device_info.bg_color }}>
         {currentDeviceData &&
@@ -319,11 +321,11 @@ class App extends Component {
               <div className="wifi_top"></div>
               <div className="wifi_bottom"></div>
             </div>
-            <p id="battery-percent">{Math.round(this.getPercentage(currentDeviceData.battery, 3))}%</p>
+            <p id="battery-percent">{batteryPercentage}%</p>
             <div className="icon-battery">
               <div className="battery-filling" style={{
-                width: `${Math.round(this.getPercentage(currentDeviceData.battery, 3))}%`,
-                backgroundColor: `${this.checkBatteryLevel(Math.round(this.getPercentage(currentDeviceData.battery, 3)))}`
+                width: `${batteryPercentage}%`,
+                backgroundColor: `${this.checkBatteryLevel(batteryPercentage)}`
               }}></div>
             </div>
           </div>
