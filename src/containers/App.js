@@ -326,15 +326,19 @@ class App extends Component {
               <div className="wifi_top"></div>
               <div className="wifi_bottom"></div>
             </div>
-            <p>{Math.round(this.getPercentage(currentDeviceData.battery, 3))}%</p>
+            <p id="battery-percent">{Math.round(this.getPercentage(currentDeviceData.battery, 3))}%</p>
             <FontAwesome
               name={`battery-${this.checkBatteryLevel(currentDeviceData.battery)} batteryIcon`}
             />
           </div>
         }
 
-        <div className="button-group">
+        <div className="button-group" style={{ backgroundColor: window.cm_device_info.button_group_bg }}>
           <button
+            style={{
+              backgroundColor: window.cm_device_info.button_normal_bg,
+              color: window.cm_device_info.button_normal_color
+            }}
             className={`type-buttons ${this.toggleButtonColor("days")}`}
             value="days"
             onClick={e => {
@@ -344,6 +348,10 @@ class App extends Component {
             1 day
           </button>
           <button
+            style={{
+              backgroundColor: window.cm_device_info.button_normal_bg,
+              color: window.cm_device_info.button_normal_color
+            }}
             className={`type-buttons ${this.toggleButtonColor("weeks")}`}
             value="weeks"
             onClick={e => {
@@ -353,6 +361,10 @@ class App extends Component {
             1 week
           </button>
           <button
+            style={{
+              backgroundColor: window.cm_device_info.button_normal_bg,
+              color: window.cm_device_info.button_normal_color
+            }}
             className={`type-buttons ${this.toggleButtonColor("months")}`}
             value="months"
             onClick={e => {
