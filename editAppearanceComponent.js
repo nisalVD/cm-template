@@ -2,6 +2,8 @@
 <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
 <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
 <div id="cm-edit-appearance-preview"></div>
+<link rel="stylesheet" href="https://unpkg.com/huebee@1/dist/huebee.min.css">
+<script crossorigin src="https://unpkg.com/huebee@1/dist/huebee.pkgd.min.js"></script>
 <script type="text/babel">
   let backgroundStyles = {
 		width: 592,
@@ -52,14 +54,6 @@
   const buttonNormalStyles = {
     backgroundColor: '#77757a',
     color: '#fff'
-  }
-
-  const ColorChangeInputField = ({
-    name
-  }) => {
-    return (
-      <input type="text" name={name}></input>
-    )
   }
 
   class App extends React.Component {
@@ -186,6 +180,16 @@
 
     }
 
+    refdata = (e) => {
+      console.log('e', e)
+      const Huebee = window.Huebee
+      var hueb = e && new Huebee( e, {
+        // options
+        notation: 'hex',
+        saturations: 2,
+      })
+    }
+
     render() {
       const {setColor, inputFieldOpen, multipleSelectionData, selectedElementsArray} = this.state
       console.log('setColor', setColor)
@@ -199,7 +203,7 @@
                 selectedElementsArray.map(element => (
                   <div key={element}>
                     {element}{' '}
-                    <ColorChangeInputField name={element} />
+                    <input name={element} ref={this.refdata}  autocomplete="off" />
                     <br/>
                   </div>
                 ))
