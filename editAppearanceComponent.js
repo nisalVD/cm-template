@@ -106,7 +106,6 @@
       // event actions
       event.preventDefault()
       event.stopPropagation()
-
       console.log('argumentArr', argumentArr)
 
       // arguments except the event method passed in onclick event
@@ -203,7 +202,7 @@
                 selectedElementsArray.map(element => (
                   <div key={element}>
                     {element}{' '}
-                    <input name={element} ref={this.refdata}  autocomplete="off" />
+                    <input name={element} ref={this.refdata}  autoComplete="off" value=""/>
                     <br/>
                   </div>
                 ))
