@@ -12,7 +12,7 @@ class App extends Component {
     currentDeviceData: null,
     initialHistoricalDeviceData: null,
     filteredHistoricalData: null,
-    dataToBeDisplayed: null,
+    dataToBeDisplayed: [],
     selectedData: null,
     alertConfig: null,
     chartData: null,
@@ -47,26 +47,19 @@ class App extends Component {
 
   // check battery level 
   checkBatteryLevel = value => {
-    if (value >= 3 * 0.9) {
-      // above 90 % 
-      return "full ok"
+    if (value >= 60) {
+      // above 75 %   return green color
+      return "green"
     }
-    else if (value >= 3 * 0.75) {
-      // above 75 %
-      return "three-quarters ok"
-    }
-    else if (value >= 3 * 0.5) {
-      // above 50 %
-      return "half middle"
-    }
-    else if (value > 3 * 0.25) {
-      // above 25 %
-      return "quarter danger"
+    else if (value >= 30) {
+      // above 30 %
+      return "orange"
     }
     else {
-      // below 25 %
-      return "empty danger"
+      // under 30 %
+      return "red"
     }
+
   }
 
 
@@ -318,6 +311,8 @@ class App extends Component {
       chartPeriodType
     } = this.state
 
+    const batteryPercentage = currentDeviceData ? Math.round(this.getPercentage(currentDeviceData.battery, 3)) : null
+
     return !errorType ? (
       <div className="plugin-container wrap center-text" style={{ backgroundColor: window.cm_device_info.bg_color }}>
         {currentDeviceData &&
@@ -326,10 +321,13 @@ class App extends Component {
               <div className="wifi_top"></div>
               <div className="wifi_bottom"></div>
             </div>
-            <p id="battery-percent">{Math.round(this.getPercentage(currentDeviceData.battery, 3))}%</p>
-            <FontAwesome
-              name={`battery-${this.checkBatteryLevel(currentDeviceData.battery)} batteryIcon`}
-            />
+            <p id="battery-percent">{batteryPercentage}%</p>
+            <div className="icon-battery">
+              <div className="battery-filling" style={{
+                width: `${batteryPercentage}%`,
+                backgroundColor: `${this.checkBatteryLevel(batteryPercentage)}`
+              }}></div>
+            </div>
           </div>
         }
 

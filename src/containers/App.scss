@@ -84,6 +84,16 @@
 .plugin-container[max-width~="300px"] .button-group {
   display: none;
 }
+.plugin-container[max-width~="300px"] .battery-filling{
+  margin:0px 1px;
+  max-width:21px;
+background-color: green;
+width: 100%;
+height: 10px;
+position: absolute;
+top: 1.2px;
+left: 0px;
+}
 .plugin-container[max-width~="300px"] .selected-chart-data {
   display: none;
 }
@@ -149,21 +159,6 @@
     color: #f16265;
   }
 }
-
-// battery css
-
-.ok{
-  color: green;
-}
-
-.middle{
-  color: orange;
-}
-
-.danger{
-  color: red;
-}
-
 
 // wifi style
 $dark: #000;
@@ -315,6 +310,8 @@ position: relative;
 padding-right: 10px;
 }
 
+
+// battrey icon and percentage
 #battery-percent{
   font-size: 12px;
   line-height: 28px;
@@ -323,3 +320,38 @@ padding-right: 10px;
 .batteryIcon:before{
   font-size: 28px;
 }
+
+.icon-battery {
+  border:#adadad 1px solid;
+  width: 25px;
+  height: 14px;
+  position: relative;
+  top: 8px;
+  left: 0;
+  border-radius:2px;
+  -webkit-border-radius:2px;
+  -moz-border-radius:2px;
+  }
+  .icon-battery:after{
+  background-color: #adadad;
+  width: 2.5px;
+  height: 8px;
+  position: absolute;
+  top: 2.5px;
+  left: 24px;
+    content: "";
+  -webkit-border-radius-top-right:2px;
+  -webkit-border-radius-bottom-right:2px;
+  -moz-border-radius-topright: 2px;
+  -moz-border-radius-bottomright: 2px;
+  }
+  .battery-filling{
+    margin:0px 1px;
+    max-width:21px;
+  background-color: green;
+  width: 100%;
+  height: 10px;
+  position: absolute;
+  top: 1.6px;
+  left: 0px;
+  }
